@@ -1,7 +1,18 @@
+using Microsoft.EntityFrameworkCore;
+using Store.Application.Interfaces.contexts;
+using Store.Persistence.Context;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+string contectionString = @"Data Source=DESKTOP-8ILS0U2; Initial Catalog=StoreDb; Integrated Security=True";
+builder.Services.AddEntityFrameworkSqlServer()
+    .AddDbContext<DataBaseContext>(options =>
+        options.UseSqlServer(contectionString));
+builder.Services.AddScoped<IDataBaseContext, DataBaseContext>();
+
 
 var app = builder.Build();
 

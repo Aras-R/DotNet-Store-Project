@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-string contectionString = @"Data Source=DESKTOP-8ILS0U2; Initial Catalog=StoreDb; Integrated Security=True";
+string contectionString = @"Data Source=DESKTOP-8ILS0U2; Initial Catalog=StoreDb; Integrated Security=True; TrustServerCertificate=True";
 builder.Services.AddEntityFrameworkSqlServer()
     .AddDbContext<DataBaseContext>(options =>
         options.UseSqlServer(contectionString));

@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Store.Application.Interfaces.contexts;
+using Store.Application.Services.Queries.GetUsers;
 using Store.Persistence.Context;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,7 @@ builder.Services.AddEntityFrameworkSqlServer()
     .AddDbContext<DataBaseContext>(options =>
         options.UseSqlServer(contectionString));
 builder.Services.AddScoped<IDataBaseContext, DataBaseContext>();
+builder.Services.AddScoped<IGetUsersService, GetUsersService>();
 
 
 var app = builder.Build();

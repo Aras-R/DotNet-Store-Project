@@ -1,4 +1,4 @@
-﻿using Bugeto_Store.Application.Services.Users.Queries.GetUsers;
+﻿using Store.Application.Services.Users.Queries.GetUsers;
 using Store.Application.Interfaces.contexts;
 using Store.Common;
 using System;
@@ -18,7 +18,7 @@ namespace Store.Application.Services.Queries.GetUsers
         }
 
 
-    public ReslutGetUserDto Execute(RequestGetUserDto request)
+    public ResultGetUserDto Execute(RequestGetUserDto request)
         {
             var users = _context.Users.AsQueryable();
             if (!string.IsNullOrWhiteSpace(request.SearchKey))
@@ -33,7 +33,7 @@ namespace Store.Application.Services.Queries.GetUsers
                 Id = p.Id,
             }).ToList();
 
-            return new ReslutGetUserDto
+            return new ResultGetUserDto
             {
                 Rows = rowsCount,
                 Users = usersList,

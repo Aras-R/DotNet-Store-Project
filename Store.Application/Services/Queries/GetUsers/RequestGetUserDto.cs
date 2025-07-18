@@ -1,4 +1,4 @@
-﻿namespace Bugeto_Store.Application.Services.Users.Queries.GetUsers
+﻿namespace Store.Application.Services.Users.Queries.GetUsers
 {
     public class RequestGetUserDto
     {

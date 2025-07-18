@@ -1,4 +1,4 @@
-﻿using Bugeto_Store.Application.Services.Users.Queries.GetUsers;
+﻿using Store.Application.Services.Users.Queries.GetUsers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +9,6 @@ namespace Store.Application.Services.Queries.GetUsers
 {
     public interface IGetUsersService
     {
-        ReslutGetUserDto Execute(RequestGetUserDto request);
+        ResultGetUserDto Execute(RequestGetUserDto request);
     }
 }

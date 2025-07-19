@@ -22,5 +22,11 @@ namespace EndPoint.Site.Areas.Admin.Controllers
                 SearchKey = serchkey,
             }));
         }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
     }
 }

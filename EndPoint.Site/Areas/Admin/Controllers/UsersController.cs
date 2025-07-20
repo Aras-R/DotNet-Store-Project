@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Store.Application.Services.Queries.GetUsers;
+using Store.Application.Services.Users.Queries.GetRoles;
 using Store.Application.Services.Users.Queries.GetUsers;
 
 namespace EndPoint.Site.Areas.Admin.Controllers
@@ -9,9 +11,11 @@ namespace EndPoint.Site.Areas.Admin.Controllers
     {
 
         private readonly IGetUsersService _getUsersService;
-        public UsersController(IGetUsersService getUsersService)
+        private readonly IGetRolesService _getRolesService;
+        public UsersController(IGetUsersService getUsersService, IGetRolesService getRolesService)
         {
             _getUsersService = getUsersService;
+            _getRolesService = getRolesService;
         }
 
         public IActionResult Index(string serchkey, int page = 1)
@@ -26,6 +30,7 @@ namespace EndPoint.Site.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            ViewBag.Roles = new SelectList(_getRolesService.Execute().Data, "Id", "Name");
             return View();
         }
     }

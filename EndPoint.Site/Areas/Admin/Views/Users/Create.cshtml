@@ -1,4 +1,4 @@
-﻿
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     ViewData["Title"] = "ثبت نام کاربر جدید";
     Layout = "~/Areas/Admin/Views/Shared/_Adminlayout.cshtml";
@@ -32,8 +32,6 @@
                     <fieldset class="form-group">
                         <label for="Role">نقش</label>
                         <select class="form-control" id="Role" name="Role" asp-items="@ViewBag.Roles">
-                            <option>گزینه 1</option>
-                            <option>گزینه 2</option>
                         </select>
                         <p><small class="text-muted">سطح دسترسی کاربر مورد نظر را تعیین کنید</small></p>
                     </fieldset>

@@ -33,7 +33,15 @@
                                     <td>
                                         <button class="btn btn-info" onclick="ShowModalEdituser('@item.Id' , '@item.FullName')">ویرایش</button>
                                         <button class="btn btn-danger" onclick="DeleteUser('@item.Id')">حذف</button>
-                                        <button class="btn btn-warning" onclick="UserSatusChange('@item.Id')">غیر فعال</button>
+                                        @if (item.IsActive)
+                                        {
+                                            <button class="btn btn-warning" onclick="UserSatusChange('@item.Id')">غیر فعال</button>
+
+                                        }
+                                        else
+                                        {
+                                            <button class="btn btn-warning" onclick="UserSatusChange('@item.Id')">فعال </button>
+                                        }
                                     </td>
                                 </tr>
                             }

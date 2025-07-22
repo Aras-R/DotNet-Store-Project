@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Store.Application.Interfaces.contexts;
 using Store.Application.Services.Users.commands.RegisterUser;
 using Store.Application.Services.Users.commands.RemoveUser;
+using Store.Application.Services.Users.commands.UserSatusChange;
 using Store.Application.Services.Users.Queries.GetRoles;
 using Store.Application.Services.Users.Queries.GetUsers;
 using Store.Persistence.Context;
@@ -20,6 +21,7 @@ builder.Services.AddScoped<IGetUsersService, GetUsersService>();
 builder.Services.AddScoped<IGetRolesService, GetRolesService>();
 builder.Services.AddScoped<IRegisterUserService, RegisterUserService>();
 builder.Services.AddScoped<IRemoveUserService, RemoveUserService>();
+builder.Services.AddScoped<IUserSatusChangeService, UserSatusChangeService>();
 
 
 var app = builder.Build();

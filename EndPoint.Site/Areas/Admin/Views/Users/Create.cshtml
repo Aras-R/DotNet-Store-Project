@@ -16,7 +16,7 @@
                 <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
                     <fieldset class="form-group">
                         <label for="FullName">نام و نام خانوادگی</label>
-                        <input type="text" class="form-control" id="FullName" name="FullName" placeholder="نام کامل">
+                        <input type="text" class="form-control" id="fullname" placeholder="نام کامل">
                     </fieldset>
                 </div>
 
@@ -24,14 +24,14 @@
                     <fieldset class="form-group">
                         <label for="Email">پست الکترونیک</label>
                         <small class="text-muted"><i>info@bugeto.net</i></small>
-                        <input type="email" class="form-control" id="Email" name="Email" placeholder="ایمیل">
+                        <input type="email" class="form-control" id="email" placeholder="ایمیل">
                     </fieldset>
                 </div>
 
                 <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
                     <fieldset class="form-group">
                         <label for="Role">نقش</label>
-                        <select class="form-control" id="Role" name="Role" asp-items="@ViewBag.Roles">
+                        <select class="form-control" id="RoleId" name="Role" asp-items="@ViewBag.Roles">
                         </select>
                         <p><small class="text-muted">سطح دسترسی کاربر مورد نظر را تعیین کنید</small></p>
                     </fieldset>
@@ -40,14 +40,14 @@
                 <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
                     <fieldset class="form-group">
                         <label for="Password">رمز عبور</label>
-                        <input type="password" class="form-control" id="Password" name="Password" placeholder="رمز عبور">
+                        <input type="password" class="form-control" id="Password" placeholder="رمز عبور">
                     </fieldset>
                 </div>
 
                 <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
                     <fieldset class="form-group">
                         <label for="ConfirmPassword">تکرار رمز عبور</label>
-                        <input type="password" class="form-control" id="ConfirmPassword" name="ConfirmPassword" placeholder="تکرار رمز عبور">
+                        <input type="password" class="form-control" id="RePassword" placeholder="تکرار رمز عبور">
                     </fieldset>
                 </div>
 

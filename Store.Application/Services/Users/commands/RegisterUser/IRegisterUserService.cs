@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Store.Application.Services.command
+namespace Store.Application.Services.Users.commands.RegisterUser
 {
     public interface IRegisterUserService
     {
@@ -79,6 +79,7 @@ namespace Store.Application.Services.command
                 {
                     Email = request.Email,
                     FullName = request.FullName,
+                    Password = request.Password,
                 };
 
                 List<UserInRole> userInRoles = new List<UserInRole>();
@@ -111,7 +112,7 @@ namespace Store.Application.Services.command
                     Message = "ثبت نام کاربر انجام شد",
                 };
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return new ResultDto<ResultRegisterUserDto>()
                 {
@@ -120,7 +121,7 @@ namespace Store.Application.Services.command
                         UserId = 0,
                     },
                     IsSuccess = false,
-                    Message = "ثبت نام انجام نشد !"
+                    Message = "ثبت نام انجام نشد !" + ex.InnerException?.Message ?? ex.Message
                 };
             }
         }

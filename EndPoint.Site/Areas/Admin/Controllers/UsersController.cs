@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Store.Application.Services.command;
-using Store.Application.Services.Queries.GetUsers;
+using Store.Application.Services.Users.commands.RegisterUser;
 using Store.Application.Services.Users.Queries.GetRoles;
 using Store.Application.Services.Users.Queries.GetUsers;
 

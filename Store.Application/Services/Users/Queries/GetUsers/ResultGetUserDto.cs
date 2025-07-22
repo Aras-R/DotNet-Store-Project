@@ -1,5 +1,4 @@
-﻿using Store.Application.Services.Queries.GetUsers;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Store.Application.Services.Users.Queries.GetUsers
 {

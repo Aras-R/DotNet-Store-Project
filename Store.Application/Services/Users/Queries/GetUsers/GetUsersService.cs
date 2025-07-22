@@ -1,5 +1,4 @@
-﻿using Store.Application.Services.Users.Queries.GetUsers;
-using Store.Application.Interfaces.contexts;
+﻿using Store.Application.Interfaces.contexts;
 using Store.Common;
 using System;
 using System.Collections.Generic;
@@ -7,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Store.Application.Services.Queries.GetUsers
+namespace Store.Application.Services.Users.Queries.GetUsers
 {
     public class GetUsersService : IGetUsersService
     {

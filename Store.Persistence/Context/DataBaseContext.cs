@@ -27,8 +27,10 @@ namespace Store.Persistence.Context
 
             //عدم تکراری بودن ایمیل
             modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique();
+            //نمایش لیست کاربرانی که حذف نشده اند
+            modelBuilder.Entity<User>().HasQueryFilter(p => !p.IsRemoved);
         }
 
     }
-    
+
 }

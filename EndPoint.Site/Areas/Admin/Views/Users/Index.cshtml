@@ -12,7 +12,27 @@
     <!-- /.box-header -->
     <div class="box-body">
         <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
-            <div class="row"><div class="col-sm-6"><div class="dataTables_length" id="example1_length"><label>نمایش <select name="example1_length" aria-controls="example1" class="form-control input-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> سطر</label></div></div><div class="col-sm-6"><div id="example1_filter" class="dataTables_filter"><label>جستجو:<input type="search" class="form-control input-sm" placeholder="" aria-controls="example1"></label></div></div></div><div class="row">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="dataTables_length" id="example1_length">
+                        <label>نمایش 
+                            <select name="example1_length" aria-controls="example1" class="form-control input-sm">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            </select> سطر
+                        </label>
+                    </div>
+                </div>
+                <form method="get" class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                    <fieldset class="form-group">
+                        <button class="btn btn-success">جستجو</button>
+                        <input type="text" class="form-control" name="serchkey">
+                    </fieldset>
+                </form>
+            </div>
+            <div class="row">
                 <div class="col-sm-12">
                     <table id="example1" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
                         <thead>
@@ -233,6 +253,7 @@
 
 @section Modals
 {
+    <!-- پنل ویرایش کاربر با زدن دکمه آن -->
     <!-- Modal Edit User -->
     <div class="modal fade" id="EditUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">

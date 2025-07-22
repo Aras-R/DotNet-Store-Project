@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Store.Application.Services.Users.commands.EditUser;
 using Store.Application.Services.Users.commands.RegisterUser;
 using Store.Application.Services.Users.commands.RemoveUser;
 using Store.Application.Services.Users.commands.UserSatusChange;
@@ -17,18 +18,21 @@ namespace EndPoint.Site.Areas.Admin.Controllers
         private readonly IRegisterUserService _registerUserService;
         private readonly IRemoveUserService _removeUserService;
         private readonly IUserSatusChangeService _userSatusChangeService;
+        private readonly IEditUserService _editUserService;
         public UsersController(
               IGetUsersService getUsersService
             , IGetRolesService getRolesService
             , IRegisterUserService registerUserService
             , IRemoveUserService removeUserService
-            , IUserSatusChangeService userSatusChangeService)
+            , IUserSatusChangeService userSatusChangeService
+            , IEditUserService editUserService)
         {
             _getUsersService = getUsersService;
             _getRolesService = getRolesService;
             _registerUserService = registerUserService;
             _removeUserService = removeUserService;
             _userSatusChangeService = userSatusChangeService;
+            _editUserService = editUserService;
         }
 
         public IActionResult Index(string serchkey, int page = 1)
@@ -77,6 +81,16 @@ namespace EndPoint.Site.Areas.Admin.Controllers
         public IActionResult UserSatusChange(long UserId)
         {
             return Json(_userSatusChangeService.Execute(UserId));
+        }
+
+        [HttpPost]
+        public IActionResult Edit(long UserId, string Fullname)
+        {
+            return Json(_editUserService.Execute(new RequestEdituserDto
+            {
+                Fullname = Fullname,
+                UserId = UserId,
+            }));
         }
     }
 

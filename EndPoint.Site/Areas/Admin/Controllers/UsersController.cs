@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Store.Application.Services.Users.commands.RegisterUser;
 using Store.Application.Services.Users.commands.RemoveUser;
+using Store.Application.Services.Users.commands.UserSatusChange;
 using Store.Application.Services.Users.Queries.GetRoles;
 using Store.Application.Services.Users.Queries.GetUsers;
 
@@ -15,16 +16,19 @@ namespace EndPoint.Site.Areas.Admin.Controllers
         private readonly IGetRolesService _getRolesService;
         private readonly IRegisterUserService _registerUserService;
         private readonly IRemoveUserService _removeUserService;
+        private readonly IUserSatusChangeService _userSatusChangeService;
         public UsersController(
               IGetUsersService getUsersService
             , IGetRolesService getRolesService
             , IRegisterUserService registerUserService
-            , IRemoveUserService removeUserService)
+            , IRemoveUserService removeUserService
+            , IUserSatusChangeService userSatusChangeService)
         {
             _getUsersService = getUsersService;
             _getRolesService = getRolesService;
             _registerUserService = registerUserService;
             _removeUserService = removeUserService;
+            _userSatusChangeService = userSatusChangeService;
         }
 
         public IActionResult Index(string serchkey, int page = 1)
@@ -69,6 +73,11 @@ namespace EndPoint.Site.Areas.Admin.Controllers
             return Json(_removeUserService.Execute(UserId));
         }
 
+        [HttpPost]
+        public IActionResult UserSatusChange(long UserId)
+        {
+            return Json(_userSatusChangeService.Execute(UserId));
+        }
     }
 
 }

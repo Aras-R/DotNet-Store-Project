@@ -57,7 +57,7 @@ namespace Store.Application.Services.Users.Commands.UserLogin
 
                     },
                     IsSuccess = false,
-                    Message = "کاربری با این ایمیل در سایت فروشگاه باگتو ثبت نام نکرده است",
+                    Message = "کاربری با این ایمیل در سایت فروشگاه ثبت نام نکرده است",
                 };
             }
 

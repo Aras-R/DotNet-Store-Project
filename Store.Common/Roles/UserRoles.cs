@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Store.Common.Role
+namespace Store.Common.Roles
 {
     public class UserRoles
     {

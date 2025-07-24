@@ -7,6 +7,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Store.Domain.Entities.Products;
 
 namespace Store.Application.Interfaces.contexts
 {
@@ -15,6 +16,7 @@ namespace Store.Application.Interfaces.contexts
          DbSet<User> Users { get; set; }
          DbSet<Role> Roles { get; set; }
          DbSet<UserInRole> UserInRoles { get; set; }
+         DbSet<Category> Categories { get; set; }
 
         int SaveChanges(bool acceptAllChangesOnSuccess);
         int SaveChanges();

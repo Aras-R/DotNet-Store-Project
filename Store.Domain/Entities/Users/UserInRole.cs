@@ -1,6 +1,8 @@
-﻿namespace Store.Domain.Entities.Users
+﻿using Store.Domain.Entities.Commons;
+
+namespace Store.Domain.Entities.Users
 {
-    public class UserInRole
+    public class UserInRole : BaseEntity
     {
         public long Id { get; set; }
         public virtual User User { get; set; }  

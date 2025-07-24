@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Store.Application.Interfaces.contexts;
+using Store.Application.Interfaces.FacadPatterns;
+using Store.Application.Services.Products.FacadPattern;
 using Store.Application.Services.Users.commands.EditUser;
 using Store.Application.Services.Users.commands.RegisterUser;
 using Store.Application.Services.Users.commands.RemoveUser;
@@ -41,6 +43,9 @@ builder.Services.AddScoped<IRemoveUserService, RemoveUserService>();
 builder.Services.AddScoped<IUserSatusChangeService, UserSatusChangeService>();
 builder.Services.AddScoped<IEditUserService, EditUserService>();
 builder.Services.AddScoped<IUserLoginService, UserLoginService>();
+
+//Facad inject 
+builder.Services.AddScoped<IProductFacad, ProductFacad>();
 
 
 var app = builder.Build();

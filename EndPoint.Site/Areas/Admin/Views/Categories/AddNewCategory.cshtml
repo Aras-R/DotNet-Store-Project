@@ -4,45 +4,35 @@
     Layout = "~/Areas/Admin/Views/Shared/_Adminlayout.cshtml";
 }
 
-<section class="basic-elements">
- 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title-wrap bar-success">
-                        <h4 class="card-title mb-0">اضافه کردن دسته بندی جدید برای محصولات</h4>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="px-3">
-                        <div class="form">
-                            <div class="form-body">
-                                <div class="row">
-                                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                        <fieldset class="form-group">
-                                            <input type="hidden" id="parentId" value="@ViewBag.parentId" />
-                                            <label for="basicInput">نام دسته بندی</label>
-                                            <input type="text" class="form-control" id="Name">
-                                        </fieldset>
-                                    </div>
+<div class="box box-primary">
+    <a href="~/admin/categories/index"
+       class="btn btn-outline-secondary btn-sm position-absolute"
+       style="top: 10px; left: 10px; z-index: 10;">
+        <i class="fa fa-arrow-left ml-1"></i> بازگشت
+    </a>
+    <div class="box-header with-border">
+        <h3 class="box-title">افزودن دسته‌بندی جدید برای محصولات</h3>
+    </div>
 
-                                    <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
-                                        <fieldset class="form-group">
-                                            <br />
-                                            <a onclick="AddNewCategory()" class="btn btn-success col-md-12">اضافه کردن به لیست</a>
-                                        </fieldset>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <!-- form start -->
+    <form role="form" enctype="multipart/form-data" method="post">
+        <div class="box-body">
+            <div class="row">
+                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                    <fieldset class="form-group">
+                        <input type="hidden" id="parentId" value="@ViewBag.parentId" />
+                        <label for="basicInput">نام دسته‌بندی</label>
+                        <input type="text" class="form-control" id="Name" placeholder="نام دسته‌بندی">
+                    </fieldset>
                 </div>
             </div>
         </div>
-    </div>
-</section>
 
+        <div class="box-footer">
+            <a onclick="AddNewCategory()" class="btn btn-success col-md-12">اضافه کردن به لیست</a>
+        </div>
+    </form>
+</div>
 
 
 
@@ -89,8 +79,8 @@
                                     data.message,
                                     'success'
                                 ).then(function (isConfirm) {
-                                    location.reload();
-                                });
+                                    window.location.href = "/admin/categories/index";
+                                        });
 
 
                             }

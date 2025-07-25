@@ -2,6 +2,7 @@
 using Store.Application.Services.Products.Commands.AddNewProduct;
 using Store.Application.Services.Products.Queries.GetAllCategories;
 using Store.Application.Services.Products.Queries.GetCategories;
+using Store.Application.Services.Products.Queries.GetProductForAdmin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,5 +17,6 @@ namespace Store.Application.Interfaces.FacadPatterns
         IGetCategoriesService  GetCategoriesService { get; }
         AddNewProductService AddNewProductService { get; }
         IGetAllCategoriesService GetAllCategoriesService { get; }
+        IGetProductForAdminService GetProductForAdminService { get; }
     }
 }

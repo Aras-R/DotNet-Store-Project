@@ -5,6 +5,7 @@ using Store.Application.Services.Products.Commands.AddNewCategory;
 using Store.Application.Services.Products.Commands.AddNewProduct;
 using Store.Application.Services.Products.Queries.GetAllCategories;
 using Store.Application.Services.Products.Queries.GetCategories;
+using Store.Application.Services.Products.Queries.GetProductForAdmin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,6 +59,14 @@ namespace Store.Application.Services.Products.FacadPattern
             get
             {
                 return _getAllCategoriesService = _getAllCategoriesService ?? new GetAllCategoriesService(_context);
+            }
+        }
+        private IGetProductForAdminService _getProductForAdminService;
+        public IGetProductForAdminService GetProductForAdminService
+        {
+            get
+            {
+                return _getProductForAdminService = _getProductForAdminService ?? new GetProductForAdminService(_context);
             }
         }
     }

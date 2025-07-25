@@ -20,6 +20,9 @@ namespace Store.Persistence.Context
         public DbSet<Role> Roles { get; set; }
         public DbSet<UserInRole> UserInRoles { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductImages> ProductImages { get; set; }
+        public DbSet<ProductFeatures> ProductFeatures { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -42,6 +45,9 @@ namespace Store.Persistence.Context
             modelBuilder.Entity<Role>().HasQueryFilter(p => !p.IsRemoved);
             modelBuilder.Entity<UserInRole>().HasQueryFilter(p => !p.IsRemoved);
             modelBuilder.Entity<Category>().HasQueryFilter(p => !p.IsRemoved);
+            modelBuilder.Entity<Product>().HasQueryFilter(p => !p.IsRemoved);
+            modelBuilder.Entity<ProductImages>().HasQueryFilter(p => !p.IsRemoved);
+            modelBuilder.Entity<ProductFeatures>().HasQueryFilter(p => !p.IsRemoved);
         }
 
         //private void SeedData(ModelBuilder modelBuilder)

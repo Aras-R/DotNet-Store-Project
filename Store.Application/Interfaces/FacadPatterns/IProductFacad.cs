@@ -1,4 +1,6 @@
 ﻿using Store.Application.Services.Products.Commands.AddNewCategory;
+using Store.Application.Services.Products.Commands.AddNewProduct;
+using Store.Application.Services.Products.Queries.GetAllCategories;
 using Store.Application.Services.Products.Queries.GetCategories;
 using System;
 using System.Collections.Generic;
@@ -12,5 +14,7 @@ namespace Store.Application.Interfaces.FacadPatterns
     {
         AddNewCategoryService AddNewCategoryService { get; }
         IGetCategoriesService  GetCategoriesService { get; }
+        AddNewProductService AddNewProductService { get; }
+        IGetAllCategoriesService GetAllCategoriesService { get; }
     }
 }

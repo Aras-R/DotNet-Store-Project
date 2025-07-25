@@ -1,8 +1,101 @@
-﻿
+﻿@addTagHelper *, LazZiya.TagHelpers
+@using Store.Application.Services.Products.Queries.GetProductForAdmin;
+@model ProductForAdminDto;
+
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "لیست محصولات";
     Layout = "~/Areas/Admin/Views/Shared/_Adminlayout.cshtml";
 }
 
-<h1>Index</h1>
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title">لیست محصولات</h3>
+    </div>
 
+    <div class="box-body">
+        <div class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row mb-3">
+                <div class="col-sm-6">
+                    <div class="dataTables_length">
+                        <label>
+                            نمایش
+                            <select name="pageSize" class="form-control input-sm" onchange="changePageSize(this.value)">
+                                <option value="10" @(Model.PageSize == 10 ? "selected" : "")>10</option>
+                                <option value="25" @(Model.PageSize == 25 ? "selected" : "")>25</option>
+                                <option value="50" @(Model.PageSize == 50 ? "selected" : "")>50</option>
+                                <option value="100" @(Model.PageSize == 100 ? "selected" : "")>100</option>
+                            </select> سطر
+                        </label>
+                    </div>
+                </div>
+                <form method="get" class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                    <fieldset class="form-group">
+                        <button class="btn btn-success">جستجو</button>
+                        <input type="text" class="form-control" name="searchKey" placeholder="نام یا برند...">
+                    </fieldset>
+                </form>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered table-striped dataTable">
+                        <thead>
+                            <tr>
+                                <th>نام</th>
+                                <th>دسته‌بندی</th>
+                                <th>برند</th>
+                                <th>قیمت</th>
+                                <th>موجودی</th>
+                                <th>نمایش در سایت؟</th>
+                                <th>عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Products)
+                            {
+                                <tr>
+                                    <td>@item.Name</td>
+                                    <td>@item.Category</td>
+                                    <td>@item.Brand</td>
+                                    <td>@item.Price.ToString("n0")</td>
+                                    <td>@item.Inventory</td>
+                                    <td>@(item.Displayed ? "بله" : "خیر")</td>
+                                    <td>
+                                        <a class="btn btn-danger">حذف</a>
+                                        <a href="~/admin/products/detail/@item.Id" class="btn btn-info">اطلاعات بیشتر</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-sm-12 text-center">
+                    <paging total-records="Model.RowCount"
+                            page-no="Model.CurrentPage"
+                            page-size="Model.PageSize"
+                            show-prev-next="true"
+                            show-total-pages="false"
+                            show-total-records="false"
+                            show-page-size-nav="false"
+                            show-first-numbered-page="true"
+                            show-last-numbered-page="true"
+                            query-string-key-page-no="Page"
+                            query-string-key-page-size="PageSize"
+                            gap-size="2">
+                    </paging>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function changePageSize(size) {
+        const params = new URLSearchParams(window.location.search);
+        params.set('PageSize', size);
+        window.location.search = params.toString();
+    }
+</script>

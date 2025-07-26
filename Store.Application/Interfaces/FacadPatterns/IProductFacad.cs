@@ -3,6 +3,7 @@ using Store.Application.Services.Products.Commands.AddNewProduct;
 using Store.Application.Services.Products.Queries.GetAllCategories;
 using Store.Application.Services.Products.Queries.GetCategories;
 using Store.Application.Services.Products.Queries.GetProductDetailForAdmin;
+using Store.Application.Services.Products.Queries.GetProductDetailForSite;
 using Store.Application.Services.Products.Queries.GetProductForAdmin;
 using Store.Application.Services.Products.Queries.GetProductForSite;
 using System;
@@ -22,5 +23,6 @@ namespace Store.Application.Interfaces.FacadPatterns
         IGetProductForAdminService GetProductForAdminService { get; }
         IGetProductDetailForAdminService GetProductDetailForAdminService { get; }
         IGetProductForSiteService GetProductForSiteService { get; }
+        IGetProductDetailForSiteService GetProductDetailForSiteService { get; }
     }
 }

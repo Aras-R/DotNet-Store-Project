@@ -7,6 +7,7 @@ using Store.Application.Services.Products.Queries.GetAllCategories;
 using Store.Application.Services.Products.Queries.GetCategories;
 using Store.Application.Services.Products.Queries.GetProductDetailForAdmin;
 using Store.Application.Services.Products.Queries.GetProductForAdmin;
+using Store.Application.Services.Products.Queries.GetProductForSite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -83,7 +84,14 @@ namespace Store.Application.Services.Products.FacadPattern
             }
         }
 
-
+        private IGetProductForSiteService _getProductForSiteService;
+        public IGetProductForSiteService GetProductForSiteService
+        {
+            get
+            {
+                return _getProductForSiteService = _getProductForSiteService ?? new GetProductForSiteService(_context);
+            }
+        }
 
     }
 }

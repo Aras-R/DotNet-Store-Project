@@ -45,9 +45,9 @@
                     <div class="tab-pane fade show active" id="Most-visited" role="tabpanel" aria-labelledby="Most-visited-tab">
                         <div class="row">
                             <div class="col-lg-3 col-md-3 col-xs-12 order-1 d-block mb-3">
-                                <section class="product-box product product-type-simple">
-                                    <div class="thumb">
-                                        <a href="#" class="d-block">
+                                <section class="product-box product product-type-simple" >
+                                    <div class="thumb" >
+                                        <a href="~/products/detail/@item.Id" class="d-block">
 
                                             <div class="product-rate">
 
@@ -67,10 +67,10 @@
                                         <a href="~/products/detail/@item.Id">  @item.Title</a>
                                     </div>
                                     <div class="price">
-                                        <span class="amount">
+                                        <a class="amount">
                                             @item.Price.ToString("n0")
                                             <span>تومان</span>
-                                        </span>
+                                        </a>
                                     </div>
                                 </section>
                             </div>

@@ -25,13 +25,13 @@ namespace Store.Application.Services.Products.Queries.GetProductDetailForSite
         public ResultDto<ProductDetailForSiteDto> Execute(long Id)
         {
             var Product = _context.Products
-                .Include(p=> p.Category)
-                .ThenInclude(p=>p.ParentCategory)
-                .Include(p=>p.ProductImages)
-                .Include(p=> p.ProductFeatures)
-                .Where(p=> p.Id==Id).FirstOrDefault();
+                .Include(p => p.Category)
+                .ThenInclude(p => p.ParentCategory)
+                .Include(p => p.ProductImages)
+                .Include(p => p.ProductFeatures)
+                .Where(p => p.Id == Id).FirstOrDefault();
 
-            if(Product == null)
+            if (Product == null)
             {
                 throw new Exception("Product Not Found.....");
             }

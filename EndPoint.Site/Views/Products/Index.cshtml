@@ -1,111 +1,248 @@
-﻿@using  Store.Application.Services.Products.Queries.GetProductForSite;
+﻿@using Store.Application.Services.Products.Queries.GetProductForSite;
 @model ResultProductForSiteDto;
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
- 
-    <div class="col-lg-12 col-md-12 col-xs-12 pl">
-        <div class="shop-archive-content mt-3 d-block">
-            <div class="archive-header">
-                <h2 class="archive-header-title">آرشیو محصولات</h2>
-                <div class="sort-tabs mt-0 d-inline-block pr">
-                    <h4>مرتب&zwnj;سازی بر اساس :</h4>
-                </div>
-                <div class="nav-sort-tabs-res">
-                    <ul class="nav sort-tabs-options" id="myTab" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" id="Most-visited-tab" data-toggle="tab" href="#Most-visited" role="tab" aria-controls="Most-visited" aria-selected="true">پربازدیدترین</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="Bestselling-tab" data-toggle="tab" href="#Bestselling" role="tab" aria-controls="Bestselling" aria-selected="false">پرفروش&zwnj;ترین&zwnj;</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="Most-Popular-tab" data-toggle="tab" href="#Most-Popular" role="tab" aria-controls="Most-Popular" aria-selected="false">محبوب&zwnj;ترین</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="newest-tab" data-toggle="tab" href="#newest" role="tab" aria-controls="newest" aria-selected="false">جدیدترین</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="cheapest-tab" data-toggle="tab" href="#cheapest" role="tab" aria-controls="cheapest" aria-selected="false">ارزان&zwnj;ترین</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="most-expensive-tab" data-toggle="tab" href="#most-expensive" role="tab" aria-controls="most-expensive" aria-selected="false">گران&zwnj;ترین</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="product-items">
-                <div class="tab-content" id="myTabContent">
-
-                    @foreach (var item in Model.Products)
-                    {
 
 
-                    <div class="tab-pane fade show active" id="Most-visited" role="tabpanel" aria-labelledby="Most-visited-tab">
-                        <div class="row">
-                            <div class="col-lg-3 col-md-3 col-xs-12 order-1 d-block mb-3">
-                                <section class="product-box product product-type-simple" >
-                                    <div class="thumb" >
-                                        <a href="~/products/detail/@item.Id" class="d-block">
+<div class="container">
+    <div class="row default space-top-30">
+        @* سایدبار *@
+        <aside class="sidebar-page col-12 col-sm-12 col-md-4 col-lg-3 ">
+            <div class="box">
+                <header class="card-header">
+                    <h3 class="card-title"><span class="space-right-10">رنگ</span></h3>
+                </header>
+                <div class="box-content">
+                    <div class="collapse show">
+                        <div class="form-account-agree">
+                            <label class="checkbox-form checkbox-primary">
+                                <input type="checkbox" id="agree">
+                                <span class="checkbox-check"></span>
+                            </label>
+                            <label for="agree"> مشکی</label>
+                            <span class="color_pro_sel" style=" background-color: #000;"></span>
+                        </div>
+                        <div class="form-account-agree">
+                            <label class="checkbox-form checkbox-primary">
+                                <input type="checkbox" id="agree">
+                                <span class="checkbox-check"></span>
+                            </label>
+                            <label for="agree"> قرمز</label>
+                            <span class="color_pro_sel" style=" background-color: #ff0000;"></span>
 
-                                            <div class="product-rate">
+                        </div>
+                        <div class="form-account-agree">
+                            <label class="checkbox-form checkbox-primary">
+                                <input type="checkbox" id="agree">
+                                <span class="checkbox-check"></span>
+                            </label>
+                            <label for="agree"> زرد</label>
+                            <span class="color_pro_sel" style=" background-color: #ffd800;"></span>
 
-                                                @for (int i = 1; i <= item.Star; i++)
-                                                {
-                                                    <i class="fa fa-star active"></i>
-                                                }
-                                                @for (int i = 1; i <= (5 - item.Star); i++)
-                                                {
-                                                    <i class="fa fa-star"></i>
-                                                }
-                                            </div>
-                                            <img src="~/@item.ImageSrc">
-                                        </a>
-                                    </div>
-                                    <div class="title">
-                                        <a href="~/products/detail/@item.Id">  @item.Title</a>
-                                    </div>
-                                    <div class="price">
-                                        <a class="amount">
-                                            @item.Price.ToString("n0")
-                                            <span>تومان</span>
-                                        </a>
-                                    </div>
-                                </section>
-                            </div>
+                        </div>
+                        <div class="form-account-agree">
+                            <label class="checkbox-form checkbox-primary">
+                                <input type="checkbox" id="agree">
+                                <span class="checkbox-check"></span>
+                            </label>
+                            <label for="agree"> آبی</label>
+                            <span class="color_pro_sel" style=" background-color: #0000ff;"></span>
 
                         </div>
                     </div>
-
-                    }
                 </div>
             </div>
-            <div class="pagination-product">
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Previous">
-                                <span aria-hidden="true">«</span>
-                            </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link active" href="#">1</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">2</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">3</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
-                                <span aria-hidden="true">»</span>
-                            </a>
-                        </li>
+            <div class="box ">
+
+                <header class="card-header">
+                    <h3 class="card-title"><span class="space-right-10">قیمت</span></h3>
+                </header>
+                <div class="box-content space-40 space-right-25 space-left-25">
+                    <div id="slider" class="noUi-target noUi-ltr noUi-horizontal noUi-txt-dir-ltr">
+                        <div class="noUi-base"><div class="noUi-connects"><div class="noUi-connect" style="transform: translate(22.449%, 0px) scale(0.622449, 1);"></div></div><div class="noUi-origin" style="transform: translate(-775.51%, 0px); z-index: 5;"><div class="noUi-handle noUi-handle-lower" data-handle="0" tabindex="0" role="slider" aria-orientation="horizontal" aria-valuemin="1000.0" aria-valuemax="42500.0" aria-valuenow="12000.0" aria-valuetext="12000 تومان"><div class="noUi-touch-area"></div><div class="noUi-tooltip">12000 تومان</div></div></div><div class="noUi-origin" style="transform: translate(-153.061%, 0px); z-index: 4;"><div class="noUi-handle noUi-handle-upper" data-handle="1" tabindex="0" role="slider" aria-orientation="horizontal" aria-valuemin="12000.0" aria-valuemax="50000.0" aria-valuenow="42500.0" aria-valuetext="42500 تومان"><div class="noUi-touch-area"></div><div class="noUi-tooltip">42500 تومان</div></div></div></div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="box">
+                <header class="card-header">
+                    <h3 class="card-title"><span class="space-right-10">لیست برند ها</span></h3>
+                </header>
+                <div class="box-content">
+                    <div class="collapse show">
+
+                        <div class="form-account-agree">
+                            <label class="checkbox-form checkbox-primary">
+                                <input type="checkbox" id="agree">
+                                <span class="checkbox-check"></span>
+                            </label>
+                            <label for="agree">سامسونگ</label>
+                        </div>
+
+
+                        <div class="form-account-agree">
+                            <label class="checkbox-form checkbox-primary">
+                                <input type="checkbox" id="agree">
+                                <span class="checkbox-check"></span>
+                            </label>
+                            <label for="agree"> اپل</label>
+                        </div>
+
+                        <div class="form-account-agree">
+                            <label class="checkbox-form checkbox-primary">
+                                <input type="checkbox" id="agree">
+                                <span class="checkbox-check"></span>
+                            </label>
+                            <label for="agree"> هواوی</label>
+                        </div>
+                        <div class="form-account-agree">
+                            <label class="checkbox-form checkbox-primary">
+                                <input type="checkbox" id="agree">
+                                <span class="checkbox-check"></span>
+                            </label>
+                            <label for="agree"> شیائومی</label>
+                        </div>
+                        <div class="form-account-agree">
+                            <label class="checkbox-form checkbox-primary">
+                                <input type="checkbox" id="agree">
+                                <span class="checkbox-check"></span>
+                            </label>
+                            <label for="agree"> سونی</label>
+                        </div>
+                        <div class="form-account-agree">
+                            <label class="checkbox-form checkbox-primary">
+                                <input type="checkbox" id="agree">
+                                <span class="checkbox-check"></span>
+                            </label>
+                            <label for="agree"> ایسوس</label>
+                        </div>
+                        <div class="form-account-agree">
+                            <label class="checkbox-form checkbox-primary">
+                                <input type="checkbox" id="agree">
+                                <span class="checkbox-check"></span>
+                            </label>
+                            <label for="agree"> نوکیا</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box">
+                <header class="card-header">
+                    <h3 class="card-title"><span class="space-right-10">سیستم عامل</span></h3>
+                </header>
+                <div class="box-content">
+                    <div class="collapse show">
+                        <div class="form-account-agree">
+                            <label class="checkbox-form checkbox-primary">
+                                <input type="checkbox" id="agree">
+                                <span class="checkbox-check"></span>
+                            </label>
+                            <label for="agree"> اندروید</label>
+                        </div>
+                        <div class="form-account-agree">
+                            <label class="checkbox-form checkbox-primary">
+                                <input type="checkbox" id="agree">
+                                <span class="checkbox-check"></span>
+                            </label>
+                            <label for="agree"> iOS</label>
+                        </div>
+                        <div class="form-account-agree">
+                            <label class="checkbox-form checkbox-primary">
+                                <input type="checkbox" id="agree">
+                                <span class="checkbox-check"></span>
+                            </label>
+                            <label for="agree"> ویندوز فون</label>
+                        </div>
+                        <div class="form-account-agree">
+                            <label class="checkbox-form checkbox-primary">
+                                <input type="checkbox" id="agree">
+                                <span class="checkbox-check"></span>
+                            </label>
+                            <label for="agree"> سایر</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box">
+                <div class="box-content">
+                    <div class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-on bootstrap-switch-animate" style="width: 68px;"><div class="bootstrap-switch-container" style="width: 118px; margin-left: 0px;"><span class="bootstrap-switch-handle-on bootstrap-switch-primary" style="width: 50px;"></span><span class="bootstrap-switch-label" style="width: 26px;">&nbsp;</span><span class="bootstrap-switch-handle-off bootstrap-switch-default" style="width: 50px;"></span><input type="checkbox" name="checkbox" class="bootstrap-switch" checked=""></div></div>
+                    <label for="">موجود در انبار مسای</label>
+                </div>
+            </div>
+            <div class="box">
+                <div class="box-content">
+                    <div class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-on bootstrap-switch-animate" style="width: 68px;"><div class="bootstrap-switch-container" style="width: 118px; margin-left: 0px;"><span class="bootstrap-switch-handle-on bootstrap-switch-primary" style="width: 50px;"></span><span class="bootstrap-switch-label" style="width: 26px;">&nbsp;</span><span class="bootstrap-switch-handle-off bootstrap-switch-default" style="width: 50px;"></span><input type="checkbox" name="checkbox" class="bootstrap-switch" checked=""></div></div>
+                    <label for="">ارسال فوری</label>
+                </div>
+            </div>
+        </aside>
+
+        @* لیست محصولات *@
+        <div class="col-12 col-sm-12 col-md-8 col-lg-9">
+            <div class="listing default ">
+                <div class="listing-header default marg_all0">
+                    <ul class="Search_list nav nav-tabs " role="tablist">
+                        <li><a class="active" data-toggle="tab" href="#suggestion" role="tab">پیشنهاد خریداران</a></li>
+                        <li><a data-toggle="tab" href="#most-visited" role="tab">پربازدیدترین</a></li>
+                        <li><a data-toggle="tab" href="#delivery" role="tab">سریع‌ترین ارسال</a></li>
+                        <li><a data-toggle="tab" href="#most-seller" role="tab">بیشترین فروش</a></li>
+                        <li><a data-toggle="tab" href="#price" role="tab">براساس قیمت</a></li>
                     </ul>
-                </nav>
+                </div>
+
+                <div class="tab-content default text-center">
+                    <div class="tab-pane active" id="suggestion" role="tabpanel">
+                        <div class="row listing-items">
+
+                            @foreach (var item in Model.Products)
+                            {
+                                <div class="col-xl-4 col-lg-4 col-md-6 col-12 list_search_p ">
+                                    <div class="product-box">
+                                        <div class="product-seller-details product-seller-details-item-grid">
+                                            <span class="search_prod_icon">
+                                                <i class="fa fa-search search_icon_search" aria-hidden="true"></i>
+                                                <i class="fa fa-heart search_icon_like" aria-hidden="true"></i>
+                                            </span>
+
+                                            <span class="search_prod_btn">
+                                                <i class="fa fa fa-cart-arrow-down search_icon_cart" aria-hidden="true"></i>
+                                            </span>
+                                        </div>
+
+                                        <a class="product-box-img" href="~/products/detail/@item.Id">
+                                            <img src="~/@item.ImageSrc" alt="@item.Title" />
+                                        </a>
+
+                                        <div class="product-box-content">
+                                            <div class="product-box-content-row mt-3">
+                                                <div class="product_title text-center">
+                                                    <a href="~/products/detail/@item.Id" class="h5 d-inline-block">
+                                                        @item.Title
+                                                    </a>
+                                                </div>
+                                            </div>
+
+                                            <div class="product-box-row product_price_search">
+                                                <div class="price">
+                                                    <ins>
+                                                        <span>@item.Price.ToString("n0")<span>تومان</span></span></ins>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+</div>
 

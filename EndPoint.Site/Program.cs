@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Store.Application.Interfaces.contexts;
 using Store.Application.Interfaces.FacadPatterns;
+using Store.Application.Services.Common.Queries.GetCategory;
 using Store.Application.Services.Common.Queries.GetMenuItem;
 using Store.Application.Services.Products.FacadPattern;
 using Store.Application.Services.Users.commands.EditUser;
@@ -45,8 +46,9 @@ builder.Services.AddScoped<IUserSatusChangeService, UserSatusChangeService>();
 builder.Services.AddScoped<IEditUserService, EditUserService>();
 builder.Services.AddScoped<IUserLoginService, UserLoginService>();
 
-//for menu
+//for menu and search
 builder.Services.AddScoped<IGetMenuItemService, GetMenuItemService>();
+builder.Services.AddScoped<IGetCategoryService, GetCategoryService>();
 
 //Facad inject 
 builder.Services.AddScoped<IProductFacad, ProductFacad>();

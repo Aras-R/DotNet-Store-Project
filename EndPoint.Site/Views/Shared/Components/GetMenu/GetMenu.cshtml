@@ -1,0 +1,29 @@
+﻿@using Store.Application.Services.Common.Queries.GetMenuItem;
+@model List<MenuItemDto>
+@{
+    Layout = null;
+}
+
+@foreach (var item in Model)
+{
+    <li class="child_mno-drobdown">
+        <a href="#" class="run">@item.Name</a>
+
+        @if (item.Child?.Any() == true)
+        {
+            <div class="mega_meno">
+                <ul class="list_drobdown--item">
+                    @foreach (var child in item.Child)
+                    {
+                        <li class="list_drobdown--items border_left--red">
+                            <a href="/products/index?CatId=@child.CatId" class="list__drobdown--link texr_header">
+                                @child.Name
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+    </li>
+}
+

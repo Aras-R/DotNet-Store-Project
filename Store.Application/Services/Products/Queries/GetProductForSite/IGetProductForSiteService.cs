@@ -12,7 +12,37 @@ namespace Store.Application.Services.Products.Queries.GetProductForSite
 {
     public interface IGetProductForSiteService
     {
-        ResultDto<ResultProductForSiteDto> Execute(string SearchKey, int Page, long? CatId);
+        ResultDto<ResultProductForSiteDto> Execute(Ordering ordering, string SearchKey, int Page, int pageSize, long? CatId);
+    }
+
+    public enum Ordering
+    {
+
+        NotOrder = 0,
+        /// <summary>
+        /// پربازدیدترین
+        /// </summary>
+        MostVisited = 1,
+        /// <summary>
+        /// پرفروشترین
+        /// </summary>
+        Bestselling = 2,
+        /// <summary>
+        /// محبوبترین
+        /// </summary>
+        MostPopular = 3,
+        /// <summary>
+        /// جدیدترین
+        /// </summary>
+        theNewest = 4,
+        /// <summary>
+        /// ارزانترین
+        /// </summary>
+        Cheapest = 5,
+        /// <summary>
+        /// گرانترین
+        /// </summary>
+        theMostExpensive = 6
     }
 
 
@@ -24,7 +54,7 @@ namespace Store.Application.Services.Products.Queries.GetProductForSite
         {
             _context = context;
         }
-        public ResultDto<ResultProductForSiteDto> Execute(string SearchKey, int Page, long? CatId)
+        public ResultDto<ResultProductForSiteDto> Execute(Ordering ordering, string SearchKey, int Page, int pageSize, long? CatId)
         {
             int totalRow = 0;
             var productQuery = _context.Products
@@ -39,7 +69,32 @@ namespace Store.Application.Services.Products.Queries.GetProductForSite
                 productQuery = productQuery.Where(p => p.Name.Contains(SearchKey) || p.Brand.Contains(SearchKey)).AsQueryable();
             }
 
-            var product = productQuery.ToPaged(Page, 5, out totalRow);
+            switch (ordering)
+            {
+                case Ordering.NotOrder:
+                    productQuery = productQuery.OrderByDescending(p => p.Id).AsQueryable();
+                    break;
+                case Ordering.MostVisited:
+                    productQuery = productQuery.OrderByDescending(p => p.ViewCount).AsQueryable();
+                    break;
+                case Ordering.Bestselling:
+                    break;
+                case Ordering.MostPopular:
+                    break;
+                case Ordering.theNewest:
+                    productQuery = productQuery.OrderByDescending(p => p.Id).AsQueryable();
+                    break;
+                case Ordering.Cheapest:
+                    productQuery = productQuery.OrderBy(p => p.Price).AsQueryable();
+                    break;
+                case Ordering.theMostExpensive:
+                    productQuery = productQuery.OrderByDescending(p => p.Price).AsQueryable();
+                    break;
+                default:
+                    break;
+            }
+
+            var product = productQuery.ToPaged(Page, pageSize, out totalRow);
 
             Random rd = new Random();
             return new ResultDto<ResultProductForSiteDto>
@@ -60,12 +115,13 @@ namespace Store.Application.Services.Products.Queries.GetProductForSite
             };
         }
     }
-
     public class ResultProductForSiteDto
     {
 
         public List<ProductForSiteDto> Products { get; set; }
         public int TotalRow { get; set; }
+        public int PageNumber { get; set; }
+        public int PageSize { get; set; }
     }
 
     public class ProductForSiteDto
@@ -76,5 +132,4 @@ namespace Store.Application.Services.Products.Queries.GetProductForSite
         public int Star { get; set; }
         public int Price { get; set; }
     }
-
 }

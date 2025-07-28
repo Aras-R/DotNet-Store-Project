@@ -1,8 +1,15 @@
-﻿@using Store.Application.Services.Products.Queries.GetProductForSite;
+﻿@addTagHelper *, LazZiya.TagHelpers
+@using Store.Application.Services.Products.Queries.GetProductForSite;
 @model ResultProductForSiteDto;
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    int pageNumber = 1;
+    int pageSize = 20;
+    int.TryParse(Context.Request.Query["page"], out pageNumber);
+    int.TryParse(Context.Request.Query["pageSize"], out pageSize);
+
+    var ordering = Context.Request.Query["ordering"].ToString()?.ToLower();
 }
 
 
@@ -187,13 +194,14 @@
             <div class="listing default ">
                 <div class="listing-header default marg_all0">
                     <ul class="Search_list nav nav-tabs " role="tablist">
-                        <li><a class="active" data-toggle="tab" href="#suggestion" role="tab">پیشنهاد خریداران</a></li>
-                        <li><a data-toggle="tab" href="#most-visited" role="tab">پربازدیدترین</a></li>
-                        <li><a data-toggle="tab" href="#delivery" role="tab">سریع‌ترین ارسال</a></li>
-                        <li><a data-toggle="tab" href="#most-seller" role="tab">بیشترین فروش</a></li>
-                        <li><a data-toggle="tab" href="#price" role="tab">براساس قیمت</a></li>
+                        <li><a class="@(ordering == "mostvisited" ? "active" : "")" href="~/products?Searchkey=@Context.Request.Query["SearchKey"]&CatId=@Context.Request.Query["CatId"]&ordering=MostVisited" role="tab" aria-controls="Most-visited" aria-selected="true">پربازدید ترین </a></li>
+                        <li><a class="@(ordering == "bestselling" ? "active" : "")" href="~/products?Searchkey=@Context.Request.Query["SearchKey"]&CatId=@Context.Request.Query["CatId"]&ordering=Bestselling" role="tab" aria-controls="Bestselling" aria-selected="false">پرفروش ترین</a></li>
+                        <li><a class="@(ordering == "newest" ? "active" : "")" href="~/products?Searchkey=@Context.Request.Query["SearchKey"]&CatId=@Context.Request.Query["CatId"]&ordering=newest" role="tab" aria-controls="newest" aria-selected="false">جدید‌ترین </a></li>
+                        <li><a class="@(ordering == "cheapest" ? "active" : "")" href="~/products?Searchkey=@Context.Request.Query["SearchKey"]&CatId=@Context.Request.Query["CatId"]&ordering=cheapest" role="tab" aria-controls="cheapest" aria-selected="false">ارزان ترین</a></li>
+                        <li><a class="@(ordering == "most-expensive" ? "active" : "")" href="~/products?Searchkey=@Context.Request.Query["SearchKey"]&CatId=@Context.Request.Query["CatId"]&ordering=most-expensive" role="tab" aria-controls="most-expensive" aria-selected="false">گران ترین</a></li>
                     </ul>
                 </div>
+                
 
                 <div class="tab-content default text-center">
                     <div class="tab-pane active" id="suggestion" role="tabpanel">
@@ -237,12 +245,64 @@
                                     </div>
                                 </div>
                             }
-
+                            
                         </div>
                     </div>
                 </div>
+                
+
+            @* pagination------
+                <div style="margin-top: 30px; text-align: center;">
+                <nav aria-label="page nevigation example">
+                    <paging total-records="@Model.TotalRow"
+                        page-no="@pageNumber==0?1:pageNumber"
+                        page-size="@pageSize==0?20:pageSize"
+                        show-prev-next="true"
+                        show-total-pages="false"
+                        show-total-records="false"
+                        show-page-size-nav="true"
+                        show-first-numbered-page="true"
+                        show-last-numbered-page="true"
+                        query-string-key-page-no="Page"
+                        query-string-key-page-size="PageSize"
+                        query-string-value="@@(Request.QueryString.Value)"
+                        gap-size="2">
+                    </paging>
+                </nav>
+            </div>  *@
+
             </div>
         </div>
+
+
+
     </div>
 </div>
 
+
+
+@*text-page-size="Items per page:"
+    text-total-pages="pages"
+    text-total-records="records"
+    text-first="&laquo;"
+    text-last="&raquo;"
+    text-previous="&lsaquo;"
+    text-next="&rsaquo;"
+    sr-text-first="First"
+    sr-text-last="Last"
+    sr-text-previous="Previous"
+    sr-text-next="Next"
+
+
+
+     class="row"
+    class-paging-control-div="col"
+    class-info-div="col"
+    class-page-size-div="col"
+    class-paging-control="pagination"
+    class-active-page="disabled"
+    class-disabled-jumping-button="disabled"
+    class-total-pages="badge badge-secondary"
+    class-total-records="badge badge-info"
+
+*@

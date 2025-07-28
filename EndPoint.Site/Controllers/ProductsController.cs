@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Store.Application.Interfaces.FacadPatterns;
 using Microsoft.AspNetCore.Mvc;
+using Store.Application.Services.Products.Queries.GetProductForSite;
 
 namespace EndPoint.Site.Controllers
 {
@@ -15,9 +16,9 @@ namespace EndPoint.Site.Controllers
         {
             _productFacad = productFacad;
         }
-        public IActionResult Index(string Searchkey, long? CatId = null, int page = 1)
+        public IActionResult Index(Ordering ordering, string Searchkey, long? CatId = null, int page = 1, int Pagesize=20)
         {
-            return View(_productFacad.GetProductForSiteService.Execute(Searchkey, page, CatId).Data);
+            return View(_productFacad.GetProductForSiteService.Execute(ordering,Searchkey, page, Pagesize, CatId).Data);
         }
 
 

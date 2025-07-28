@@ -1059,10 +1059,8 @@
                     </div>
                     <div class="col-lg-8 col-md-5 col-sm-8 col-7">
                         <div class="search-area default">
-                            <form action="#" class="search">
-                                <input type="text" placeholder="جستجو">
-                                <button type="submit"><img src="~/SiteTemplate/assets/img/search.png" alt=""></button>
-                            </form>
+                            @* view component search *@
+                            @await Component.InvokeAsync("Search")
                         </div>
                     </div>
                     <div class="col-md-2 col-sm-12">

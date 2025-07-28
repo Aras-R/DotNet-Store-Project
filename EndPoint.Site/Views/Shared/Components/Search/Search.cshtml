@@ -4,7 +4,7 @@
     Layout = null;
 }
 
-<form  asp-action="Index" asp-controller="Products" class="form-search">
+@* <form  asp-action="Index" asp-controller="Products" class="form-search">
     <input  type="search" class="header-search-input" name="SearchKey" placeholder="نام کالا، برند و یا دسته مورد نظر خود را جستجو کنید…">
     <div class="action-btns">
         <button class="btn btn-search" type="submit">
@@ -20,4 +20,32 @@
             </div>
         </div>
     </div>
+</form>
+ *@
+
+@* <form asp-action="Index" asp-controller="Products" class="search">
+    <input type="search" name="SearchKey" placeholder="جستجو">
+    <button type="submit"><img src="~/SiteTemplate/assets/img/search.png" alt=""></button>      
+    <div class="custom-select-sm">
+
+        <select class="right" name="CatId" asp-items="@(new SelectList(Model, "CatId", "CategoryName"))">
+            <option>همه دسته ها</option>
+        </select>
+    </div>    
+</form> *@
+
+<form asp-action="Index" asp-controller="Products" class="search" style="display: flex; flex-direction: row-reverse; align-items: center; gap: 10px; direction: rtl;">
+
+   
+    <div class="custom-select-sm">
+        <select name="CatId" asp-items="@(new SelectList(Model, "CatId", "CategoryName"))">
+            <option>همه دسته ها</option>
+        </select>
+    </div>
+    <input type="search" name="SearchKey" placeholder="جستجو">
+
+    <button type="submit"><img src="~/SiteTemplate/assets/img/search.png" alt=""></button>
+
+
+
 </form>

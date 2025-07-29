@@ -4,6 +4,7 @@ using Store.Application.Interfaces.contexts;
 using Store.Application.Interfaces.FacadPatterns;
 using Store.Application.Services.Common.Queries.GetCategory;
 using Store.Application.Services.Common.Queries.GetMenuItem;
+using Store.Application.Services.HomePages.AddNewSlider;
 using Store.Application.Services.Products.FacadPattern;
 using Store.Application.Services.Users.commands.EditUser;
 using Store.Application.Services.Users.commands.RegisterUser;
@@ -49,6 +50,7 @@ builder.Services.AddScoped<IUserLoginService, UserLoginService>();
 //for menu and search
 builder.Services.AddScoped<IGetMenuItemService, GetMenuItemService>();
 builder.Services.AddScoped<IGetCategoryService, GetCategoryService>();
+builder.Services.AddScoped<IAddNewSliderService, AddNewSliderService>();
 
 //Facad inject 
 builder.Services.AddScoped<IProductFacad, ProductFacad>();

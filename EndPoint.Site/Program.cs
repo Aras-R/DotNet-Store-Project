@@ -1,3 +1,4 @@
+using Bugeto_Store.Application.Services.Common.Queries.GetSlider;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Store.Application.Interfaces.contexts;
@@ -47,10 +48,11 @@ builder.Services.AddScoped<IUserSatusChangeService, UserSatusChangeService>();
 builder.Services.AddScoped<IEditUserService, EditUserService>();
 builder.Services.AddScoped<IUserLoginService, UserLoginService>();
 
-//for menu and search
-builder.Services.AddScoped<IGetMenuItemService, GetMenuItemService>();
-builder.Services.AddScoped<IGetCategoryService, GetCategoryService>();
-builder.Services.AddScoped<IAddNewSliderService, AddNewSliderService>();
+
+builder.Services.AddScoped<IGetMenuItemService, GetMenuItemService>(); // menu
+builder.Services.AddScoped<IGetCategoryService, GetCategoryService>(); // search
+builder.Services.AddScoped<IAddNewSliderService, AddNewSliderService>(); // Add slider for admin
+builder.Services.AddScoped<IGetSliderService, GetSliderService>(); // get slider for site
 
 //Facad inject 
 builder.Services.AddScoped<IProductFacad, ProductFacad>();

@@ -33,8 +33,8 @@ namespace EndPoint.Site.Controllers
             {
                 Sliders = _getSliderService.Execute().Data,
                 PageImages = _homePageImagesService.Execute().Data,
-                Camera = _productFacad.GetProductForSiteService.Execute(Ordering.theNewest
-                , null, 1, 6, 25).Data.Products,
+                Mobile = _productFacad.GetProductForSiteService.Execute(Ordering.theNewest
+                , null, 1, 5, 4).Data.Products,
             };
 
             return View(homePage);

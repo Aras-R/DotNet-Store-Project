@@ -22,6 +22,7 @@ namespace Store.Application.Interfaces.contexts
         DbSet<ProductImages> ProductImages { get; set; }
         DbSet<ProductFeatures> ProductFeatures { get; set; }
         DbSet<Slider> Sliders { get; set; }
+        DbSet<HomePageImages> HomePageImages { get; set; }
 
         int SaveChanges(bool acceptAllChangesOnSuccess);
         int SaveChanges();

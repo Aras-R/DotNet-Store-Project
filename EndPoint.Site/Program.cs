@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Store.Application.Interfaces.contexts;
 using Store.Application.Interfaces.FacadPatterns;
+using Store.Application.Services.Carts;
 using Store.Application.Services.Common.Queries.GetCategory;
 using Store.Application.Services.Common.Queries.GetHomePageImages;
 using Store.Application.Services.Common.Queries.GetMenuItem;
@@ -57,6 +58,8 @@ builder.Services.AddScoped<IAddNewSliderService, AddNewSliderService>(); // Add 
 builder.Services.AddScoped<IGetSliderService, GetSliderService>(); // get slider for site
 builder.Services.AddScoped<IAddHomePageImagesService, AddHomePageImagesService>(); // Add slider for admin
 builder.Services.AddScoped<IGetHomePageImagesService, GetHomePageImagesService>(); // get slider for site
+
+builder.Services.AddScoped<ICartService, CartService>(); //  for Cart
 
 //Facad inject 
 builder.Services.AddScoped<IProductFacad, ProductFacad>();

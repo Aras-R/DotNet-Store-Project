@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Store.Domain.Entities.Carts;
 using Store.Domain.Entities.HomePages;
 using Store.Domain.Entities.Products;
 using Store.Domain.Entities.Users;
@@ -23,6 +24,8 @@ namespace Store.Application.Interfaces.contexts
         DbSet<ProductFeatures> ProductFeatures { get; set; }
         DbSet<Slider> Sliders { get; set; }
         DbSet<HomePageImages> HomePageImages { get; set; }
+        DbSet<Cart> Carts { get; set; }
+        DbSet<CartItem> CartItems { get; set; }
 
         int SaveChanges(bool acceptAllChangesOnSuccess);
         int SaveChanges();

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Store.Application.Interfaces.contexts;
 using Store.Common.Roles;
+using Store.Domain.Entities.Carts;
 using Store.Domain.Entities.HomePages;
 using Store.Domain.Entities.Products;
 using Store.Domain.Entities.Users;
@@ -26,6 +27,8 @@ namespace Store.Persistence.Context
         public DbSet<ProductFeatures> ProductFeatures { get; set; }
         public DbSet<Slider> Sliders { get; set; }
         public DbSet<HomePageImages> HomePageImages { get; set; }
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
@@ -52,6 +55,8 @@ namespace Store.Persistence.Context
             modelBuilder.Entity<ProductFeatures>().HasQueryFilter(p => !p.IsRemoved);
             modelBuilder.Entity<Slider>().HasQueryFilter(p => !p.IsRemoved);
             modelBuilder.Entity<HomePageImages>().HasQueryFilter(p => !p.IsRemoved);
+            modelBuilder.Entity<Cart>().HasQueryFilter(p => !p.IsRemoved);
+            modelBuilder.Entity<CartItem>().HasQueryFilter(p => !p.IsRemoved);
 
         }
 

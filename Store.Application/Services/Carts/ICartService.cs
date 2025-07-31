@@ -15,6 +15,9 @@ namespace Store.Application.Services.Carts
         ResultDto AddToCart(long ProductId, Guid BrowserId);
         ResultDto RemoveFromCart(long ProductId, Guid BrowserId);
         ResultDto<CartDto> GetMyCart(Guid BrowserId);
+
+        ResultDto Add(long CartItemId);
+        ResultDto LowOff(long CartItemId);
     }
 
     public class CartService : ICartService
@@ -23,6 +26,17 @@ namespace Store.Application.Services.Carts
         public CartService(IDataBaseContext context)
         {
             _context = context;
+        }
+
+        public ResultDto Add(long CartItemId)
+        {
+            var cartItem = _context.CartItems.Find(CartItemId);
+            cartItem.Count++;
+            _context.SaveChanges();
+            return new ResultDto()
+            {
+                IsSuccess = true,
+            };
         }
         public ResultDto AddToCart(long ProductId, Guid BrowserId)
         {
@@ -94,6 +108,24 @@ namespace Store.Application.Services.Carts
             };
         }
 
+        public ResultDto LowOff(long CartItemId)
+        {
+            var cartItem = _context.CartItems.Find(CartItemId);
+
+            if (cartItem.Count <= 1)
+            {
+                return new ResultDto()
+                {
+                    IsSuccess = false,
+                };
+            }
+            cartItem.Count--;
+            _context.SaveChanges();
+            return new ResultDto()
+            {
+                IsSuccess = true,
+            };
+        }
         public ResultDto RemoveFromCart(long ProductId, Guid BrowserId)
         {
             var cartitem = _context.CartItems.Where(p => p.Cart.BrowserId == BrowserId).FirstOrDefault();

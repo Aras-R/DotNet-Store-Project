@@ -35,7 +35,7 @@
                 <div class="table-responsive default">
                     <table class="table">
                         <thead>
-                            <tr>
+                            <tr style="text-align:center">
                                 <th scope="col">عکس محصول</th>
                                 <th scope="col">نام محصول</th>
                                 <th scope="col">قیمت واحد</th>
@@ -71,7 +71,18 @@
                                                 </ins>
                                         </div>
                                     </td>
-                                    <td><input type="number" class="tedad" value="1"></td>
+
+                                    <td class="product-cart-quantity">
+                                        <div style="display: flex; align-items: center; gap: 5px; border: 1px solid #ccc; border-radius: 20px; padding: 5px 10px; width: fit-content;">
+                                            <button type="button" onclick="lowCount('@item.Id')" style="cursor: pointer; border: none; background: #f8d7da; color: red; border-radius: 50%; width: 30px; height: 30px; font-size: 18px;">-</button>
+
+                                            <input type="number" id="count-@item.Id" value="@item.Count" readonly
+                                                   style="width: 40px; text-align: center; border: none; font-weight: bold; outline: none;" />
+
+                                            <button type="button" onclick="AddCount('@item.Id')" style="cursor: pointer;border: none; background: #d1ecf1; color: blue; border-radius: 50%; width: 30px; height: 30px; font-size: 18px;">+</button>
+                                        </div>
+                                    </td>
+
                                     <td class="price_alltd">
                                         @{
                                             int total = item.Price * item.Count;
@@ -132,7 +143,7 @@
 
 </main>
 
-@* @section Scripts
+@section Scripts
 {
 <script>
 
@@ -145,4 +156,4 @@
     }
 
 </script>
-} *@
+} 

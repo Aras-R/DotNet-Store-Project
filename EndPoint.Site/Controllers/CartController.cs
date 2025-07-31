@@ -37,17 +37,17 @@ namespace EndPoint.Site.Controllers
         }
 
 
-        //public IActionResult Add(long CartItemId)
-        //{
-        //    _cartService.Add(CartItemId);
-        //    return RedirectToAction("Index");
-        //}  
-        
-        //public IActionResult LowOff(long CartItemId)
-        //{
-        //    _cartService.LowOff(CartItemId);
-        //    return RedirectToAction("Index");
-        //}
+        public IActionResult Add(long CartItemId)
+        {
+            _cartService.Add(CartItemId);
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult LowOff(long CartItemId)
+        {
+            _cartService.LowOff(CartItemId);
+            return RedirectToAction("Index");
+        }
 
         public IActionResult Remove(long ProductId)
         {

@@ -4,38 +4,8 @@
     Layout = null;
 }
 
-@* <form  asp-action="Index" asp-controller="Products" class="form-search">
-    <input  type="search" class="header-search-input" name="SearchKey" placeholder="نام کالا، برند و یا دسته مورد نظر خود را جستجو کنید…">
-    <div class="action-btns">
-        <button class="btn btn-search" type="submit">
-            <i class="fa fa-search"></i>
-        </button>
-        <div class="search-filter">
-            <div class="form-ui">
-                <div class="custom-select-ui">
-                    <select class="right"  name="CatId" asp-items="@(new SelectList(Model,"CatId","CategoryName"))">
-                       <option>همه دسته ها</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-    </div>
-</form>
- *@
 
-@* <form asp-action="Index" asp-controller="Products" class="search">
-    <input type="search" name="SearchKey" placeholder="جستجو">
-    <button type="submit"><img src="~/SiteTemplate/assets/img/search.png" alt=""></button>      
-    <div class="custom-select-sm">
-
-        <select class="right" name="CatId" asp-items="@(new SelectList(Model, "CatId", "CategoryName"))">
-            <option>همه دسته ها</option>
-        </select>
-    </div>    
-</form> *@
-<div class="col-lg-8 col-md-5 col-sm-8 col-7">
-    <div class="search-area default">
-        <form asp-action="Index" asp-controller="Products" class="search" method="get">
+        @* <form asp-action="Index" asp-controller="Products" class="search" method="get">
             <input type="search" name="SearchKey" placeholder="جستجو">
             <button type="submit"><img src="~/SiteTemplate/assets/img/search.png" alt=""></button>
             <div class="custom-select-sm">
@@ -43,14 +13,70 @@
                     <option>همه دسته ها</option>
                 </select>
             </div>
-            
-
-            
-
+        </form> *@
+   
 
 
-        </form>
+<form asp-action="Index" asp-controller="Products" method="get">
+    <style>
+        .search-container {
+            display: flex;
+            align-items: center;
+            background-color: #f3f9fa;
+            border-radius: 10px;
+            overflow: hidden;
+            direction: rtl;
+            max-width: 900px;
+            max-height: 100px
+            margin: 0 auto;
+        }
+
+        .select-box select {
+            padding: 10px;
+            color: dimgray;
+            background-color: #f3f9fa;
+            height: 100%;
+            font-family: inherit;
+            font-size: 13px;
+            cursor: pointer;
+            max-width: 400px;
+            border: 1px #f3f9fa;
+            border-radius: 10px;
+        }
+
+        input[type="search"] {
+            flex: 1;
+            border: none;
+            padding: 10px;
+            font-size: 13px;
+            background-color: transparent;
+            outline: none;
+        }
+
+        .search-button {
+            border: none;
+            background: transparent;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .search-button img {
+            width: 18px;
+            height: 18px;
+        }
+    </style>
+
+    <div class="search-container">
+        
+        <button type="submit" class="search-button">
+            <img src="~/SiteTemplate/assets/img/search.png" alt="جستجو">
+        </button>
+        <input type="search" name="SearchKey" placeholder="جستجو" />
+        
+        <div class="select-box">
+            <select  name="CatId" asp-items="@(new SelectList(Model, "CatId", "CategoryName"))">
+                <option>همه دسته ها</option>
+            </select>
+        </div>
     </div>
-</div>
-
-@*     style="display: flex; flex-direction: row-reverse; align-items: center; gap: 10px; direction: rtl; *@
+</form>

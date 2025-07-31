@@ -73,6 +73,7 @@ namespace Store.Application.Services.Carts
             var cart = _context.Carts
                 .Include(p => p.CartItems)
                 .ThenInclude(p=> p.Product)
+                .ThenInclude(p=> p.ProductImages)
                 .Where(p => p.BrowserId == BrowserId && p.Finished == false)
                 .OrderByDescending(p => p.Id)
                 .FirstOrDefault();
@@ -84,7 +85,9 @@ namespace Store.Application.Services.Carts
                     {
                         Count = p.Count,
                         Price = p.Price,
-                        Product = p.Product.Name
+                        Product = p.Product.Name,
+                        Id = p.Id,
+                        Images = p.Product?.ProductImages?.FirstOrDefault()?.Src ?? (""),
                     }).ToList(),
                 },
                 IsSuccess = true,
@@ -125,7 +128,9 @@ namespace Store.Application.Services.Carts
     }
     public class CartItemDto
     {
+        public long Id { get; set; }
         public string Product { get; set; }
+        public string Images { get; set; }
         public int Count { get; set; }
         public int Price { get; set; }
     }

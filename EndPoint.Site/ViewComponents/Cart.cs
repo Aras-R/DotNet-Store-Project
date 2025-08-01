@@ -20,8 +20,8 @@ namespace EndPoint.Site.ViewComponents
 
         public IViewComponentResult Invoke()
         {
-            //var userId = ClaimUtility.GetUserId(HttpContext.User);
-            return View(viewName: "Cart", _cartService.GetMyCart(_cookiesManeger.GetBrowserId(HttpContext)).Data);
+            var userId = ClaimUtility.GetUserId(HttpContext.User);
+            return View(viewName: "Cart", _cartService.GetMyCart(_cookiesManeger.GetBrowserId(HttpContext),userId).Data);
         }
     }
 }

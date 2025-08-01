@@ -14,7 +14,7 @@ namespace Store.Application.Services.Carts
     {
         ResultDto AddToCart(long ProductId, Guid BrowserId);
         ResultDto RemoveFromCart(long ProductId, Guid BrowserId);
-        ResultDto<CartDto> GetMyCart(Guid BrowserId);
+        ResultDto<CartDto> GetMyCart(Guid BrowserId,long? UserId);
 
         ResultDto Add(long CartItemId);
         ResultDto LowOff(long CartItemId);
@@ -82,7 +82,7 @@ namespace Store.Application.Services.Carts
             };
         }
 
-        public ResultDto<CartDto> GetMyCart(Guid BrowserId)
+        public ResultDto<CartDto> GetMyCart(Guid BrowserId, long? UserId)
         {
             var cart = _context.Carts
                 .Include(p => p.CartItems)
@@ -91,6 +91,12 @@ namespace Store.Application.Services.Carts
                 .Where(p => p.BrowserId == BrowserId && p.Finished == false)
                 .OrderByDescending(p => p.Id)
                 .FirstOrDefault();
+            if(UserId != null)
+            {
+                var user = _context.Users.Find(UserId);
+                cart.User = user;
+                _context.SaveChanges();
+            }
             return new ResultDto<CartDto>()
             {
                 Data = new CartDto()

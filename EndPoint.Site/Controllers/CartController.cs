@@ -23,10 +23,13 @@ namespace EndPoint.Site.Controllers
 
         public IActionResult Index()
         {
-           var resultGetLst=  _cartService.GetMyCart(cookiesManeger.GetBrowserId(HttpContext));
+            var userId = ClaimUtility.GetUserId(User);
+
+            var resultGetLst = _cartService.GetMyCart(cookiesManeger.GetBrowserId(HttpContext), userId);
 
             return View(resultGetLst.Data);
         }
+
 
 
         public IActionResult AddToCart(long ProductId)

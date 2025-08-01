@@ -95,6 +95,8 @@ namespace Store.Application.Services.Carts
             {
                 Data = new CartDto()
                 {
+                    ProductCount = cart.CartItems.Count,
+                    SumAmount = cart.CartItems.Sum(p=> p.Price * p.Count),
                     CartItems = cart.CartItems.Select(p => new CartItemDto
                     {
                         Count = p.Count,
@@ -155,7 +157,8 @@ namespace Store.Application.Services.Carts
 
     public class CartDto
     {
-
+        public int ProductCount { get; set; }
+        public int SumAmount { get; set; }
         public List<CartItemDto> CartItems { get; set; }
     }
     public class CartItemDto

@@ -8,66 +8,88 @@
     <i class="fa fa-cart-arrow-down font-20" aria-hidden="true"></i>
 </a>
 
-<div class="dropdown-menu show" aria-labelledby="navbar_a" x-placement="bottom-start" style="position: absolute; transform: translate3d(22px, 36px, 0px); top: 0px; left: 0px; will-change: transform;">
+<div class="dropdown-menu" aria-labelledby="navbar_a" x-placement="bottom-start" style="position: absolute; transform: translate3d(22px, 36px, 0px); top: 0px; left: 0px; will-change: transform;">
     <ul class="m_cart-list">
-        <li class="m_cart_li1">
-            <a href="single-product.html" class="m_cart-item">
-                <i class="fa fa-times" aria-hidden="true"></i>
-
-
+        @foreach(var item in Model.CartItems)
+        {
+            <li class="m_cart_li1">
+                <a href="~/cart/remove?ProductId=@item.Id" class="m_cart-item">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                </a>
+                
                 <div class="m_cart-item-content">
                     <div class="m_cart-item-image">
-                        <img src="assets/img/product_img/p_6.jpg">
+                        <img src="@item.Images">
+                    </div>
+                    <div class="m_cart-item-title">
+                        @item.Product
                     </div>
                     <div class="m_cart-item-details">
-                        <div class="m_cart-item-title">
-                            ساعت هوشمند امیزفیت
-                        </div>
+                            
                         <div class="m_cart-item-params">
                             <div class="m_cart-item-props">
-                                <span>تعداد : 2</span>
-                                <span>رنگ: سبز ارتشی</span>
+                                <span>
+                                    @* <span>قیمت:</span> *@
+                                    @item.Price.ToString("n0")
+                                    <span>تومان</span>
+                                </span>
                             </div>
                         </div>
                     </div>
                 </div>
-            </a>
-        </li>
-        <li class="m_cart_li2">
-            <a href="single-product.html" class="m_cart-item">
-                <i class="fa fa-times" aria-hidden="true"></i>
-
-
-                <div class="m_cart-item-content">
-
-                    <div class="m_cart-item-details">
-                        <div class="m_cart-item-title">
-                            شیائومی مدل Poco X4
-                        </div>
-                        <div class="m_cart-item-params">
-                            <div class="m_cart-item-props">
-                                <span>تعداد : 1</span>
-                                <span>رنگ: مشکی</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="m_cart-item-image">
-                        <img src="assets/img/product_img/p_9.jpg">
-                    </div>
-                </div>
-            </a>
-        </li>
+            </li>
+        }
     </ul>
     <div class="m_cart-header">
         <div class="m_cart-total">
             <span>مجموع سبد:</span>
-            <span> ۳۵,۲۵۳,۵۰۰</span>
+            <span> @Model.SumAmount.ToString("n0")</span>
             <span> تومان</span>
         </div>
     </div>
     <div class="btn_cart">
-        <a href="cart.html" class="btn btn_sabad">مشاهده سبد</a>
-        <a href="Final-payment.html" class="btn btn_pardakht btn-main-masai">پرداخت</a>
+        <a href="~/cart" class="btn btn_sabad">مشاهده سبد</a>
+        <a href="~/pay" class="btn btn_pardakht btn-main-masai">پرداخت</a>
     </div>
 </div>
 
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.remove-from-header-cart').forEach(function (btn) {
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const productId = this.dataset.id;
+
+                fetch(`/cart/remove?ProductId=${productId}`, {
+                    method: 'GET',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.isSuccess) {
+                        // حذف موفقیت‌آمیز -> آیتم را از DOM حذف کن
+                        const itemElement = this.closest('.header-cart-item');
+                        itemElement.remove();
+
+                        // اگر سبد خالی شد پیغام هم بگذار:
+                        if (document.querySelectorAll('.header-cart-item').length === 0) {
+                            document.querySelector('.header-cart-body').innerHTML = '<p>سبد خرید شما خالی است.</p>';
+                        }
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('خطا:', error);
+                    alert('خطا در حذف محصول');
+                });
+            });
+        });
+    });
+</script>

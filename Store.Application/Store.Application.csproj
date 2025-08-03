@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <Folder Include="Services\Common\Commands\" />
+    <Folder Include="Services\Fainances\Queries\" />
   </ItemGroup>
 
 </Project>

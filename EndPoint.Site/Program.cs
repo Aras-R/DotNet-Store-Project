@@ -7,6 +7,7 @@ using Store.Application.Services.Carts;
 using Store.Application.Services.Common.Queries.GetCategory;
 using Store.Application.Services.Common.Queries.GetHomePageImages;
 using Store.Application.Services.Common.Queries.GetMenuItem;
+using Store.Application.Services.Fainances.Commands.AddRequestPay;
 using Store.Application.Services.HomePages.AddHomePageImages;
 using Store.Application.Services.HomePages.AddNewSlider;
 using Store.Application.Services.Products.FacadPattern;
@@ -51,15 +52,14 @@ builder.Services.AddScoped<IUserSatusChangeService, UserSatusChangeService>();
 builder.Services.AddScoped<IEditUserService, EditUserService>();
 builder.Services.AddScoped<IUserLoginService, UserLoginService>();
 
-
 builder.Services.AddScoped<IGetMenuItemService, GetMenuItemService>(); // menu
 builder.Services.AddScoped<IGetCategoryService, GetCategoryService>(); // search
 builder.Services.AddScoped<IAddNewSliderService, AddNewSliderService>(); // Add slider for admin
 builder.Services.AddScoped<IGetSliderService, GetSliderService>(); // get slider for site
 builder.Services.AddScoped<IAddHomePageImagesService, AddHomePageImagesService>(); // Add slider for admin
 builder.Services.AddScoped<IGetHomePageImagesService, GetHomePageImagesService>(); // get slider for site
-
 builder.Services.AddScoped<ICartService, CartService>(); //  for Cart
+builder.Services.AddScoped<IAddRequestPayService, AddRequestPayService>(); //  for request pay
 
 //Facad inject 
 builder.Services.AddScoped<IProductFacad, ProductFacad>();

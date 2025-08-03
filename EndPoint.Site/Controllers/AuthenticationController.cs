@@ -63,7 +63,7 @@ namespace EndPoint.Site.Controllers
             {
                 return Json(new ResultDto { IsSuccess = true, Message = "ایمیل خودرا به درستی وارد نمایید" });
             }
-           
+
 
             var signeupResult = _registerUserService.Execute(new RequestRegisterUserDto
             {
@@ -86,7 +86,7 @@ namespace EndPoint.Site.Controllers
                 new Claim(ClaimTypes.Name, request.FullName),
                 new Claim(ClaimTypes.Role, "Customer"),
             };
-           
+
 
                 var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                 var principal = new ClaimsPrincipal(identity);
@@ -94,8 +94,8 @@ namespace EndPoint.Site.Controllers
                 {
                     IsPersistent = true
                 };
-               HttpContext.SignInAsync(principal, properties);
- 
+                HttpContext.SignInAsync(principal, properties);
+
             }
             return Json(signeupResult);
         }
@@ -118,8 +118,13 @@ namespace EndPoint.Site.Controllers
                 new Claim(ClaimTypes.NameIdentifier,signupResult.Data.UserId.ToString()),
                 new Claim(ClaimTypes.Email, Email),
                 new Claim(ClaimTypes.Name, signupResult.Data.Name),
-                new Claim(ClaimTypes.Role, signupResult.Data.Roles ),
+
             };
+                foreach (var item in signupResult.Data.Roles)
+                {
+                    claims.Add(new Claim(ClaimTypes.Role, item));
+                }
+
                 var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                 var principal = new ClaimsPrincipal(identity);
                 var properties = new AuthenticationProperties()
@@ -127,8 +132,8 @@ namespace EndPoint.Site.Controllers
                     IsPersistent = true,
                     ExpiresUtc = DateTime.Now.AddDays(5),
                 };
-               HttpContext.SignInAsync(principal, properties);
-            
+                HttpContext.SignInAsync(principal, properties);
+
             }
             return Json(signupResult);
         }
@@ -137,7 +142,7 @@ namespace EndPoint.Site.Controllers
         public IActionResult SignOut()
         {
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-         
+
             return RedirectToAction("Index", "Home");
         }
     }

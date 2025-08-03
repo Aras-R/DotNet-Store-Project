@@ -18,12 +18,21 @@ using Store.Application.Services.Users.commands.UserSatusChange;
 using Store.Application.Services.Users.Commands.UserLogin;
 using Store.Application.Services.Users.Queries.GetRoles;
 using Store.Application.Services.Users.Queries.GetUsers;
+using Store.Common.Roles;
 using Store.Persistence.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+//for Authorization (login whit moltiple roles)
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy(UserRoles.Admin, policy => policy.RequireRole(UserRoles.Admin));
+    options.AddPolicy(UserRoles.Customer, policy => policy.RequireRole(UserRoles.Customer));
+    options.AddPolicy(UserRoles.Operator, policy => policy.RequireRole(UserRoles.Operator));
+});
 
 //for login and signup
 builder.Services.AddAuthentication(options =>

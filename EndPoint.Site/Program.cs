@@ -8,6 +8,7 @@ using Store.Application.Services.Common.Queries.GetCategory;
 using Store.Application.Services.Common.Queries.GetHomePageImages;
 using Store.Application.Services.Common.Queries.GetMenuItem;
 using Store.Application.Services.Fainances.Commands.AddRequestPay;
+using Store.Application.Services.Fainances.Queries.GetRequestPayService;
 using Store.Application.Services.HomePages.AddHomePageImages;
 using Store.Application.Services.HomePages.AddNewSlider;
 using Store.Application.Services.Products.FacadPattern;
@@ -69,6 +70,7 @@ builder.Services.AddScoped<IAddHomePageImagesService, AddHomePageImagesService>(
 builder.Services.AddScoped<IGetHomePageImagesService, GetHomePageImagesService>(); // get slider for site
 builder.Services.AddScoped<ICartService, CartService>(); //  for Cart
 builder.Services.AddScoped<IAddRequestPayService, AddRequestPayService>(); //  for request pay
+builder.Services.AddScoped<IGetRequestPayService, GetRequestPayService>(); //  for request pay
 
 //Facad inject 
 builder.Services.AddScoped<IProductFacad, ProductFacad>();

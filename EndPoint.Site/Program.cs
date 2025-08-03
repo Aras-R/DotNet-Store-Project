@@ -43,7 +43,7 @@ builder.Services.AddAuthentication(options =>
 })
 .AddCookie(options =>
 {
-    options.LoginPath = "/";
+    options.LoginPath = "/Authentication/Signin";
     options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
 });
 
@@ -87,8 +87,8 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 
-app.UseAuthorization();
 app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapStaticAssets();
 

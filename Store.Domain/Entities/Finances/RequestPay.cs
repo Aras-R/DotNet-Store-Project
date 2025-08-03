@@ -16,7 +16,7 @@ namespace Store.Domain.Entities.Finances
         public int Amount { get; set; }
         public bool IsPay { get; set; }
         public DateTime? PayDate { get; set; }
-        public string Authority { get; set; }
+        public string? Authority { get; set; }
         public long RefId { get; set; } = 0;
     }
 }

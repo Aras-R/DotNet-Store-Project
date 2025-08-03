@@ -29,10 +29,10 @@ namespace EndPoint.Site.Controllers
         {
             long? UserId = ClaimUtility.GetUserId(User);
             var cart = _cartService.GetMyCart(_cookiesManeger.GetBrowserId(HttpContext), UserId);
-            if(cart.Data.SumAmount >0)
+            if (cart.Data.SumAmount > 0)
             {
-           var requestPay=  _addRequestPayService.Execute(cart.Data.SumAmount, UserId.Value);
-            // ارسال در گاه پرداخت
+                var requestPay = _addRequestPayService.Execute(cart.Data.SumAmount, UserId.Value);
+                // ارسال در گاه پرداخت
 
             }
             else

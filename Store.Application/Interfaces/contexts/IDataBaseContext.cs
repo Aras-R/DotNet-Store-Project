@@ -2,6 +2,7 @@
 using Store.Domain.Entities.Carts;
 using Store.Domain.Entities.Finances;
 using Store.Domain.Entities.HomePages;
+using Store.Domain.Entities.Orders;
 using Store.Domain.Entities.Products;
 using Store.Domain.Entities.Users;
 using System;
@@ -28,6 +29,8 @@ namespace Store.Application.Interfaces.contexts
         DbSet<Cart> Carts { get; set; }
         DbSet<CartItem> CartItems { get; set; }
         DbSet<RequestPay> RequestPays { get; set; }
+        DbSet<Order> Orders { get; set; }
+        DbSet<OrderDetail> OrderDetails { get; set; }
 
         int SaveChanges(bool acceptAllChangesOnSuccess);
         int SaveChanges();

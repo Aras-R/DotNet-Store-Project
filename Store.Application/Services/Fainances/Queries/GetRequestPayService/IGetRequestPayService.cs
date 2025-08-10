@@ -32,6 +32,7 @@ namespace Store.Application.Services.Fainances.Queries.GetRequestPayService
                     Data = new RequestPayDto()
                     {
                         Amount = requestPay.Amount,
+                        Id = requestPay.Id,
                     }
                 };
             }
@@ -45,6 +46,7 @@ namespace Store.Application.Services.Fainances.Queries.GetRequestPayService
     public class RequestPayDto
     {
         public int Amount { get; set; }
+        public long Id { get; set; }
 
     }
 }

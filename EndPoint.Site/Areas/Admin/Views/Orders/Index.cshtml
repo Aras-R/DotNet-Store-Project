@@ -6,74 +6,81 @@
     Layout = "~/Areas/Admin/Views/Shared/_Adminlayout.cshtml";
 }
 
-    <div class="content-wrapper">
-        <div class="container-fluid">
-            <!-- Zero configuration table -->
-            <section id="configuration">
-
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="card-title-wrap bar-success">
-                                    <h4 class="card-title">لیست  سفارشات</h4>
-                                </div>
-                            </div>
-                            <div class="card-body collapse show">
-                                <div class="card-block card-dashboard">
-                                    <p class="card-text">لیست سفارشات  فروشگاه باگتو</p>
-
-                                    <form method="get" class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                        <fieldset class="form-group">
-                                            <input type="text" class="form-control" name="serchkey">
-                                            <button class="btn btn-success">جستجو</button>
-                                        </fieldset>
-                                    </form>
-
-                                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
-                                        <div class="col-sm-12">
-                                            <table class="table table-striped table-bordered zero-configuration dataTable" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
-                                                <thead>
-                                                    <tr role="row">
-                                                        <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="نام: activate to sort column descending" style="width: 222px;">شماره سفارش</th>
-                                                        <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="نام: activate to sort column descending" style="width: 222px;">تاریخ ثبت سفارش</th>
-                                                        <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="نام: activate to sort column descending" style="width: 222px;">شماره فاکتور</th>
-                                                        <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="نام: activate to sort column descending" style="width: 222px;">وضعیت سفارش</th>
-                                                        <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="نام: activate to sort column descending" style="width: 222px;"></th>
-
-         
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-
-                                                    @foreach (var item in Model)
-                                                    {
-                                                        <tr role="row" class="odd">
-                                                            <td class="sorting_1">@item.OrderId</td>
-                                                            <td>@item.InsetTime</td>
-                                                            <td>@item.RequestId</td>
-                                                            <td>@{
-                                                                string state = EnumHelpers<Store.Domain.Entities.Orders.OrderState>.GetDisplayValue(item.OrderState);
-                                                            }
-                                                                <text>@state </text> </td>
-                                                            <td>
-                                                                <a class="btn btn-info" > کاربر ثبت کننده سفارش</a>
-                                                                <a class="btn btn-danger">مشاهده فاکتور </a>
-                                                
-                                                            </td>
-                                                        </tr>
-                                                    }
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">نمایش 1 تا 10 از 57 سطرها</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">قبلی</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="DataTables_Table_0_next"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="7" tabindex="0" class="page-link">بعدی</a></li></ul></div></div></div>
-                                </div>
-                            </div>
-                        </div>
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title">لیست سفارشات</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="dataTables_length" id="example1_length">
+                        <label>
+                            نمایش
+                            <select name="example1_length" aria-controls="example1" class="form-control input-sm">
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select> سطر
+                        </label>
                     </div>
                 </div>
+                <form method="get" class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                    <fieldset class="form-group">
+                        <button class="btn btn-success">جستجو</button>
+                        <input type="text" class="form-control" name="serchkey">
+                    </fieldset>
+                </form>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <table id="example1" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+                        <thead>
+                            <tr role="row">
+                                <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="نام: activate to sort column descending" style="width: 222px;">شماره سفارش</th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="نام: activate to sort column descending" style="width: 222px;">تاریخ ثبت سفارش</th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="نام: activate to sort column descending" style="width: 222px;">شماره فاکتور</th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="نام: activate to sort column descending" style="width: 222px;">وضعیت سفارش</th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="نام: activate to sort column descending" style="width: 222px;"></th>
 
-            </section>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr role="row" class="odd">
+                                    <td class="sorting_1">@item.OrderId</td>
+                                    <td>@item.InsetTime</td>
+                                    <td>@item.RequestId</td>
+                                    <td>
+                                        @{
+                                            string state = EnumHelpers<Store.Domain.Entities.Orders.OrderState>.GetDisplayValue(item.OrderState);
+                                        }
+                                        <text>@state </text>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-info"> مشاهده کاربر </a>
+                                        <a class="btn btn-danger">مشاهده فاکتور </a>
+
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                        @* <tfoot>
+                            <tr><th rowspan="1" colspan="1">موتور رندر</th><th rowspan="1" colspan="1">مرورگر</th><th rowspan="1" colspan="1">سیستم عامل</th><th rowspan="1" colspan="1">ورژن</th><th rowspan="1" colspan="1">امتیاز</th></tr>
+                        </tfoot> *@
+                    </table>
+                </div>
+            </div><div class="row"><div class="col-sm-5"><div class="dataTables_info" id="example1_info" role="status" aria-live="polite">نمایش 1 تا 10 از 57 سطر</div></div><div class="col-sm-7"><div class="dataTables_paginate paging_simple_numbers" id="example1_paginate"><ul class="pagination"><li class="paginate_button previous disabled" id="example1_previous"><a href="#" aria-controls="example1" data-dt-idx="0" tabindex="0">Previous</a></li><li class="paginate_button active"><a href="#" aria-controls="example1" data-dt-idx="1" tabindex="0">1</a></li><li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="2" tabindex="0">2</a></li><li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="3" tabindex="0">3</a></li><li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="4" tabindex="0">4</a></li><li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="5" tabindex="0">5</a></li><li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="6" tabindex="0">6</a></li><li class="paginate_button next" id="example1_next"><a href="#" aria-controls="example1" data-dt-idx="7" tabindex="0">Next</a></li></ul></div></div></div>
         </div>
     </div>
+    <!-- /.box-body -->
+</div>
+
+
+
 

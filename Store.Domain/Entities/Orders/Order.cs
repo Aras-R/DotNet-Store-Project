@@ -22,26 +22,6 @@ namespace Store.Domain.Entities.Orders
         public OrderState OrderState { get; set; }
 
         public string Address { get; set; }
-     }
-
-    public class OrderDetail:BaseEntity
-    {
-        public virtual Order Order { get; set; }
-        public long OrderId { get; set; }
-
-        public virtual Product Product { get; set; }
-        public long ProductId { get; set; }
-
-        public int Price { get; set; }
-        public int Count { get; set; }
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }
-
-
-    public enum OrderState
-    {
-        Processing = 0,
-        Canceled = 1,
-        Delivered = 2,
-    }
-
 }

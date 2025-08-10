@@ -12,6 +12,7 @@ using Store.Application.Services.Fainances.Queries.GetRequestPayService;
 using Store.Application.Services.HomePages.AddHomePageImages;
 using Store.Application.Services.HomePages.AddNewSlider;
 using Store.Application.Services.Orders.Commands.AddNewOrder;
+using Store.Application.Services.Orders.Queries.GetUserOrders;
 using Store.Application.Services.Products.FacadPattern;
 using Store.Application.Services.Users.commands.EditUser;
 using Store.Application.Services.Users.commands.RegisterUser;
@@ -72,7 +73,8 @@ builder.Services.AddScoped<IGetHomePageImagesService, GetHomePageImagesService>(
 builder.Services.AddScoped<ICartService, CartService>(); //  for Cart
 builder.Services.AddScoped<IAddRequestPayService, AddRequestPayService>(); //  for request pay
 builder.Services.AddScoped<IGetRequestPayService, GetRequestPayService>(); //  for request pay
-builder.Services.AddScoped<IAddNewOrderService, AddNewOrderService>(); //  for Orders
+builder.Services.AddScoped<IAddNewOrderService, AddNewOrderService>(); //  for Add new Orders
+builder.Services.AddScoped<IGetUserOrdersService, GetUserOrdersService>(); //  for Orders list
 
 //Facad inject 
 builder.Services.AddScoped<IProductFacad, ProductFacad>();

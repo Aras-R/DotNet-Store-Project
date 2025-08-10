@@ -32,7 +32,7 @@ namespace Store.Application.Services.Fainances.Commands.AddRequestPay
                 Guid = Guid.NewGuid(),
                 IsPay = false,
                 User = user,
-
+                Authority = "Pending",
             };
             _context.RequestPays.Add(requestPay);
             _context.SaveChanges();

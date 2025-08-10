@@ -8,6 +8,7 @@ using Store.Application.Services.Common.Queries.GetCategory;
 using Store.Application.Services.Common.Queries.GetHomePageImages;
 using Store.Application.Services.Common.Queries.GetMenuItem;
 using Store.Application.Services.Fainances.Commands.AddRequestPay;
+using Store.Application.Services.Fainances.Queries.GetRequestPayForAdmin;
 using Store.Application.Services.Fainances.Queries.GetRequestPayService;
 using Store.Application.Services.HomePages.AddHomePageImages;
 using Store.Application.Services.HomePages.AddNewSlider;
@@ -77,6 +78,7 @@ builder.Services.AddScoped<IGetRequestPayService, GetRequestPayService>(); //  f
 builder.Services.AddScoped<IAddNewOrderService, AddNewOrderService>(); //  for Add new Orders
 builder.Services.AddScoped<IGetUserOrdersService, GetUserOrdersService>(); //  for Orders list
 builder.Services.AddScoped<IGetOrdersForAdminService, GetOrdersForAdminService>(); //  for Orders list in Admin 
+builder.Services.AddScoped<IGetRequestPayForAdminService, GetRequestPayForAdminService>(); //  for pay list in Admin 
 
 //Facad inject 
 builder.Services.AddScoped<IProductFacad, ProductFacad>();

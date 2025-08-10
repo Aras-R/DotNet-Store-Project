@@ -12,6 +12,7 @@ using Store.Application.Services.Fainances.Queries.GetRequestPayService;
 using Store.Application.Services.HomePages.AddHomePageImages;
 using Store.Application.Services.HomePages.AddNewSlider;
 using Store.Application.Services.Orders.Commands.AddNewOrder;
+using Store.Application.Services.Orders.Queries.GetOrdersForAdmin;
 using Store.Application.Services.Orders.Queries.GetUserOrders;
 using Store.Application.Services.Products.FacadPattern;
 using Store.Application.Services.Users.commands.EditUser;
@@ -75,6 +76,7 @@ builder.Services.AddScoped<IAddRequestPayService, AddRequestPayService>(); //  f
 builder.Services.AddScoped<IGetRequestPayService, GetRequestPayService>(); //  for request pay
 builder.Services.AddScoped<IAddNewOrderService, AddNewOrderService>(); //  for Add new Orders
 builder.Services.AddScoped<IGetUserOrdersService, GetUserOrdersService>(); //  for Orders list
+builder.Services.AddScoped<IGetOrdersForAdminService, GetOrdersForAdminService>(); //  for Orders list in Admin 
 
 //Facad inject 
 builder.Services.AddScoped<IProductFacad, ProductFacad>();

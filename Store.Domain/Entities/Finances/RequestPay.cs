@@ -1,4 +1,5 @@
 ﻿using Store.Domain.Entities.Commons;
+using Store.Domain.Entities.Orders;
 using Store.Domain.Entities.Users;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Store.Domain.Entities.Finances
 {
-    public class RequestPay:BaseEntity
+    public class RequestPay : BaseEntity
     {
         public Guid Guid { get; set; }
         public virtual User User { get; set; }
@@ -18,5 +19,8 @@ namespace Store.Domain.Entities.Finances
         public DateTime? PayDate { get; set; }
         public string Authority { get; set; }
         public long RefId { get; set; } = 0;
+        public virtual ICollection<Order> Orders { get; set; }
+
+
     }
 }

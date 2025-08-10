@@ -95,6 +95,17 @@ namespace Store.Application.Services.Carts
                     .OrderByDescending(p => p.Id)
                     .FirstOrDefault();
 
+                if (cart == null)
+                {
+                    return new ResultDto<CartDto>()
+                    {
+                        Data = new CartDto()
+                        {
+                            CartItems = new List<CartItemDto>(),
+                        },
+                    };
+
+                }
                 if (UserId != null)
                 {
                     var user = _context.Users.Find(UserId);

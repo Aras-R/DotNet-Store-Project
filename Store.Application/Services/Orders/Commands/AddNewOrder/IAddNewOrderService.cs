@@ -28,12 +28,13 @@ namespace Store.Application.Services.Orders.Commands.AddNewOrder
             var user = _context.Users.Find(request.UserId);
             var requestPay = _context.RequestPays.Find(request.RequestPayId);
             var cart = _context.Carts.Include(p => p.CartItems)
-                .ThenInclude(p=> p.Product)
+                .ThenInclude(p => p.Product)
                 .Where(p => p.Id == request.CartId).FirstOrDefault();
 
             requestPay.IsPay = true;
             requestPay.PayDate = DateTime.Now;
-
+            requestPay.RefId = request.RefId;
+            requestPay.Authority = requestPay.Authority;
             cart.Finished = true;
 
             Order order = new Order()
@@ -77,6 +78,8 @@ namespace Store.Application.Services.Orders.Commands.AddNewOrder
         public long CartId { get; set; }
         public long RequestPayId { get; set; }
         public long UserId { get; set; }
+        public string Authority { get; set; }
+        public long RefId { get; set; } = 0;
 
     }
 }

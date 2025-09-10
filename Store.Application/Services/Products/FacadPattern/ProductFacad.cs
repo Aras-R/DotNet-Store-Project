@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Store.Application.Interfaces.contexts;
 using Store.Application.Interfaces.FacadPatterns;
+using Store.Application.Services.Products.commands.RemoveProduct;
 using Store.Application.Services.Products.Commands.AddNewCategory;
 using Store.Application.Services.Products.Commands.AddNewProduct;
 using Store.Application.Services.Products.Queries.GetAllCategories;
@@ -102,6 +103,13 @@ namespace Store.Application.Services.Products.FacadPattern
                 return _getProductDetailForSiteService = _getProductDetailForSiteService ?? new GetProductDetailForSiteService(_context);
             }
         }
-
+        private IRemoveProductService _removeProductService;
+        public IRemoveProductService RemoveProductService
+        {
+            get
+            {
+                return _removeProductService = _removeProductService ?? new RemoveProductService(_context);
+            }
+        }
     }
 }

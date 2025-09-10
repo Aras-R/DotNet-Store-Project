@@ -49,5 +49,11 @@ namespace EndPoint.Site.Areas.Admin.Controllers
             request.Features = Features;
             return Json(_productFacad.AddNewProductService.Execute(request));
         }
+
+        [HttpPost]
+        public IActionResult Delete(long ProductId)
+        {
+            return Json(_productFacad.RemoveProductService.Execute(ProductId));
+        }
     }
 }

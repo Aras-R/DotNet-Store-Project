@@ -1,4 +1,5 @@
-﻿using Store.Application.Services.Products.Commands.AddNewCategory;
+﻿using Store.Application.Services.Products.commands.RemoveProduct;
+using Store.Application.Services.Products.Commands.AddNewCategory;
 using Store.Application.Services.Products.Commands.AddNewProduct;
 using Store.Application.Services.Products.Queries.GetAllCategories;
 using Store.Application.Services.Products.Queries.GetCategories;
@@ -24,5 +25,6 @@ namespace Store.Application.Interfaces.FacadPatterns
         IGetProductDetailForAdminService GetProductDetailForAdminService { get; }
         IGetProductForSiteService GetProductForSiteService { get; }
         IGetProductDetailForSiteService GetProductDetailForSiteService { get; }
+        IRemoveProductService RemoveProductService { get; }
     }
 }

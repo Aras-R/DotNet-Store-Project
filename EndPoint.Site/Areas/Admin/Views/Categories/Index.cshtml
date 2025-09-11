@@ -36,7 +36,8 @@
                             <tr role="row">
                                 <th class="sorting_asc" tabindex="0" aria-controls="categories" aria-sort="ascending" style="width: 222px;">دسته‌بندی</th>
                                 <th class="sorting" tabindex="0" aria-controls="categories" style="width: 222px;">پدر</th>
-                                <th style="width: 222px;"></th>
+                                <th class="sorting" tabindex="0" aria-controls="categories" style="width: 222px;">عملیات</th>
+                                <th style="width: 222px;">لیست فرزندان</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -51,10 +52,13 @@
                                         <text>@parent</text>
                                     </td>
                                     <td>
+                                        <button class="btn btn-danger" onclick="DeleteCategory('@item.Id')">حذف</button>
                                         @if (item.Parent == null)
                                         {
                                             <a href="~/admin/categories/addnewcategory?ParentId=@item.Id" class="btn btn-success">افزودن فرزند</a>
                                         }
+                                    </td>
+                                    <td>
                                         @if (item.HasChild == true)
                                         {
                                             <a href="~/admin/categories/index?ParentId=@item.Id" class="btn btn-info">مشاهده لیست فرزندها</a>
@@ -94,3 +98,67 @@
         </div>
     </div>
 </div>
+
+
+
+@section Scripts
+{
+    <link href="~/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+    <script src="~/sweetalert2/sweetalert2.min.js"></script>
+
+    <script>
+
+        //حذف دسته بندی
+        function DeleteCategory(CategoryId) {
+            swal.fire({
+                title: 'حذف دسته بندی',
+                text: "کاربر گرامی از حذف دسته بندی مطمئن هستید؟",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#7cacbe',
+                confirmButtonText: 'بله ، دسته بندی حذف شود',
+                cancelButtonText: 'خیر'
+            }).then((result) => {
+                if (result.value) {
+                    var postData = {
+                        'CategoryId': CategoryId,
+                    };
+
+                    $.ajax({
+                        contentType: 'application/x-www-form-urlencoded',
+                        dataType: 'json',
+                        type: "POST",
+                        url: "Delete",
+                        data: postData,
+                        success: function (data) {
+                            if (data.isSuccess == true) {
+                                swal.fire(
+                                    'موفق!',
+                                    data.message,
+                                    'success'
+                                ).then(function (isConfirm) {
+                                    location.reload();
+                                });
+                            }
+                            else {
+
+                                swal.fire(
+                                    'هشدار!',
+                                    data.message,
+                                    'warning'
+                                );
+
+                            }
+                        },
+                        error: function (request, status, error) {
+                            alert(request.responseText);
+                        }
+
+                    });
+
+                }
+            })
+        }
+    </script>
+}

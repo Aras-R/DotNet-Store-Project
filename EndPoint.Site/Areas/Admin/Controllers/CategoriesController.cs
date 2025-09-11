@@ -39,5 +39,12 @@ namespace EndPoint.Site.Areas.Admin.Controllers
             var result = _productFacad.AddNewCategoryService.Execute(ParentId, Name);
             return Json(result);
         }
+
+        [HttpPost]
+        public IActionResult Delete(long CategoryId)
+        {
+            var result = _productFacad.RemoveCategoryService.Execute(CategoryId);
+            return Json(result);
+        }
     }
 }

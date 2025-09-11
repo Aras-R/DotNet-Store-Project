@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Store.Application.Services.HomePages.Commands.AddNewSlider;
+using Store.Application.Services.HomePages.Queries.GetSliders;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Store.Application.Services.HomePages.AddNewSlider;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 
 namespace EndPoint.Site.Areas.Admin.Controllers
 {
@@ -12,26 +13,39 @@ namespace EndPoint.Site.Areas.Admin.Controllers
     public class SlidersController : Controller
     {
         private readonly IAddNewSliderService _addNewSliderService;
+        private readonly IGetSlidersService _getSlidersService;
 
-        public SlidersController(IAddNewSliderService addNewSliderService)
+        public SlidersController(
+            IAddNewSliderService addNewSliderService,
+            IGetSlidersService getSlidersService)
         {
             _addNewSliderService = addNewSliderService;
-        }
-        public IActionResult Index()
-        {
-            return View();
+            _getSlidersService = getSlidersService;
         }
 
+        public IActionResult Index()
+        {
+            var result = _getSlidersService.Execute();
+            return View(result.Data);
+        }
+
+        [HttpGet]
         public IActionResult Add()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Add(IFormFile file , string link)
+        public IActionResult Add(IFormFile file, string link)
         {
-            _addNewSliderService.Execute(file, link);
-            return View();
+            var result = _addNewSliderService.Execute(file, link);
+            return Json(result);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(long Id)
+        {
+            return Json(new { IsSuccess = true, Message = "اسلایدر حذف شد" });
         }
     }
 }

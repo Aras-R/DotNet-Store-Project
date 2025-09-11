@@ -10,8 +10,9 @@ using Store.Application.Services.Common.Queries.GetMenuItem;
 using Store.Application.Services.Fainances.Commands.AddRequestPay;
 using Store.Application.Services.Fainances.Queries.GetRequestPayForAdmin;
 using Store.Application.Services.Fainances.Queries.GetRequestPayService;
-using Store.Application.Services.HomePages.AddHomePageImages;
-using Store.Application.Services.HomePages.AddNewSlider;
+using Store.Application.Services.HomePages.Commands.AddHomePageImages;
+using Store.Application.Services.HomePages.Commands.AddNewSlider;
+using Store.Application.Services.HomePages.Queries.GetSliders;
 using Store.Application.Services.Orders.Commands.AddNewOrder;
 using Store.Application.Services.Orders.Queries.GetOrdersForAdmin;
 using Store.Application.Services.Orders.Queries.GetUserOrders;
@@ -80,6 +81,7 @@ builder.Services.AddScoped<IAddNewOrderService, AddNewOrderService>(); //  for A
 builder.Services.AddScoped<IGetUserOrdersService, GetUserOrdersService>(); //  for Orders list
 builder.Services.AddScoped<IGetOrdersForAdminService, GetOrdersForAdminService>(); //  for Orders list in Admin 
 builder.Services.AddScoped<IGetRequestPayForAdminService, GetRequestPayForAdminService>(); //  for pay list in Admin 
+builder.Services.AddScoped<IGetSlidersService, GetSlidersService>(); // get all sliders list for admin
 
 //Facad inject 
 builder.Services.AddScoped<IProductFacad, ProductFacad>();

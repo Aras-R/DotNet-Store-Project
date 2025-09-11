@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Store.Application.Services.HomePages.AddHomePageImages;
 using Store.Domain.Entities.HomePages;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Store.Application.Services.HomePages.Commands.AddHomePageImages;
 
 namespace EndPoint.Site.Areas.Admin.Controllers
 {

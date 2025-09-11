@@ -1,8 +1,110 @@
-﻿
+﻿@addTagHelper *, LazZiya.TagHelpers
+@using Store.Application.Services.HomePages.Queries.GetSliders;
+@model List<SliderDto>;
 
 @{
-    ViewData["Title"] = "لیست اسلایدر ها ";
+    ViewData["Title"] = "لیست اسلایدرها";
     Layout = "~/Areas/Admin/Views/Shared/_Adminlayout.cshtml";
 }
 
-<div>لیست اسلایدر ها </div>
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title">لیست اسلایدرها</h3>
+        <div class="box-tools">
+            <a href="~/Admin/Sliders/Add" class="btn btn-success mb-2">افزودن اسلایدر جدید</a>
+        </div>
+    </div>
+    <br>
+    <div class="box-body">
+        <div class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered table-striped dataTable">
+                        <thead>
+                            <tr>
+                                <th>شناسه</th>
+                                <th>تصویر</th>
+                                <th>لینک</th>
+                                <th>تاریخ ثبت</th>
+                                <th>عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Id</td>
+                                    <td>
+                                        <img src="~/@item.Src" alt="Slider" style="max-width:150px; max-height:100px;" />
+                                    </td>
+                                    <td>@item.Link</td>
+                                    <td>@item.InsertTime.ToString("yyyy/MM/dd HH:mm")</td>
+                                    <td>
+                                        <button class="btn btn-danger" onclick="DeleteSlider('@item.Id')">حذف</button>
+                                        <a class="btn btn-success">ویرایش</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <link href="~/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+    <script src="~/sweetalert2/sweetalert2.min.js"></script>
+
+    <script>
+        // حذف اسلایدر
+        function DeleteSlider(Id) {
+            swal.fire({
+                title: 'حذف اسلایدر',
+                text: "آیا از حذف این اسلایدر مطمئن هستید؟",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#7cacbe',
+                confirmButtonText: 'بله ، حذف شود',
+                cancelButtonText: 'خیر'
+            }).then((result) => {
+                if (result.value) {
+                    var postData = { 'Id': Id };
+
+                    $.ajax({
+                        contentType: 'application/x-www-form-urlencoded',
+                        dataType: 'json',
+                        type: "POST",
+                        url: "Delete",
+                        data: postData,
+                        success: function (data) {
+                            if (data.isSuccess == true) {
+                                swal.fire(
+                                    'موفق!',
+                                    data.message,
+                                    'success'
+                                ).then(function () {
+                                    location.reload();
+                                });
+                            }
+                            else {
+                                swal.fire(
+                                    'هشدار!',
+                                    data.message,
+                                    'warning'
+                                );
+                            }
+                        },
+                        error: function (request, status, error) {
+                            alert(request.responseText);
+                        }
+                    });
+                }
+            })
+        }
+    </script>
+}

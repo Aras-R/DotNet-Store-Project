@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Store.Application.Services.HomePages.AddHomePageImages
+namespace Store.Application.Services.HomePages.Commands.AddHomePageImages
 {
     public interface IAddHomePageImagesService
     {

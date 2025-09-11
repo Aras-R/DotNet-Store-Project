@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Store.Application.Services.HomePages.AddNewSlider
+namespace Store.Application.Services.HomePages.Commands.AddNewSlider
 {
     public interface IAddNewSliderService
     {

@@ -1,81 +1,98 @@
 ﻿@using Store.Application.Services.Users.Queries.GetUsers
 @model ResultGetUserDto
+
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "لیست کاربران";
     Layout = "~/Areas/Admin/Views/Shared/_Adminlayout.cshtml";
 }
 
 <div class="box">
-    <div class="box-header">
-        <h3 class="box-title">لیست کاربران</h3>
-    </div>
-    <!-- /.box-header -->
-    <div class="box-body">
-        <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="dataTables_length" id="example1_length">
-                        <label>نمایش 
-                            <select name="example1_length" aria-controls="example1" class="form-control input-sm">
-                            <option value="10">10</option>
-                            <option value="25">25</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                            </select> سطر
-                        </label>
-                    </div>
-                </div>
-                <form method="get" class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                    <fieldset class="form-group">
-                        <button class="btn btn-success">جستجو</button>
-                        <input type="text" class="form-control" name="serchkey">
-                    </fieldset>
-                </form>
+    <br>
+    <div class="box-header">    
+        <div class="row w-100">
+            <div class="col-md-4">
+                <h3 class="box-title mt-3">لیست کاربران</h3>
             </div>
+            <div class="col-md-4 text-left">
+                <a href="~/admin/users/Create" class="btn btn-success mb-2">افزودن کاربر‌ جدید</a>
+            </div>
+            <div class="col-md-4 text-center">
+                <form method="get" class="form-inline justify-content-center">
+                    <input type="text" class="form-control ml-2" name="serchkey" placeholder="جستجو..." />
+                    <button class="btn btn-success">جستجو</button>
+                </form>
+            </div>            
+        </div>  
+    </div>
+    <br>
+    <div class="box-body">
+        <div class="dataTables_wrapper form-inline dt-bootstrap">
             <div class="row">
                 <div class="col-sm-12">
-                    <table id="example1" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+                    <table class="table table-bordered table-striped dataTable">
                         <thead>
-                            <tr role="row">
-                             <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-sort="ascending" aria-label=" نام: activate to sort column descending" style="width: 135.583px;">نام</th>
-                             <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="ایمیل: activate to sort column ascending" style="width: 260.854px;">ایمیل</th>
-                             </tr>
-
+                            <tr>
+                                <th>نام و نام خانوادگی</th>
+                                <th>ایمیل</th>
+                                <th>وضعیت</th>
+                                <th>عملیات</th>
+                            </tr>
                         </thead>
-                        
                         <tbody>
-
                             @foreach (var item in Model.Users)
                             {
-                                <tr role="row" class="odd">
-                                    <td class="sorting_1">@item.FullName</td>
+                                <tr>
+                                    <td>@item.FullName</td>
                                     <td>@item.Email</td>
                                     <td>
-                                        <button class="btn btn-info" onclick="ShowModalEdituser('@item.Id' , '@item.FullName')">ویرایش</button>
-                                        <button class="btn btn-danger" onclick="DeleteUser('@item.Id')">حذف</button>
                                         @if (item.IsActive)
                                         {
-                                            <button class="btn btn-warning" onclick="UserSatusChange('@item.Id')">غیر فعال</button>
-
+                                            <span class="badge badge-success">فعال</span>
                                         }
                                         else
                                         {
-                                            <button class="btn btn-warning" onclick="UserSatusChange('@item.Id')">فعال </button>
+                                            <span class="badge badge-danger">غیرفعال</span>
                                         }
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-info" onclick="ShowModalEdituser('@item.Id' , '@item.FullName')">ویرایش</button>
+                                        <button class="btn btn-danger" onclick="DeleteUser('@item.Id')">حذف</button>
+                                        <button class="btn btn-warning" onclick="UserSatusChange('@item.Id')">
+                                            @(item.IsActive ? "غیرفعال" : "فعال")
+                                        </button>
                                     </td>
                                 </tr>
                             }
-
                         </tbody>
-                        @* <tfoot>
-                            <tr><th rowspan="1" colspan="1">موتور رندر</th><th rowspan="1" colspan="1">مرورگر</th><th rowspan="1" colspan="1">سیستم عامل</th><th rowspan="1" colspan="1">ورژن</th><th rowspan="1" colspan="1">امتیاز</th></tr>
-                        </tfoot> *@
                     </table>
                 </div>
-            </div><div class="row"><div class="col-sm-5"><div class="dataTables_info" id="example1_info" role="status" aria-live="polite">نمایش 1 تا 10 از 57 سطر</div></div><div class="col-sm-7"><div class="dataTables_paginate paging_simple_numbers" id="example1_paginate"><ul class="pagination"><li class="paginate_button previous disabled" id="example1_previous"><a href="#" aria-controls="example1" data-dt-idx="0" tabindex="0">Previous</a></li><li class="paginate_button active"><a href="#" aria-controls="example1" data-dt-idx="1" tabindex="0">1</a></li><li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="2" tabindex="0">2</a></li><li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="3" tabindex="0">3</a></li><li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="4" tabindex="0">4</a></li><li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="5" tabindex="0">5</a></li><li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="6" tabindex="0">6</a></li><li class="paginate_button next" id="example1_next"><a href="#" aria-controls="example1" data-dt-idx="7" tabindex="0">Next</a></li></ul></div></div></div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-5">
+                    <div class="dataTables_info">
+                        نمایش @Model.Users.Count() کاربر
+                    </div>
+                </div>
+                <div class="col-sm-7">
+                    <div class="dataTables_paginate paging_simple_numbers">
+                        <ul class="pagination">
+                            <li class="paginate_button previous disabled">
+                                <a href="#">قبلی</a>
+                            </li>
+                            <li class="paginate_button active">
+                                <a href="#">1</a>
+                            </li>
+                            <li class="paginate_button next">
+                                <a href="#">بعدی</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
-    <!-- /.box-body -->
 </div>
 
 
@@ -90,18 +107,16 @@
         function DeleteUser(UserId) {
             swal.fire({
                 title: 'حذف کاربر',
-                text: "کاربر گرامی از حذف کاربر مطمئن هستید؟",
+                text: "آیا از حذف این کاربر مطمئن هستید؟",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#7cacbe',
-                confirmButtonText: 'بله ، کاربر حذف شود',
+                confirmButtonText: 'بله ، حذف شود',
                 cancelButtonText: 'خیر'
             }).then((result) => {
                 if (result.value) {
-                    var postData = {
-                        'UserId': UserId,
-                    };
+                    var postData = { 'UserId': UserId };
 
                     $.ajax({
                         contentType: 'application/x-www-form-urlencoded',
@@ -111,51 +126,36 @@
                         data: postData,
                         success: function (data) {
                             if (data.isSuccess == true) {
-                                swal.fire(
-                                    'موفق!',
-                                    data.message,
-                                    'success'
-                                ).then(function (isConfirm) {
+                                swal.fire('موفق!', data.message, 'success').then(function () {
                                     location.reload();
                                 });
                             }
                             else {
-
-                                swal.fire(
-                                    'هشدار!',
-                                    data.message,
-                                    'warning'
-                                );
-
+                                swal.fire('هشدار!', data.message, 'warning');
                             }
                         },
                         error: function (request, status, error) {
                             alert(request.responseText);
                         }
-
                     });
-
                 }
             })
         }
 
-        // وضعیت کاربر
+        // تغییر وضعیت کاربر
         function UserSatusChange(UserId) {
             swal.fire({
                 title: 'تغییر وضعیت کاربر',
-                text: "کاربر گرامی از تغییر وضعیت کاربر مطمئن هستید؟",
+                text: "آیا از تغییر وضعیت این کاربر مطمئن هستید؟",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#7cacbe',
-                confirmButtonText: 'بله ، تغییر وضعیت انجام شود',
+                confirmButtonText: 'بله',
                 cancelButtonText: 'خیر'
             }).then((result) => {
                 if (result.value) {
-
-                    var postData = {
-                        'UserId': UserId,
-                    };
+                    var postData = { 'UserId': UserId };
 
                     $.ajax({
                         contentType: 'application/x-www-form-urlencoded',
@@ -165,45 +165,28 @@
                         data: postData,
                         success: function (data) {
                             if (data.isSuccess == true) {
-                                swal.fire(
-                                    'موفق!',
-                                    data.message,
-                                    'success'
-                                ).then(function (isConfirm) {
+                                swal.fire('موفق!', data.message, 'success').then(function () {
                                     location.reload();
                                 });
                             }
                             else {
-
-                                swal.fire(
-                                    'هشدار!',
-                                    data.message,
-                                    'warning'
-                                );
-
+                                swal.fire('هشدار!', data.message, 'warning');
                             }
                         },
                         error: function (request, status, error) {
                             alert(request.responseText);
                         }
-
                     });
-
                 }
             })
         }
 
-        //ویرایش کاربر
+        // ویرایش کاربر
         function Edituser() {
-
             var userId = $("#Edit_UserId").val();
             var fullName = $("#Edit_Fullname").val();
 
-            var postData = {
-                'UserId': userId,
-                'FullName': fullName,
-            };
-
+            var postData = { 'UserId': userId, 'FullName': fullName };
 
             $.ajax({
                 contentType: 'application/x-www-form-urlencoded',
@@ -213,20 +196,12 @@
                 data: postData,
                 success: function (data) {
                     if (data.isSuccess == true) {
-                        swal.fire(
-                            'موفق!',
-                            data.message,
-                            'success'
-                        ).then(function (isConfirm) {
+                        swal.fire('موفق!', data.message, 'success').then(function () {
                             location.reload();
                         });
                     }
                     else {
-                        swal.fire(
-                            'هشدار!',
-                            data.message,
-                            'warning'
-                        );
+                        swal.fire('هشدار!', data.message, 'warning');
                     }
                 },
                 error: function (request, status, error) {
@@ -235,16 +210,13 @@
             });
 
             $('#EditUser').modal('hide');
-
         }
 
-        //نمایش پنل ویرایش کاربر
+        // نمایش پنل ویرایش
         function ShowModalEdituser(UserId, fullName) {
             $('#Edit_Fullname').val(fullName)
             $('#Edit_UserId').val(UserId)
-
             $('#EditUser').modal('show');
-
         }
 
     </script>
@@ -253,22 +225,21 @@
 
 @section Modals
 {
-    <!-- پنل ویرایش کاربر با زدن دکمه آن -->
-    <!-- Modal Edit User -->
-    <div class="modal fade" id="EditUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <!-- Modal ویرایش کاربر -->
+    <div class="modal fade" id="EditUser" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">ویرایش کاربر</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                    <h5 class="modal-title">ویرایش کاربر</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+                    <div class="col-12 mb-1">
                         <fieldset class="form-group">
                             <input type="hidden" id="Edit_UserId" />
-                            <label for="basicInput">نام و نام خانوادگی</label>
+                            <label>نام و نام خانوادگی</label>
                             <input type="text" class="form-control" id="Edit_Fullname">
                         </fieldset>
                     </div>

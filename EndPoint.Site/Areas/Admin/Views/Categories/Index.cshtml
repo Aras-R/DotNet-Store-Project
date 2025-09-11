@@ -1,50 +1,48 @@
 ﻿@using Store.Application.Services.Products.Queries.GetCategories;
 @model List<CategoriesDto>
+
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "لیست دسته‌بندی‌ها";
     Layout = "~/Areas/Admin/Views/Shared/_Adminlayout.cshtml";
 }
 
 <div class="box">
+    <br>
     <div class="box-header">
-        <h3 class="box-title">لیست دسته‌بندی‌ها</h3>
-    </div>
-    <div class="box-body">
-        <div id="categories_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="dataTables_length" id="categories_length">
-                        <label>
-                            نمایش
-                            <select name="categories_length" aria-controls="categories" class="form-control input-sm">
-                                <option value="10">10</option>
-                                <option value="25">25</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
-                            </select> سطر
-                        </label>
-                    </div>
-                </div>
+        <div class="row w-100">
+            <div class="col-md-4">
+                <h3 class="box-title mt-3">لیست دسته بندی ها</h3>
             </div>
-
+            <div class="col-md-4 text-left">
+                <a href="~/admin/Categories/AddNewCategory" class="btn btn-success mb-2">افزودن دسته بندی‌ جدید</a>
+            </div>
+            <div class="col-md-4 text-center">
+                <form method="get" class="form-inline justify-content-center">
+                    <input type="text" class="form-control ml-2" name="serchkey" placeholder="جستجو..." />
+                    <button class="btn btn-success">جستجو</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="box-body">
+        <div class="dataTables_wrapper form-inline dt-bootstrap">
             <div class="row">
                 <div class="col-sm-12">
-                    <a href="~/admin/categories/addnewcategory" class="btn btn-success mb-2">افزودن دسته‌بندی جدید</a>
-
-                    <table id="categories" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="categories_info">
+                    <table class="table table-bordered table-striped dataTable">
                         <thead>
-                            <tr role="row">
-                                <th class="sorting_asc" tabindex="0" aria-controls="categories" aria-sort="ascending" style="width: 222px;">دسته‌بندی</th>
-                                <th class="sorting" tabindex="0" aria-controls="categories" style="width: 222px;">پدر</th>
-                                <th class="sorting" tabindex="0" aria-controls="categories" style="width: 222px;">عملیات</th>
-                                <th style="width: 222px;">لیست فرزندان</th>
+                            <tr>
+                                <th>نام دسته‌بندی</th>
+                                <th>دسته پدر</th>
+                                <th>عملیات</th>
+                                <th>لیست فرزندان</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                <tr role="row" class="odd">
-                                    <td class="sorting_1">@item.Name</td>
+                                <tr>
+                                    <td>@item.Name</td>
                                     <td>
                                         @{
                                             string parent = item.Parent != null ? item.Parent.name : "-";
@@ -70,35 +68,9 @@
                     </table>
                 </div>
             </div>
-
-
-            <div class="row">
-                <div class="col-sm-5">
-                    <div class="dataTables_info" id="categories_info" role="status" aria-live="polite">
-                        نمایش 1 تا 10 از تعداد ...
-                    </div>
-                </div>
-                <div class="col-sm-7">
-                    <div class="dataTables_paginate paging_simple_numbers" id="categories_paginate">
-                        <ul class="pagination">
-                            <li class="paginate_button previous disabled" id="categories_previous">
-                                <a href="#" aria-controls="categories" data-dt-idx="0" tabindex="0">قبلی</a>
-                            </li>
-                            <li class="paginate_button active">
-                                <a href="#" aria-controls="categories" data-dt-idx="1" tabindex="0">1</a>
-                            </li>
-                            <li class="paginate_button next" id="categories_next">
-                                <a href="#" aria-controls="categories" data-dt-idx="2" tabindex="0">بعدی</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
 </div>
-
 
 
 @section Scripts
@@ -107,23 +79,20 @@
     <script src="~/sweetalert2/sweetalert2.min.js"></script>
 
     <script>
-
-        //حذف دسته بندی
+        // حذف دسته‌بندی
         function DeleteCategory(CategoryId) {
             swal.fire({
-                title: 'حذف دسته بندی',
-                text: "کاربر گرامی از حذف دسته بندی مطمئن هستید؟",
+                title: 'حذف دسته‌بندی',
+                text: "آیا از حذف این دسته‌بندی مطمئن هستید؟",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#7cacbe',
-                confirmButtonText: 'بله ، دسته بندی حذف شود',
+                confirmButtonText: 'بله ، حذف شود',
                 cancelButtonText: 'خیر'
             }).then((result) => {
                 if (result.value) {
-                    var postData = {
-                        'CategoryId': CategoryId,
-                    };
+                    var postData = { 'CategoryId': CategoryId };
 
                     $.ajax({
                         contentType: 'application/x-www-form-urlencoded',
@@ -137,26 +106,22 @@
                                     'موفق!',
                                     data.message,
                                     'success'
-                                ).then(function (isConfirm) {
+                                ).then(function () {
                                     location.reload();
                                 });
                             }
                             else {
-
                                 swal.fire(
                                     'هشدار!',
                                     data.message,
                                     'warning'
                                 );
-
                             }
                         },
                         error: function (request, status, error) {
                             alert(request.responseText);
                         }
-
                     });
-
                 }
             })
         }

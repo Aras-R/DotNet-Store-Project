@@ -1,8 +1,122 @@
-﻿
+﻿@addTagHelper *, LazZiya.TagHelpers
+@using Store.Application.Services.HomePages.Queries.GetImagesAdmin
+@model List<ImageAdminDto>
 
 @{
-    ViewData["Title"] = "لیست تصاویر";
+    ViewData["Title"] = "لیست تصاویر صفحه اصلی";
     Layout = "~/Areas/Admin/Views/Shared/_Adminlayout.cshtml";
 }
 
-<div>لیست تصاویر</div>
+<div class="box">
+    <br>
+    <div class="box-header">
+        <div class="row w-100">
+            <div class="col-md-4">
+                <h3 class="box-title mt-3">لیست تصاویر صفحه اصلی</h3>
+            </div>
+            <div class="col-md-4 text-left">
+                <a href="~/admin/HomePageImages/Add" class="btn btn-success mb-2">افزودن تصویر جدید</a>
+            </div>
+            <div class="col-md-4 text-center">
+                <form method="get" class="form-inline justify-content-center">
+                    <input type="text" class="form-control ml-2" name="serchkey" placeholder="جستجو..." />
+                    <button class="btn btn-success">جستجو</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="box-body">
+        <div class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered table-striped dataTable">
+                        <thead>
+                            <tr>
+                                <th>شناسه</th>
+                                <th>تصویر</th>
+                                <th>لینک</th>
+                                <th>محل نمایش</th>
+                                <th>تاریخ ثبت</th>
+                                <th>عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Id</td>
+                                    <td>
+                                        <img src="~/@item.Src" alt="Image" style="max-width:150px; max-height:100px;" />
+                                    </td>
+                                    <td>@item.Link</td>
+                                    <td>@item.ImageLocation.ToString()</td>
+                                    <td>@item.InsertTime.ToString("yyyy/MM/dd HH:mm")</td>
+                                    <td>
+                                        <button class="btn btn-danger" onclick="DeleteImage('@item.Id')">حذف</button>
+                                        <a class="btn btn-success">ویرایش</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <link href="~/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+    <script src="~/sweetalert2/sweetalert2.min.js"></script>
+
+    <script>
+        // حذف تصویر
+        function DeleteImage(Id) {
+            swal.fire({
+                title: 'حذف تصویر',
+                text: "آیا از حذف این تصویر مطمئن هستید؟",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#7cacbe',
+                confirmButtonText: 'بله ، حذف شود',
+                cancelButtonText: 'خیر'
+            }).then((result) => {
+                if (result.value) {
+                    var postData = { 'Id': Id };
+
+                    $.ajax({
+                        contentType: 'application/x-www-form-urlencoded',
+                        dataType: 'json',
+                        type: "POST",
+                        url: "Delete",
+                        data: postData,
+                        success: function (data) {
+                            if (data.isSuccess == true) {
+                                swal.fire(
+                                    'موفق!',
+                                    data.message,
+                                    'success'
+                                ).then(function () {
+                                    location.reload();
+                                });
+                            }
+                            else {
+                                swal.fire(
+                                    'هشدار!',
+                                    data.message,
+                                    'warning'
+                                );
+                            }
+                        },
+                        error: function (request, status, error) {
+                            alert(request.responseText);
+                        }
+                    });
+                }
+            })
+        }
+    </script>
+}

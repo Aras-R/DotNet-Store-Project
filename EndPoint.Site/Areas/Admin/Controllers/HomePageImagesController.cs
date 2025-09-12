@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Store.Application.Services.HomePages.Commands.AddHomePageImages;
+using Store.Application.Services.HomePages.Queries.GetImagesAdmin;
+using Store.Domain.Entities.HomePages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Store.Domain.Entities.HomePages;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Store.Application.Services.HomePages.Commands.AddHomePageImages;
 
 namespace EndPoint.Site.Areas.Admin.Controllers
 {
@@ -13,13 +14,18 @@ namespace EndPoint.Site.Areas.Admin.Controllers
     public class HomePageImagesController : Controller
     {
         private readonly IAddHomePageImagesService _addHomePageImagesService;
-        public HomePageImagesController(IAddHomePageImagesService addHomePageImagesService)
+        private readonly IGetImagesAdminService _getImagesAdminService;
+        public HomePageImagesController(
+            IAddHomePageImagesService addHomePageImagesService,
+            IGetImagesAdminService getImagesAdminService)
         {
             _addHomePageImagesService = addHomePageImagesService;
+            _getImagesAdminService = getImagesAdminService;
         }
         public IActionResult Index()
         {
-            return View();
+            var result = _getImagesAdminService.Execute();
+            return View(result.Data);
         }
 
 

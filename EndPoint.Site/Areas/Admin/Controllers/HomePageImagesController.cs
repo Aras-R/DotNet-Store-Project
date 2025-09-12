@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Store.Application.Services.HomePages.commands.RemoveImage;
 using Store.Application.Services.HomePages.Commands.AddHomePageImages;
 using Store.Application.Services.HomePages.Queries.GetImagesAdmin;
 using Store.Domain.Entities.HomePages;
@@ -15,12 +16,15 @@ namespace EndPoint.Site.Areas.Admin.Controllers
     {
         private readonly IAddHomePageImagesService _addHomePageImagesService;
         private readonly IGetImagesAdminService _getImagesAdminService;
+        private readonly IRemoveImageService _removeImageService;
         public HomePageImagesController(
             IAddHomePageImagesService addHomePageImagesService,
-            IGetImagesAdminService getImagesAdminService)
+            IGetImagesAdminService getImagesAdminService,
+            IRemoveImageService removeImageService)
         {
             _addHomePageImagesService = addHomePageImagesService;
             _getImagesAdminService = getImagesAdminService;
+            _removeImageService = removeImageService;
         }
         public IActionResult Index()
         {
@@ -44,6 +48,13 @@ namespace EndPoint.Site.Areas.Admin.Controllers
                 Link = link,
             });
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult Delete(long Id)
+        {
+            var result = _removeImageService.Execute(Id);
+            return Json(result);
         }
 
     }

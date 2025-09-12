@@ -10,6 +10,7 @@ using Store.Application.Services.Common.Queries.GetMenuItem;
 using Store.Application.Services.Fainances.Commands.AddRequestPay;
 using Store.Application.Services.Fainances.Queries.GetRequestPayForAdmin;
 using Store.Application.Services.Fainances.Queries.GetRequestPayService;
+using Store.Application.Services.HomePages.commands.RemoveSlider;
 using Store.Application.Services.HomePages.Commands.AddHomePageImages;
 using Store.Application.Services.HomePages.Commands.AddNewSlider;
 using Store.Application.Services.HomePages.Queries.GetSliders;
@@ -82,6 +83,7 @@ builder.Services.AddScoped<IGetUserOrdersService, GetUserOrdersService>(); //  f
 builder.Services.AddScoped<IGetOrdersForAdminService, GetOrdersForAdminService>(); //  for Orders list in Admin 
 builder.Services.AddScoped<IGetRequestPayForAdminService, GetRequestPayForAdminService>(); //  for pay list in Admin 
 builder.Services.AddScoped<IGetSlidersService, GetSlidersService>(); // get all sliders list for admin
+builder.Services.AddScoped<IRemoveSliderService, RemoveSliderService>(); // for remove slider in admin
 
 //Facad inject 
 builder.Services.AddScoped<IProductFacad, ProductFacad>();

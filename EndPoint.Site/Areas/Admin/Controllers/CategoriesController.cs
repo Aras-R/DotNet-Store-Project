@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Store.Application.Interfaces.FacadPatterns;
+using Store.Application.Services.Products.commands.EditCategory;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using Store.Application.Interfaces.FacadPatterns;
-using Microsoft.AspNetCore.Mvc;
 
 namespace EndPoint.Site.Areas.Admin.Controllers
 {
@@ -46,5 +47,18 @@ namespace EndPoint.Site.Areas.Admin.Controllers
             var result = _productFacad.RemoveCategoryService.Execute(CategoryId);
             return Json(result);
         }
+        [HttpPost]
+        public IActionResult Edit(long CategoryId, string Name)
+        {
+            var result = _productFacad.EditCategoryService.Execute(new RequestEditCategoryDto
+            {
+                CategoryId = CategoryId,
+                Name = Name
+            });
+
+            return Json(result);
+        }
+
+
     }
 }

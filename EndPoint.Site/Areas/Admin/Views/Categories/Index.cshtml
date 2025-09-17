@@ -50,6 +50,7 @@
                                         <text>@parent</text>
                                     </td>
                                     <td>
+                                        <button class="btn btn-info" onclick="ShowModalEditCategory('@item.Id', '@item.Name')">ویرایش</button>
                                         <button class="btn btn-danger" onclick="DeleteCategory('@item.Id')">حذف</button>
                                         @if (item.Parent == null)
                                         {
@@ -59,7 +60,7 @@
                                     <td>
                                         @if (item.HasChild == true)
                                         {
-                                            <a href="~/admin/categories/index?ParentId=@item.Id" class="btn btn-info">مشاهده لیست فرزندها</a>
+                                            <a href="~/admin/categories/index?ParentId=@item.Id" class="btn btn-warning">مشاهده لیست فرزندها</a>
                                         }
                                     </td>
                                 </tr>
@@ -102,20 +103,12 @@
                         data: postData,
                         success: function (data) {
                             if (data.isSuccess == true) {
-                                swal.fire(
-                                    'موفق!',
-                                    data.message,
-                                    'success'
-                                ).then(function () {
+                                swal.fire('موفق!', data.message, 'success').then(function () {
                                     location.reload();
                                 });
                             }
                             else {
-                                swal.fire(
-                                    'هشدار!',
-                                    data.message,
-                                    'warning'
-                                );
+                                swal.fire('هشدار!', data.message, 'warning');
                             }
                         },
                         error: function (request, status, error) {
@@ -125,5 +118,85 @@
                 }
             })
         }
+
+        // ویرایش دسته‌بندی
+        function EditCategory() {
+            var categoryId = $("#Edit_CategoryId").val();
+            var name = $("#Edit_Name").val();
+
+            var postData = { 'CategoryId': categoryId, 'Name': name };
+
+            $.ajax({
+                contentType: 'application/x-www-form-urlencoded',
+                dataType: 'json',
+                type: "POST",
+                url: "Edit",
+                data: postData,
+                success: function (data) {
+                    if (data.isSuccess == true) {
+                        swal.fire('موفق!', data.message, 'success').then(function () {
+                            location.reload();
+                        });
+                    }
+                    else {
+                        swal.fire('هشدار!', data.message, 'warning');
+                    }
+                },
+                error: function (request, status, error) {
+                    alert(request.responseText);
+                }
+            });
+
+            $('#EditCategory').modal('hide');
+        }
+
+        // نمایش پنل ویرایش دسته‌بندی
+        function ShowModalEditCategory(CategoryId, name) {
+            $('#Edit_Name').val(name);
+            $('#Edit_CategoryId').val(CategoryId);
+            $('#EditCategory').modal('show');
+        }
+
     </script>
+}
+
+
+@section Modals
+{
+    <!-- Modal ویرایش دسته‌بندی -->
+    <div class="modal fade" id="EditCategory" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content shadow-lg border-0 rounded">
+
+                <!-- هدر -->
+                <div class="modal-header bg-primary text-white position-relative" style="justify-content: center;">
+                    <h5 class="modal-title font-weight-bold m-0">
+                        <i class="fa fa-edit ml-2"></i> ویرایش دسته‌بندی
+                    </h5>
+                </div>
+
+                <div class="modal-body bg-light">
+                    <div class="container-fluid">
+                        <input type="hidden" id="Edit_CategoryId" />
+
+                        <div class="form-group row mb-3">
+                            <label class="col-sm-3 col-form-label font-weight-bold">نام دسته‌بندی</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control border-primary" id="Edit_Name" placeholder="نام دسته‌بندی">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-secondary px-4" data-dismiss="modal">
+                        <i class="fa fa-times ml-1"></i> بستن
+                    </button>
+                    <button type="button" class="btn btn-success px-4" onclick="EditCategory()">
+                        <i class="fa fa-save ml-1"></i> اعمال تغییرات
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 }

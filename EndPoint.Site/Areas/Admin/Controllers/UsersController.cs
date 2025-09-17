@@ -84,13 +84,16 @@ namespace EndPoint.Site.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(long UserId, string Fullname)
+        public IActionResult Edit(long UserId, string FullName, string Email)
         {
-            return Json(_editUserService.Execute(new RequestEdituserDto
+            var result = _editUserService.Execute(new RequestEditUserDto
             {
-                Fullname = Fullname,
                 UserId = UserId,
-            }));
+                FullName = FullName,
+                Email = Email
+            });
+
+            return Json(result);
         }
     }
 

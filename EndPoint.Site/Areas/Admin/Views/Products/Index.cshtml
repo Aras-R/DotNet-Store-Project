@@ -12,7 +12,7 @@
     <div class="box-header">
         <div class="row w-100">
             <div class="col-md-4">
-                <h3 class="box-title mt-3">لیست محصولات </h3>
+                <h3 class="box-title mt-3">لیست محصولات</h3>
             </div>
             <div class="col-md-4 text-left">
                 <a href="~/admin/Products/AddNewProduct" class="btn btn-success mb-2">افزودن محصول جدید</a>
@@ -34,7 +34,7 @@
                     <table class="table table-bordered table-striped dataTable">
                         <thead>
                             <tr>
-                                <th>نام</th>
+                                <th>نام محصول</th>
                                 <th>دسته‌بندی</th>
                                 <th>برند</th>
                                 <th>قیمت</th>
@@ -54,9 +54,9 @@
                                     <td>@item.Inventory</td>
                                     <td>@(item.Displayed ? "بله" : "خیر")</td>
                                     <td>
+                                        <button class="btn btn-info" onclick="ShowModalEditProduct('@item.Id', '@item.Name', '@item.Brand' , '@item.Description' , '@item.Price' , '@item.Inventory' , '@item.CategoryId' , '@item.Displayed' )">ویرایش</button>
                                         <button class="btn btn-danger" onclick="DeleteProduct('@item.Id')">حذف</button>
-                                        <a class="btn btn-success">ویرایش</a>
-                                        <a href="~/admin/products/detail/@item.Id" class="btn btn-info">اطلاعات بیشتر</a>
+                                        <a href="~/admin/products/detail/@item.Id" class="btn btn-warning">اطلاعات بیشتر</a>
                                     </td>
                                 </tr>
                             }
@@ -86,39 +86,26 @@
     </div>
 </div>
 
-<script>
-    function changePageSize(size) {
-        const params = new URLSearchParams(window.location.search);
-        params.set('PageSize', size);
-        window.location.search = params.toString();
-    }
-</script>
-
-
-
 @section Scripts
 {
     <link href="~/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
     <script src="~/sweetalert2/sweetalert2.min.js"></script>
 
     <script>
-
-        //حذف محصول
+        // حذف محصول
         function DeleteProduct(ProductId) {
             swal.fire({
                 title: 'حذف محصول',
-                text: "کاربر گرامی از حذف محصول مطمئن هستید؟",
+                text: "آیا از حذف این محصول مطمئن هستید؟",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#7cacbe',
-                confirmButtonText: 'بله ، محصول حذف شود',
+                confirmButtonText: 'بله، حذف شود',
                 cancelButtonText: 'خیر'
             }).then((result) => {
                 if (result.value) {
-                    var postData = {
-                        'ProductId': ProductId,
-                    };
+                    var postData = { 'ProductId': ProductId };
 
                     $.ajax({
                         contentType: 'application/x-www-form-urlencoded',
@@ -128,32 +115,169 @@
                         data: postData,
                         success: function (data) {
                             if (data.isSuccess == true) {
-                                swal.fire(
-                                    'موفق!',
-                                    data.message,
-                                    'success'
-                                ).then(function (isConfirm) {
+                                swal.fire('موفق!', data.message, 'success').then(function () {
                                     location.reload();
                                 });
                             }
                             else {
-
-                                swal.fire(
-                                    'هشدار!',
-                                    data.message,
-                                    'warning'
-                                );
-
+                                swal.fire('هشدار!', data.message, 'warning');
                             }
                         },
                         error: function (request, status, error) {
                             alert(request.responseText);
                         }
-
                     });
-
                 }
             })
         }
+
+        // ویرایش محصول
+        function EditProduct() {
+            var postData = {
+                ProductId: $("#Edit_ProductId").val(),
+                Name: $("#Edit_Name").val(),
+                Brand: $("#Edit_Brand").val(),
+                Description: $("#Edit_Description").val(),
+                Price: $("#Edit_Price").val(),
+                Inventory: $("#Edit_Inventory").val(),
+                CategoryId: $("#Edit_CategoryId").val(),
+                Displayed: $("#Edit_Displayed").is(":checked")
+            };
+
+            $.ajax({
+                contentType: 'application/x-www-form-urlencoded',
+                dataType: 'json',
+                type: "POST",
+                url: "Edit",
+                data: postData,
+                success: function (data) {
+                    if (data.isSuccess == true) {
+                        swal.fire('موفق!', data.message, 'success').then(function () {
+                            location.reload();
+                        });
+                    }
+                    else {
+                        swal.fire('هشدار!', data.message, 'warning');
+                    }
+                },
+                error: function (request, status, error) {
+                    alert(request.responseText);
+                }
+            });
+
+            $('#EditProduct').modal('hide');
+        }
+
+                function ShowModalEditProduct(ProductId, name, brand, description, price, inventory, CategoryId, displayed) {
+            $('#Edit_ProductId').val(ProductId);
+            $('#Edit_Name').val(name);
+            $('#Edit_Brand').val(brand);
+            $('#Edit_Description').val(description);
+            $('#Edit_Price').val(price);
+            $('#Edit_Inventory').val(inventory);
+            $('#Edit_Displayed').prop("checked", displayed === "True" || displayed === true);
+
+            // اول لیست دسته‌بندی‌ها رو از سرور بگیر
+            $.get("/Admin/Products/GetCategories", function (categories) {
+                let options = '';
+                categories.forEach(function (cat) {
+                    options += `<option value="${cat.id}">${cat.name}</option>`;
+                });
+                $('#Edit_CategoryId').html(options);
+
+                // این خط خیلی مهمه: ست کردن مقدار انتخابی
+                $('#Edit_CategoryId').val(CategoryId);
+            });
+
+            $('#EditProduct').modal('show');
+        }
+
+
     </script>
+}
+
+@section Modals
+{
+    <!-- Modal ویرایش محصول -->
+    <div class="modal fade" id="EditProduct" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content shadow-lg border-0 rounded">
+
+                <!-- هدر -->
+                <div class="modal-header bg-primary text-white position-relative" style="justify-content: center;">
+                    <h5 class="modal-title font-weight-bold m-0">
+                        <i class="fa fa-edit ml-2"></i> ویرایش محصول
+                    </h5>
+                </div>
+
+                <div class="modal-body bg-light">
+                    <div class="container-fluid">
+                        <input type="hidden" id="Edit_ProductId" />
+
+                        <div class="form-group row mb-3">
+                            <label class="col-sm-3 col-form-label font-weight-bold">نام محصول</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control border-primary" id="Edit_Name" placeholder="نام محصول">
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-3">
+                            <label class="col-sm-3 col-form-label font-weight-bold">برند</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control border-primary" id="Edit_Brand" placeholder="برند">
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-3">
+                            <label class="col-sm-3 col-form-label font-weight-bold">توضیحات</label>
+                            <div class="col-sm-9">
+                                <textarea class="form-control border-primary" id="Edit_Description" rows="3" placeholder="توضیحات محصول"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-3">
+                            <label class="col-sm-3 col-form-label font-weight-bold">قیمت</label>
+                            <div class="col-sm-9">
+                                <input type="number" class="form-control border-primary" id="Edit_Price" placeholder="قیمت">
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-3">
+                            <label class="col-sm-3 col-form-label font-weight-bold">موجودی</label>
+                            <div class="col-sm-9">
+                                <input type="number" class="form-control border-primary" id="Edit_Inventory" placeholder="موجودی">
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-3">
+                            <label class="col-sm-3 col-form-label font-weight-bold">دسته‌بندی</label>
+                            <div class="col-sm-9">
+                                <select id="Edit_CategoryId" class="form-control border-primary">
+                                    @* <option value="">انتخاب دسته‌بندی</option> *@
+                                    @* این لیست رو باید از دیتابیس پر کنی *@
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-3">
+                            <label class="col-sm-3 col-form-label font-weight-bold">نمایش در سایت؟</label>
+                            <div class="col-sm-9">
+                                <input type="checkbox" id="Edit_Displayed" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-secondary px-4" data-dismiss="modal">
+                        <i class="fa fa-times ml-1"></i> بستن
+                    </button>
+                    <button type="button" class="btn btn-success px-4" onclick="EditProduct()">
+                        <i class="fa fa-save ml-1"></i> اعمال تغییرات
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 }

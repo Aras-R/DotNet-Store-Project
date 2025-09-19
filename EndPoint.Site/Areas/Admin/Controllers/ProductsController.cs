@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Store.Application.Interfaces.FacadPatterns;
+using Store.Application.Services.Products.commands.EditProduct;
+using Store.Application.Services.Products.Commands.AddNewProduct;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Store.Application.Interfaces.FacadPatterns;
-using Store.Application.Services.Products.Commands.AddNewProduct;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace EndPoint.Site.Areas.Admin.Controllers
 {
@@ -55,5 +56,34 @@ namespace EndPoint.Site.Areas.Admin.Controllers
         {
             return Json(_productFacad.RemoveProductService.Execute(ProductId));
         }
+
+        [HttpPost]
+        public IActionResult Edit(long ProductId, string Name, string Brand, string Description, int Price, int Inventory, bool Displayed, long CategoryId)
+        {
+            var result = _productFacad.EditProductService.Execute(new RequestEditProductDto
+            {
+                ProductId = ProductId,
+                Name = Name,
+                Brand = Brand,
+                Description = Description,
+                Price = Price,
+                Inventory = Inventory,
+                Displayed = Displayed,
+                CategoryId = CategoryId
+            });
+
+            return Json(result);
+        }
+
+        [HttpGet]
+        public IActionResult GetCategories()
+        {
+            var categories = _productFacad.GetAllCategoriesService.Execute().Data
+                .Select(c => new { c.Id, c.Name })
+                .ToList();
+
+            return Json(categories);
+        }
+
     }
 }

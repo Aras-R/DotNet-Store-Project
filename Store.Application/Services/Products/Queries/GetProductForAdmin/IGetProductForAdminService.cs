@@ -39,6 +39,7 @@ namespace Store.Application.Services.Products.Queries.GetProductForAdmin
                     Inventory = p.Inventory,
                     Name = p.Name,
                     Price = p.Price,
+                    CategoryId = p.CategoryId,
                 }).ToList();
 
             return new ResultDto<ProductForAdminDto>()
@@ -74,6 +75,7 @@ namespace Store.Application.Services.Products.Queries.GetProductForAdmin
         public string Description { get; set; }
         public int Price { get; set; }
         public int Inventory { get; set; }
+        public long CategoryId { get; set; }
         public bool Displayed { get; set; }
     }
 }

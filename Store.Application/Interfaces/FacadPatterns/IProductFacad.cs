@@ -1,4 +1,5 @@
 ﻿using Store.Application.Services.Products.commands.EditCategory;
+using Store.Application.Services.Products.commands.EditProduct;
 using Store.Application.Services.Products.commands.RemoveCategory;
 using Store.Application.Services.Products.commands.RemoveProduct;
 using Store.Application.Services.Products.Commands.AddNewCategory;
@@ -30,6 +31,7 @@ namespace Store.Application.Interfaces.FacadPatterns
         IRemoveProductService RemoveProductService { get; }
         IRemoveCategoryService RemoveCategoryService { get; }
         IEditCategoryService EditCategoryService { get; }
+        IEditProductService EditProductService { get; }
 
     }
 }

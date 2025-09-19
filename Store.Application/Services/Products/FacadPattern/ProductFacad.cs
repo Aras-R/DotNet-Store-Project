@@ -2,6 +2,7 @@
 using Store.Application.Interfaces.contexts;
 using Store.Application.Interfaces.FacadPatterns;
 using Store.Application.Services.Products.commands.EditCategory;
+using Store.Application.Services.Products.commands.EditProduct;
 using Store.Application.Services.Products.commands.RemoveCategory;
 using Store.Application.Services.Products.commands.RemoveProduct;
 using Store.Application.Services.Products.Commands.AddNewCategory;
@@ -127,6 +128,14 @@ namespace Store.Application.Services.Products.FacadPattern
             get
             {
                 return _editCategoryService = _editCategoryService ?? new EditCategoryService(_context);
+            }
+        }
+        private IEditProductService _editProductService;
+        public IEditProductService EditProductService
+        {
+            get
+            {
+                return _editProductService = _editProductService ?? new EditProductService(_context);
             }
         }
     }

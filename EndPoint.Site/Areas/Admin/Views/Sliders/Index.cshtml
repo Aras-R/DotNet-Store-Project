@@ -51,8 +51,8 @@
                                     <td>@item.Link</td>
                                     <td>@item.InsertTime.ToString("yyyy/MM/dd HH:mm")</td>
                                     <td>
+                                        <button class="btn btn-info" onclick="ShowModalEditSlider('@item.Id', '@item.Link')">ویرایش</button>
                                         <button class="btn btn-danger" onclick="DeleteSlider('@item.Id')">حذف</button>
-                                        <a class="btn btn-success">ویرایش</a>
                                     </td>
                                 </tr>
                             }
@@ -94,20 +94,12 @@
                         data: postData,
                         success: function (data) {
                             if (data.isSuccess == true) {
-                                swal.fire(
-                                    'موفق!',
-                                    data.message,
-                                    'success'
-                                ).then(function () {
+                                swal.fire('موفق!', data.message, 'success').then(function () {
                                     location.reload();
                                 });
                             }
                             else {
-                                swal.fire(
-                                    'هشدار!',
-                                    data.message,
-                                    'warning'
-                                );
+                                swal.fire('هشدار!', data.message, 'warning');
                             }
                         },
                         error: function (request, status, error) {
@@ -117,5 +109,82 @@
                 }
             })
         }
+
+        // ویرایش اسلایدر
+        function EditSlider() {
+            var postData = {
+                SliderId: $("#Edit_SliderId").val(),
+                Link: $("#Edit_Link").val()
+            };
+
+            $.ajax({
+                contentType: 'application/x-www-form-urlencoded',
+                dataType: 'json',
+                type: "POST",
+                url: "Edit",
+                data: postData,
+                success: function (data) {
+                    if (data.isSuccess == true) {
+                        swal.fire('موفق!', data.message, 'success').then(function () {
+                            location.reload();
+                        });
+                    }
+                    else {
+                        swal.fire('هشدار!', data.message, 'warning');
+                    }
+                },
+                error: function (request, status, error) {
+                    alert(request.responseText);
+                }
+            });
+
+            $('#EditSlider').modal('hide');
+        }
+
+        // نمایش مودال ویرایش
+        function ShowModalEditSlider(Id, link) {
+            $('#Edit_SliderId').val(Id);
+            $('#Edit_Link').val(link);
+            $('#EditSlider').modal('show');
+        }
     </script>
+}
+
+@section Modals
+{
+    <!-- Modal ویرایش اسلایدر -->
+    <div class="modal fade" id="EditSlider" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content shadow-lg border-0 rounded">
+
+                <div class="modal-header bg-primary text-white position-relative" style="justify-content: center;">
+                    <h5 class="modal-title font-weight-bold m-0">
+                        <i class="fa fa-edit ml-2"></i> ویرایش اسلایدر
+                    </h5>
+                </div>
+
+                <div class="modal-body bg-light">
+                    <div class="container-fluid">
+                        <input type="hidden" id="Edit_SliderId" />
+
+                        <div class="form-group row mb-3">
+                            <label class="col-sm-3 col-form-label font-weight-bold">لینک اسلایدر</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control border-primary" id="Edit_Link" placeholder="آدرس لینک">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-secondary px-4" data-dismiss="modal">
+                        <i class="fa fa-times ml-1"></i> بستن
+                    </button>
+                    <button type="button" class="btn btn-success px-4" onclick="EditSlider()">
+                        <i class="fa fa-save ml-1"></i> اعمال تغییرات
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 }

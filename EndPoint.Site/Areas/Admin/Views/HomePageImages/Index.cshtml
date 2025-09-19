@@ -1,5 +1,6 @@
 ﻿@addTagHelper *, LazZiya.TagHelpers
 @using Store.Application.Services.HomePages.Queries.GetImagesAdmin
+@using Store.Domain.Entities.HomePages
 @model List<ImageAdminDto>
 
 @{
@@ -53,8 +54,8 @@
                                     <td>@item.ImageLocation.ToString()</td>
                                     <td>@item.InsertTime.ToString("yyyy/MM/dd HH:mm")</td>
                                     <td>
+                                        <button class="btn btn-info" onclick="ShowModalEditImage('@item.Id', '@item.Link', '@item.ImageLocation')">ویرایش</button>
                                         <button class="btn btn-danger" onclick="DeleteImage('@item.Id')">حذف</button>
-                                        <a class="btn btn-success">ویرایش</a>
                                     </td>
                                 </tr>
                             }
@@ -95,20 +96,12 @@
                         data: postData,
                         success: function (data) {
                             if (data.isSuccess == true) {
-                                swal.fire(
-                                    'موفق!',
-                                    data.message,
-                                    'success'
-                                ).then(function () {
+                                swal.fire('موفق!', data.message, 'success').then(function () {
                                     location.reload();
                                 });
                             }
                             else {
-                                swal.fire(
-                                    'هشدار!',
-                                    data.message,
-                                    'warning'
-                                );
+                                swal.fire('هشدار!', data.message, 'warning');
                             }
                         },
                         error: function (request, status, error) {
@@ -118,5 +111,96 @@
                 }
             })
         }
+
+        // ویرایش تصویر
+        function EditImage() {
+            var postData = {
+                ImageId: $("#Edit_ImageId").val(),
+                Link: $("#Edit_Link").val(),
+                ImageLocation: $("#Edit_ImageLocation").val()
+            };
+
+            $.ajax({
+                contentType: 'application/x-www-form-urlencoded',
+                dataType: 'json',
+                type: "POST",
+                url: "Edit",
+                data: postData,
+                success: function (data) {
+                    if (data.isSuccess == true) {
+                        swal.fire('موفق!', data.message, 'success').then(function () {
+                            location.reload();
+                        });
+                    }
+                    else {
+                        swal.fire('هشدار!', data.message, 'warning');
+                    }
+                },
+                error: function (request, status, error) {
+                    alert(request.responseText);
+                }
+            });
+
+            $('#EditImage').modal('hide');
+        }
+
+        // نمایش مودال ویرایش
+        function ShowModalEditImage(Id, link, imageLocation) {
+            $('#Edit_ImageId').val(Id);
+            $('#Edit_Link').val(link);
+            $('#Edit_ImageLocation').val(imageLocation);
+            $('#EditImage').modal('show');
+        }
     </script>
+}
+
+@section Modals
+{
+    <!-- Modal ویرایش تصویر -->
+    <div class="modal fade" id="EditImage" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content shadow-lg border-0 rounded">
+
+                <div class="modal-header bg-primary text-white position-relative" style="justify-content: center;">
+                    <h5 class="modal-title font-weight-bold m-0">
+                        <i class="fa fa-edit ml-2"></i> ویرایش تصویر
+                    </h5>
+                </div>
+
+                <div class="modal-body bg-light">
+                    <div class="container-fluid">
+                        <input type="hidden" id="Edit_ImageId" />
+
+                        <div class="form-group row mb-3">
+                            <label class="col-sm-3 col-form-label font-weight-bold">لینک تصویر</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control border-primary" id="Edit_Link" placeholder="آدرس لینک">
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-3">
+                            <label class="col-sm-3 col-form-label font-weight-bold">محل نمایش</label>
+                            <div class="col-sm-9">
+                                <select id="Edit_ImageLocation" class="form-control border-primary">
+                                    <option value="0">آیکون‌ها</option>
+                                    <option value="1">چهار تصویر وسط</option>
+                                    <option value="2">دو تصویر وسط</option>
+                                    <option value="3">تصویر تمام‌عرض وسط</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-secondary px-4" data-dismiss="modal">
+                        <i class="fa fa-times ml-1"></i> بستن
+                    </button>
+                    <button type="button" class="btn btn-success px-4" onclick="EditImage()">
+                        <i class="fa fa-save ml-1"></i> اعمال تغییرات
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 }

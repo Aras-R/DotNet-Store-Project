@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Store.Application.Services.HomePages.commands.EditHomePageImage;
 using Store.Application.Services.HomePages.commands.RemoveImage;
 using Store.Application.Services.HomePages.Commands.AddHomePageImages;
 using Store.Application.Services.HomePages.Queries.GetImagesAdmin;
@@ -17,14 +18,17 @@ namespace EndPoint.Site.Areas.Admin.Controllers
         private readonly IAddHomePageImagesService _addHomePageImagesService;
         private readonly IGetImagesAdminService _getImagesAdminService;
         private readonly IRemoveImageService _removeImageService;
+        private readonly IEditHomePageImageService _editHomePageImageService;
         public HomePageImagesController(
             IAddHomePageImagesService addHomePageImagesService,
             IGetImagesAdminService getImagesAdminService,
-            IRemoveImageService removeImageService)
+            IRemoveImageService removeImageService,
+            IEditHomePageImageService editHomePageImageService)
         {
             _addHomePageImagesService = addHomePageImagesService;
             _getImagesAdminService = getImagesAdminService;
             _removeImageService = removeImageService;
+            _editHomePageImageService = editHomePageImageService;
         }
         public IActionResult Index()
         {
@@ -54,6 +58,19 @@ namespace EndPoint.Site.Areas.Admin.Controllers
         public IActionResult Delete(long Id)
         {
             var result = _removeImageService.Execute(Id);
+            return Json(result);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(long ImageId, string Link, ImageLocation ImageLocation)
+        {
+            var result = _editHomePageImageService.Execute(new RequestEditHomePageImageDto
+            {
+                ImageId = ImageId,
+                Link = Link,
+                ImageLocation = ImageLocation
+            });
+
             return Json(result);
         }
 

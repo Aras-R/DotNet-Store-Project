@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Store.Application.Interfaces.FacadPatterns;
 using Store.Application.Services.Products.commands.EditProduct;
+using Store.Application.Services.Products.commands.EditProductFeature;
 using Store.Application.Services.Products.Commands.AddNewProduct;
 using System;
 using System.Collections.Generic;
@@ -21,22 +22,26 @@ namespace EndPoint.Site.Areas.Admin.Controllers
         {
             _productFacad = productFacad;
         }
+
+        //Index
         public IActionResult Index(int Page = 1, int PageSize = 20)
         {
             return View(_productFacad.GetProductForAdminService.Execute(Page, PageSize).Data);
         }
+
+        //Detail
         public IActionResult Detail(long Id)
         {
             return View(_productFacad.GetProductDetailForAdminService.Execute(Id).Data);
         }
 
+        //AddNewProduct
         [HttpGet]
         public IActionResult AddNewProduct()
         {
             ViewBag.Categories = new SelectList(_productFacad.GetAllCategoriesService.Execute().Data,"Id" , "Name");
             return View();
         }
-
         [HttpPost]
         public IActionResult AddNewProduct(RequestAddNewProductDto request, List<AddNewProduct_Features> Features)
         {
@@ -51,12 +56,14 @@ namespace EndPoint.Site.Areas.Admin.Controllers
             return Json(_productFacad.AddNewProductService.Execute(request));
         }
 
+        //Delete
         [HttpPost]
         public IActionResult Delete(long ProductId)
         {
             return Json(_productFacad.RemoveProductService.Execute(ProductId));
         }
 
+        //Edit
         [HttpPost]
         public IActionResult Edit(long ProductId, string Name, string Brand, string Description, int Price, int Inventory, bool Displayed, long CategoryId)
         {
@@ -75,6 +82,7 @@ namespace EndPoint.Site.Areas.Admin.Controllers
             return Json(result);
         }
 
+        //Get Categories for edit of products
         [HttpGet]
         public IActionResult GetCategories()
         {
@@ -84,6 +92,21 @@ namespace EndPoint.Site.Areas.Admin.Controllers
 
             return Json(categories);
         }
+
+        //EditFeature
+        [HttpPost]
+        public IActionResult EditFeature(long FeatureId, string DisplayName, string Value)
+        {
+            var result = _productFacad.EditProductFeatureService.Execute(new RequestEditProductFeatureDto
+            {
+                FeatureId = FeatureId,
+                DisplayName = DisplayName,
+                Value = Value
+            });
+
+            return Json(result);
+        }
+
 
     }
 }

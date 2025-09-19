@@ -3,6 +3,7 @@ using Store.Application.Interfaces.contexts;
 using Store.Application.Interfaces.FacadPatterns;
 using Store.Application.Services.Products.commands.EditCategory;
 using Store.Application.Services.Products.commands.EditProduct;
+using Store.Application.Services.Products.commands.EditProductFeature;
 using Store.Application.Services.Products.commands.RemoveCategory;
 using Store.Application.Services.Products.commands.RemoveProduct;
 using Store.Application.Services.Products.Commands.AddNewCategory;
@@ -136,6 +137,14 @@ namespace Store.Application.Services.Products.FacadPattern
             get
             {
                 return _editProductService = _editProductService ?? new EditProductService(_context);
+            }
+        }
+        private IEditProductFeatureService _editProductFeatureService;
+        public IEditProductFeatureService EditProductFeatureService
+        {
+            get
+            {
+                return _editProductFeatureService = _editProductFeatureService ?? new EditProductFeatureService(_context);
             }
         }
     }

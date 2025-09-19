@@ -1,9 +1,11 @@
 ﻿@using Store.Application.Services.Products.Queries.GetProductDetailForAdmin
 @model ProductDetailForAdmindto
+
 @{
     ViewData["Title"] = "جزئیات محصول";
     Layout = "~/Areas/Admin/Views/Shared/_Adminlayout.cshtml";
 }
+
 <div class="box">
     <a href="~/admin/products/index"
        class="btn btn-outline-secondary btn-sm position-absolute"
@@ -17,47 +19,25 @@
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-12">
                 <ul class="no-list-style">
-                    <li class="mb-2">
-                        <span class="primary text-bold-500"><a><i class="ft-home font-small-3"></i> محصول</a></span>
-                        <span class="line-height-2 display-block overflow-hidden">@Model.Name</span>
-                    </li>
-                    <li class="mb-2">
-                        <span class="primary text-bold-500"><a><i class="ft-briefcase font-small-3"></i> برند</a></span>
-                        <span class="line-height-2 display-block overflow-hidden">@Model.Brand</span>
-                    </li>
+                    <li><b>محصول:</b> @Model.Name</li>
+                    <li><b>برند:</b> @Model.Brand</li>
                 </ul>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12">
                 <ul class="no-list-style">
-                    <li class="mb-2">
-                        <span class="primary text-bold-500"><a><i class="ft-home font-small-3"></i> دسته بندی</a></span>
-                        <span class="line-height-2 display-block overflow-hidden">@Model.Category</span>
-                    </li>
-                    <li class="mb-2">
-                        <span class="primary text-bold-500"><a><i class="ft-home font-small-3"></i> قیمت</a></span>
-                        <span class="line-height-2 display-block overflow-hidden">@Model.Price.ToString("n0")</span>
-                    </li>
+                    <li><b>دسته بندی:</b> @Model.Category</li>
+                    <li><b>قیمت:</b> @Model.Price.ToString("n0") تومان</li>
                 </ul>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12">
                 <ul class="no-list-style">
-                    <li class="mb-2">
-                        <span class="primary text-bold-500"><a><i class="ft-home font-small-3"></i> موجودی</a></span>
-                        <span class="line-height-2 display-block overflow-hidden">@Model.Inventory</span>
-                    </li>
-                    <li class="mb-2">
-                        <span class="primary text-bold-500"><a><i class="ft-home font-small-3"></i> نمایش در سایت؟</a></span>
-                        <span class="line-height-2 display-block overflow-hidden">@Model.Displayed</span>
-                    </li>
+                    <li><b>موجودی:</b> @Model.Inventory</li>
+                    <li><b>نمایش در سایت؟</b> @(Model.Displayed ? "بله" : "خیر")</li>
                 </ul>
             </div>
-            <div class="col-lg-12 col-md-12 col-sm-12">
-                <ul class="no-list-style">
-                    <li class="">
-                        <span class="primary text-bold-500"><a><i class="ft-home font-small-3"></i> توضیحات</a></span>
-                        <span class="line-height-2 display-block overflow-hidden">@Model.Description</span>
-                    </li>
-                </ul>
+            <div class="col-lg-12">
+                <b>توضیحات:</b>
+                <p>@Model.Description</p>
             </div>
         </div>
     </div>
@@ -69,18 +49,29 @@
     </div>
     <div class="box-body">
         <div class="row">
-            <div class="col-4 col-sm-4">
+            <!-- ویژگی‌ها -->
+            <div class="col-4">
                 <ul class="no-list-style pr-0 text-right fa-bold">
                     @foreach (var item in Model.Features)
                     {
-                        <li class="mb-2">
-                            <span class="text-bold-500 primary"><a><i class="icon-frame font-small-3"></i> @item.DisplayName :</a></span>
-                            <span class="display-block overflow-hidden">@item.Value</span>
+                        <li class="mb-2 d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="text-bold-500 primary">
+                                    <i class="icon-frame font-small-3"></i> @item.DisplayName :
+                                </span>
+                                <span class="display-block">@item.Value</span>
+                            </div>
+                            <button class="btn btn-sm btn-info ml-2"
+                                    onclick="ShowModalEditFeature('@item.Id', '@item.DisplayName', '@item.Value')">
+                                ویرایش
+                            </button>
                         </li>
                     }
                 </ul>
             </div>
-            <div class="col-8 col-sm-8 text-center">
+
+            <!-- تصاویر -->
+            <div class="col-8 text-center">
                 @foreach (var item in Model.Images)
                 {
                     <figure class="col-xl-6 col-lg-4 col-sm-6 col-12">
@@ -93,3 +84,82 @@
         </div>
     </div>
 </div>
+
+@section Scripts
+{
+    <link href="~/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+    <script src="~/sweetalert2/sweetalert2.min.js"></script>
+
+    <script>
+        // نمایش مودال و پر کردن مقادیر
+        function ShowModalEditFeature(id, displayName, value) {
+            $('#Edit_FeatureId').val(id);
+            $('#Edit_DisplayName').val(displayName);
+            $('#Edit_Value').val(value);
+            $('#EditFeatureModal').modal('show');
+        }
+
+        // ارسال درخواست ویرایش ویژگی
+        function EditFeature() {
+            var postData = {
+                FeatureId: $("#Edit_FeatureId").val(),
+                DisplayName: $("#Edit_DisplayName").val(),
+                Value: $("#Edit_Value").val()
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "/Admin/Products/EditFeature",
+                data: postData,
+                success: function (data) {
+                    if (data.isSuccess) {
+                        Swal.fire("موفق!", data.message, "success")
+                            .then(() => location.reload());
+                    } else {
+                        Swal.fire("هشدار!", data.message, "warning");
+                    }
+                },
+                error: function () {
+                    alert("خطا در ویرایش ویژگی");
+                }
+            });
+
+            $('#EditFeatureModal').modal('hide');
+        }
+    </script>
+}
+
+@section Modals {
+    <!-- Modal ویرایش ویژگی -->
+    <div class="modal fade" id="EditFeatureModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content shadow-lg border-0 rounded">
+
+                <div class="modal-header bg-primary text-white justify-content-center">
+                    <h5 class="modal-title font-weight-bold m-0">
+                        <i class="fa fa-edit ml-2"></i> ویرایش ویژگی محصول
+                    </h5>
+                </div>
+
+                <div class="modal-body bg-light">
+                    <input type="hidden" id="Edit_FeatureId" />
+
+                    <div class="form-group">
+                        <label>نام ویژگی</label>
+                        <input type="text" id="Edit_DisplayName" class="form-control border-primary" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>مقدار ویژگی</label>
+                        <input type="text" id="Edit_Value" class="form-control border-primary" />
+                    </div>
+                </div>
+
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
+                    <button type="button" class="btn btn-success" onclick="EditFeature()">اعمال تغییرات</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}

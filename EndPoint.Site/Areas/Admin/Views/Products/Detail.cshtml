@@ -50,25 +50,38 @@
     <div class="box-body">
         <div class="row">
             <!-- ویژگی‌ها -->
-            <div class="col-4">
-                <ul class="no-list-style pr-0 text-right fa-bold">
+            <table class="table table-bordered table-striped text-center">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>ویژگی</th>
+                        <th>عملیات</th>
+                    </tr>
+                </thead>
+                <tbody>
                     @foreach (var item in Model.Features)
                     {
-                        <li class="mb-2 d-flex justify-content-between align-items-center">
-                            <div>
-                                <span class="text-bold-500 primary">
-                                    <i class="icon-frame font-small-3"></i> @item.DisplayName :
-                                </span>
-                                <span class="display-block">@item.Value</span>
-                            </div>
-                            <button class="btn btn-sm btn-info ml-2"
-                                    onclick="ShowModalEditFeature('@item.Id', '@item.DisplayName', '@item.Value')">
-                                ویرایش
-                            </button>
-                        </li>
+                        <tr>
+                            <!-- ستون ویژگی -->
+                            <td class="text-right">
+                                <b>@item.DisplayName :</b> @item.Value
+                            </td>
+
+                            <!-- ستون عملیات -->
+                            <td>
+                                <button class="btn btn-sm btn-info ml-1"
+                                        onclick="ShowModalEditFeature('@item.Id', '@item.DisplayName', '@item.Value')">
+                                    ویرایش
+                                </button>
+                                <button class="btn btn-sm btn-danger"
+                                        onclick="DeleteFeature('@item.Id')">
+                                    حذف
+                                </button>
+                            </td>
+                        </tr>
                     }
-                </ul>
-            </div>
+                </tbody>
+            </table>
+
 
             <!-- تصاویر -->
             <div class="col-8 text-center">
@@ -91,6 +104,39 @@
     <script src="~/sweetalert2/sweetalert2.min.js"></script>
 
     <script>
+        // حذف ویژگی محصول
+        function DeleteFeature(Id) {
+            Swal.fire({
+                title: 'حذف ویژگی',
+                text: "آیا از حذف این ویژگی مطمئن هستید؟",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#7cacbe',
+                confirmButtonText: 'بله، حذف شود',
+                cancelButtonText: 'خیر'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/Admin/Products/DeleteFeature",
+                        data: { FeatureId: Id },
+                        success: function (data) {
+                            if (data.isSuccess) {
+                                Swal.fire("موفق!", data.message, "success")
+                                    .then(() => location.reload());
+                            } else {
+                                Swal.fire("هشدار!", data.message, "warning");
+                            }
+                        },
+                        error: function () {
+                            alert("خطا در حذف ویژگی");
+                        }
+                    });
+                }
+            });
+        }
+
         // نمایش مودال و پر کردن مقادیر
         function ShowModalEditFeature(id, displayName, value) {
             $('#Edit_FeatureId').val(id);

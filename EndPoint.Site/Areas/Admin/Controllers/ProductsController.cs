@@ -93,7 +93,7 @@ namespace EndPoint.Site.Areas.Admin.Controllers
             return Json(categories);
         }
 
-        //EditFeature
+        //Edit Feature
         [HttpPost]
         public IActionResult EditFeature(long FeatureId, string DisplayName, string Value)
         {
@@ -105,6 +105,13 @@ namespace EndPoint.Site.Areas.Admin.Controllers
             });
 
             return Json(result);
+        }
+
+        //Delete Feature
+        [HttpPost]
+        public IActionResult DeleteFeature(long FeatureId)
+        {
+            return Json(_productFacad.RemoveProductFeatureService.Execute(FeatureId));
         }
 
 

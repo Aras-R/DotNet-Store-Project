@@ -43,10 +43,11 @@
     </div>
 </div>
 
-<div class="box">
-    <div class="box-header">
-        <h3 class="box-title">تصاویر و ویژگی‌های محصول</h3>
-    </div>
+<div class="box-header d-flex justify-content-between align-items-center">
+    <h3 class="box-title">ویژگی‌های محصول</h3>
+    <button class="btn btn-success btn-sm" onclick="ShowModalAddFeature()">
+        <i class="fa fa-plus ml-1"></i> افزودن ویژگی جدید
+    </button>
     <div class="box-body">
         <div class="row">
             <!-- ویژگی‌ها -->
@@ -84,16 +85,42 @@
 
 
             <!-- تصاویر -->
-            <div class="col-8 text-center">
-                @foreach (var item in Model.Images)
-                {
-                    <figure class="col-xl-6 col-lg-4 col-sm-6 col-12">
-                        <a target="_blank" href="~/@item.Src">
-                            <img width="200" height="200" class="img-thumbnail img-fluid" src="~/@item.Src" />
-                        </a>
-                    </figure>
-                }
-            </div>
+            <br>
+            <hr>
+            <h3 class="box-title d-flex justify-content-between align-items-center">
+                تصاویر محصول
+                <button class="btn btn-success btn-sm" onclick="ShowModalAddImage()">
+                    <i class="fa fa-plus ml-1"></i> افزودن تصویر جدید
+                </button>
+            </h3>
+            <br>
+
+            <table class="table table-bordered text-center">
+                <thead class="thead-light">
+                    <tr>
+                        <th>تصویر</th>
+                        <th>عملیات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Images)
+                    {
+                        <tr>
+                            <td>
+                                <a target="_blank" href="~/@item.Src">
+                                    <img width="120" height="120" class="img-thumbnail img-fluid" src="~/@item.Src" />
+                                </a>
+                            </td>
+                            <td>
+                                <button class="btn btn-danger btn-sm" onclick="DeleteImage('@item.Id')">
+                                    حذف
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
         </div>
     </div>
 </div>
@@ -137,7 +164,7 @@
             });
         }
 
-        // نمایش مودال و پر کردن مقادیر
+        // نمایش مودال و پر کردن مقادیر ویژگی محصول
         function ShowModalEditFeature(id, displayName, value) {
             $('#Edit_FeatureId').val(id);
             $('#Edit_DisplayName').val(displayName);
@@ -172,6 +199,76 @@
 
             $('#EditFeatureModal').modal('hide');
         }
+
+
+        // ShowModalAddFeature
+        function ShowModalAddFeature() {
+            $('#Add_DisplayName').val('');
+            $('#Add_Value').val('');
+            $('#AddFeatureModal').modal('show');
+        }
+
+        function AddFeature() {
+            var postData = {
+                ProductId: $("#Add_ProductId").val(),
+                DisplayName: $("#Add_DisplayName").val(),
+                Value: $("#Add_Value").val()
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "/Admin/Products/AddNewProductFeature",
+                data: postData,
+                success: function (data) {
+                    if (data.isSuccess) {
+                        Swal.fire("موفق!", data.message, "success")
+                            .then(() => location.reload());
+                    } else {
+                        Swal.fire("خطا!", data.message, "error");
+                    }
+                },
+                error: function () {
+                    Swal.fire("خطا!", "اشکال در افزودن ویژگی", "error");
+                }
+            });
+
+            $('#AddFeatureModal').modal('hide');
+        }
+
+
+        //Show Modal Add Image
+        function ShowModalAddImage() {
+            $('#AddImage_File').val('');
+            $('#AddImageModal').modal('show');
+        }
+
+        function AddImage() {
+            var formData = new FormData();
+            formData.append("ProductId", $("#AddImage_ProductId").val());
+            formData.append("Image", $("#AddImage_File")[0].files[0]);
+
+            $.ajax({
+                type: "POST",
+                url: "/Admin/Products/AddNewProductImage",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    if (data.isSuccess) {
+                        Swal.fire("موفق!", data.message, "success")
+                            .then(() => location.reload());
+                    } else {
+                        Swal.fire("خطا!", data.message, "error");
+                    }
+                },
+                error: function () {
+                    Swal.fire("خطا!", "اشکال در افزودن تصویر", "error");
+                }
+            });
+
+            $('#AddImageModal').modal('hide');
+        }
+
     </script>
 }
 
@@ -208,4 +305,66 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal افزودن ویژگی -->
+    <div class="modal fade" id="AddFeatureModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content shadow-lg border-0 rounded">
+
+                <div class="modal-header bg-success text-white justify-content-center">
+                    <h5 class="modal-title font-weight-bold m-0">
+                        <i class="fa fa-plus ml-2"></i> افزودن ویژگی جدید
+                    </h5>
+                </div>
+
+                <div class="modal-body bg-light">
+                    <input type="hidden" id="Add_ProductId" value="@Model.Id" />
+
+                    <div class="form-group">
+                        <label>عنوان ویژگی</label>
+                        <input type="text" id="Add_DisplayName" class="form-control border-success" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>مقدار ویژگی</label>
+                        <input type="text" id="Add_Value" class="form-control border-success" />
+                    </div>
+                </div>
+
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
+                    <button type="button" class="btn btn-success" onclick="AddFeature()">ذخیره تغییرات</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal افزودن تصویر -->
+    <div class="modal fade" id="AddImageModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content shadow-lg border-0 rounded">
+
+                <div class="modal-header bg-success text-white justify-content-center">
+                    <h5 class="modal-title font-weight-bold m-0">
+                        <i class="fa fa-plus ml-2"></i> افزودن تصویر جدید
+                    </h5>
+                </div>
+
+                <div class="modal-body bg-light">
+                    <input type="hidden" id="AddImage_ProductId" value="@Model.Id" />
+
+                    <div class="form-group">
+                        <label>انتخاب تصویر</label>
+                        <input type="file" id="AddImage_File" class="form-control border-success" />
+                    </div>
+                </div>
+
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
+                    <button type="button" class="btn btn-success" onclick="AddImage()">ذخیره</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 }

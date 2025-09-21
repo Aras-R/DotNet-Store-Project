@@ -6,6 +6,8 @@ using Store.Application.Services.Products.commands.RemoveProduct;
 using Store.Application.Services.Products.commands.RemoveProductFeature;
 using Store.Application.Services.Products.Commands.AddNewCategory;
 using Store.Application.Services.Products.Commands.AddNewProduct;
+using Store.Application.Services.Products.Commands.AddNewProductFeature;
+using Store.Application.Services.Products.Commands.AddNewProductImage;
 using Store.Application.Services.Products.Queries.GetAllCategories;
 using Store.Application.Services.Products.Queries.GetCategories;
 using Store.Application.Services.Products.Queries.GetProductDetailForAdmin;
@@ -36,6 +38,7 @@ namespace Store.Application.Interfaces.FacadPatterns
         IEditProductService EditProductService { get; }
         IEditProductFeatureService EditProductFeatureService { get; }
         IRemoveProductFeatureService RemoveProductFeatureService { get; }
-
+        IAddNewProductFeatureService AddNewProductFeatureService { get; }
+        IAddNewProductImageService AddNewProductImageService { get; }
     }
 }

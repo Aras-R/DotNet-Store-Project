@@ -5,6 +5,9 @@ using Store.Application.Interfaces.FacadPatterns;
 using Store.Application.Services.Products.commands.EditProduct;
 using Store.Application.Services.Products.commands.EditProductFeature;
 using Store.Application.Services.Products.Commands.AddNewProduct;
+using Store.Application.Services.Products.Commands.AddNewProductFeature;
+using Store.Application.Services.Products.Commands.AddNewProductImage;
+using Store.Common.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -112,6 +115,36 @@ namespace EndPoint.Site.Areas.Admin.Controllers
         public IActionResult DeleteFeature(long FeatureId)
         {
             return Json(_productFacad.RemoveProductFeatureService.Execute(FeatureId));
+        }
+
+        //Add New Product Feature
+        [HttpPost]
+        public IActionResult AddNewProductFeature(RequestAddNewProductFeatureDto request)
+        {
+            if (request == null || request.ProductId <= 0)
+            {
+                return Json(new { IsSuccess = false, Message = "اطلاعات معتبر نیست" });
+            }
+
+            var result = _productFacad.AddNewProductFeatureService.Execute(request);
+            return Json(result);
+        }
+
+        //Add New Product Image
+        [HttpPost]
+        public IActionResult AddNewProductImage([FromForm] RequestAddNewProductImageDto request)
+        {
+            if (request.Image == null || request.Image.Length == 0)
+            {
+                return Json(new ResultDto
+                {
+                    IsSuccess = false,
+                    Message = "هیچ فایلی انتخاب نشده است"
+                });
+            }
+
+            var result = _productFacad.AddNewProductImageService.Execute(request);
+            return Json(result);
         }
 
 

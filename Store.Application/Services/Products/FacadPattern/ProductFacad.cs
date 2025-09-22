@@ -7,6 +7,7 @@ using Store.Application.Services.Products.commands.EditProductFeature;
 using Store.Application.Services.Products.commands.RemoveCategory;
 using Store.Application.Services.Products.commands.RemoveProduct;
 using Store.Application.Services.Products.commands.RemoveProductFeature;
+using Store.Application.Services.Products.commands.RemoveProductImage;
 using Store.Application.Services.Products.Commands.AddNewCategory;
 using Store.Application.Services.Products.Commands.AddNewProduct;
 using Store.Application.Services.Products.Commands.AddNewProductFeature;
@@ -171,8 +172,16 @@ namespace Store.Application.Services.Products.FacadPattern
         {
             get
             {
-                return _addNewProductImageService = _addNewProductImageService
-                       ?? new AddNewProductImageService(_context, _environment);
+                return _addNewProductImageService = _addNewProductImageService ?? new AddNewProductImageService(_context, _environment);
+            }
+        }
+
+        private IRemoveProductImageService _removeProductImageService;
+        public IRemoveProductImageService RemoveProductImageService
+        {
+            get
+            {
+                return _removeProductImageService = _removeProductImageService ?? new RemoveProductImageService(_context);
             }
         }
 

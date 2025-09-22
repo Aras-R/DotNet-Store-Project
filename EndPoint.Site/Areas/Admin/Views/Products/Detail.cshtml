@@ -43,6 +43,9 @@
     </div>
 </div>
 
+<!-- ویژگی‌ها -->
+<br>
+<hr>
 <div class="box-header d-flex justify-content-between align-items-center">
     <h3 class="box-title">ویژگی‌های محصول</h3>
     <button class="btn btn-success btn-sm" onclick="ShowModalAddFeature()">
@@ -50,77 +53,69 @@
     </button>
     <div class="box-body">
         <div class="row">
-            <!-- ویژگی‌ها -->
-            <table class="table table-bordered table-striped text-center">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>ویژگی</th>
-                        <th>عملیات</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.Features)
-                    {
-                        <tr>
-                            <!-- ستون ویژگی -->
-                            <td class="text-right">
-                                <b>@item.DisplayName :</b> @item.Value
-                            </td>
-
-                            <!-- ستون عملیات -->
-                            <td>
-                                <button class="btn btn-sm btn-info ml-1"
-                                        onclick="ShowModalEditFeature('@item.Id', '@item.DisplayName', '@item.Value')">
-                                    ویرایش
-                                </button>
-                                <button class="btn btn-sm btn-danger"
-                                        onclick="DeleteFeature('@item.Id')">
-                                    حذف
-                                </button>
-                            </td>
+            <div class="box">
+                <table class="table table-bordered table-striped text-center">
+                    <thead class="thead-dark">
+                        <tr style="background-color:darkseagreen; color:white">
+                            <th>ویژگی</th>
+                            <th>عملیات</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Features)
+                        {
+                            <tr>
+                                <!-- ستون ویژگی -->
+                                <td class="text-right">
+                                    <b>@item.DisplayName :</b> @item.Value
+                                </td>
 
+                                <!-- ستون عملیات -->
+                                <td>
+                                    <button class="btn btn-sm btn-info ml-1"
+                                            onclick="ShowModalEditFeature('@item.Id', '@item.DisplayName', '@item.Value')">
+                                        ویرایش
+                                    </button>
+                                    <button class="btn btn-sm btn-danger"
+                                            onclick="DeleteFeature('@item.Id')">
+                                        حذف
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
 
             <!-- تصاویر -->
             <br>
             <hr>
-            <h3 class="box-title d-flex justify-content-between align-items-center">
-                تصاویر محصول
+            <div class="box-header d-flex justify-content-between align-items-center">
+                <h3 class="box-title">تصاویر محصول</h3>
                 <button class="btn btn-success btn-sm" onclick="ShowModalAddImage()">
                     <i class="fa fa-plus ml-1"></i> افزودن تصویر جدید
                 </button>
-            </h3>
-            <br>
-
-            <table class="table table-bordered text-center">
-                <thead class="thead-light">
-                    <tr>
-                        <th>تصویر</th>
-                        <th>عملیات</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.Images)
-                    {
-                        <tr>
-                            <td>
+            </div>
+            <div class="box">
+                <div class="box-body">
+                    <div class="row">
+                        @foreach (var item in Model.Images)
+                        {
+                            <div class="col-md-3 col-sm-4 col-6 text-center mb-4">
                                 <a target="_blank" href="~/@item.Src">
-                                    <img width="120" height="120" class="img-thumbnail img-fluid" src="~/@item.Src" />
+                                    <img class="img-thumbnail img-fluid" src="~/@item.Src" style="width:120px; max-height:200px;" />
                                 </a>
-                            </td>
-                            <td>
-                                <button class="btn btn-danger btn-sm" onclick="DeleteImage('@item.Id')">
+                                <br />
+                                <button class="btn btn-danger btn-sm mt-2" onclick="DeleteImage('@item.Id')">
                                     حذف
                                 </button>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-
+                                <br>
+                                <hr>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -201,7 +196,7 @@
         }
 
 
-        // ShowModalAddFeature
+        // Show Modal Add Feature
         function ShowModalAddFeature() {
             $('#Add_DisplayName').val('');
             $('#Add_Value').val('');
@@ -268,6 +263,40 @@
 
             $('#AddImageModal').modal('hide');
         }
+
+         // حذف تصویر محصول
+        function DeleteImage(Id) {
+            Swal.fire({
+                title: 'حذف تصویر',
+                text: "آیا از حذف این تصویر مطمئن هستید؟",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#7cacbe',
+                confirmButtonText: 'بله، حذف شود',
+                cancelButtonText: 'خیر'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/Admin/Products/DeleteImage",
+                        data: { ImageId: Id },
+                        success: function (data) {
+                            if (data.isSuccess) {
+                                Swal.fire("موفق!", data.message, "success")
+                                    .then(() => location.reload());
+                            } else {
+                                Swal.fire("هشدار!", data.message, "warning");
+                            }
+                        },
+                        error: function () {
+                            Swal.fire("خطا!", "اشکال در حذف تصویر", "error");
+                        }
+                    });
+                }
+            });
+        }
+
 
     </script>
 }

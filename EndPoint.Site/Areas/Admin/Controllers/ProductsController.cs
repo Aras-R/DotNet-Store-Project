@@ -147,6 +147,13 @@ namespace EndPoint.Site.Areas.Admin.Controllers
             return Json(result);
         }
 
+        // Delete Image
+        [HttpPost]
+        public IActionResult DeleteImage(long ImageId)
+        {
+            var result = _productFacad.RemoveProductImageService.Execute(ImageId);
+            return Json(result);
+        }
 
     }
 }

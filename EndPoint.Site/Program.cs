@@ -1,4 +1,4 @@
-using Bugeto_Store.Application.Services.Common.Queries.GetSlider;
+﻿using Bugeto_Store.Application.Services.Common.Queries.GetSlider;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Store.Application.Interfaces.contexts;
@@ -37,7 +37,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-//for Authorization (login whit moltiple roles)
+// Authorization policies (roles)
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy(UserRoles.Admin, policy => policy.RequireRole(UserRoles.Admin));
@@ -45,19 +45,19 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy(UserRoles.Operator, policy => policy.RequireRole(UserRoles.Operator));
 });
 
-//for login and signup
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-})
-.AddCookie(options =>
-{
-    options.LoginPath = "/Authentication/Signin";
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
-    options.AccessDeniedPath = new PathString("/Authentication/Signin");
-});
+// Authentication with Cookie
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        // اگر کسی لاگین نکرده بود و وارد بخش ادمین شد
+        options.LoginPath = "/Admin/AdminAccount/Login";
+
+        // اگر دسترسی نداشت (مثلا کاربر عادی وارد ادمین شد)
+        options.AccessDeniedPath = "/Admin/AdminAccount/Login";
+
+        // مدت زمان اعتبار کوکی
+        options.ExpireTimeSpan = TimeSpan.FromDays(5);
+    });
 
 // for services
 string contectionString = @"Data Source=DESKTOP-8ILS0U2; Initial Catalog=StoreDb; Integrated Security=True; TrustServerCertificate=True";
@@ -73,27 +73,27 @@ builder.Services.AddScoped<IUserSatusChangeService, UserSatusChangeService>();
 builder.Services.AddScoped<IEditUserService, EditUserService>();
 builder.Services.AddScoped<IUserLoginService, UserLoginService>();
 
-builder.Services.AddScoped<IGetMenuItemService, GetMenuItemService>(); // menu
-builder.Services.AddScoped<IGetCategoryService, GetCategoryService>(); // search
-builder.Services.AddScoped<IAddNewSliderService, AddNewSliderService>(); // Add slider for admin
-builder.Services.AddScoped<IGetSliderService, GetSliderService>(); // get slider for site
-builder.Services.AddScoped<IAddHomePageImagesService, AddHomePageImagesService>(); // Add slider for admin
-builder.Services.AddScoped<IGetHomePageImagesService, GetHomePageImagesService>(); // get slider for site
-builder.Services.AddScoped<ICartService, CartService>(); //  for Cart
-builder.Services.AddScoped<IAddRequestPayService, AddRequestPayService>(); //  for request pay
-builder.Services.AddScoped<IGetRequestPayService, GetRequestPayService>(); //  for request pay
-builder.Services.AddScoped<IAddNewOrderService, AddNewOrderService>(); //  for Add new Orders
-builder.Services.AddScoped<IGetUserOrdersService, GetUserOrdersService>(); //  for Orders list
-builder.Services.AddScoped<IGetOrdersForAdminService, GetOrdersForAdminService>(); //  for Orders list in Admin 
-builder.Services.AddScoped<IGetRequestPayForAdminService, GetRequestPayForAdminService>(); //  for pay list in Admin 
-builder.Services.AddScoped<IGetSlidersService, GetSlidersService>(); // get all sliders list for admin
-builder.Services.AddScoped<IRemoveSliderService, RemoveSliderService>(); // for remove slider in admin
-builder.Services.AddScoped<IGetImagesAdminService, GetImagesAdminService>(); // get all images list for admin
-builder.Services.AddScoped<IRemoveImageService, RemoveImageService>(); // for remove image in admin
-builder.Services.AddScoped<IEditSliderService, EditSliderService>(); // for edit sliders in admin
-builder.Services.AddScoped<IEditHomePageImageService, EditHomePageImageService>(); // for edit homepage images in admin
+builder.Services.AddScoped<IGetMenuItemService, GetMenuItemService>();
+builder.Services.AddScoped<IGetCategoryService, GetCategoryService>();
+builder.Services.AddScoped<IAddNewSliderService, AddNewSliderService>();
+builder.Services.AddScoped<IGetSliderService, GetSliderService>();
+builder.Services.AddScoped<IAddHomePageImagesService, AddHomePageImagesService>();
+builder.Services.AddScoped<IGetHomePageImagesService, GetHomePageImagesService>();
+builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<IAddRequestPayService, AddRequestPayService>();
+builder.Services.AddScoped<IGetRequestPayService, GetRequestPayService>();
+builder.Services.AddScoped<IAddNewOrderService, AddNewOrderService>();
+builder.Services.AddScoped<IGetUserOrdersService, GetUserOrdersService>();
+builder.Services.AddScoped<IGetOrdersForAdminService, GetOrdersForAdminService>();
+builder.Services.AddScoped<IGetRequestPayForAdminService, GetRequestPayForAdminService>();
+builder.Services.AddScoped<IGetSlidersService, GetSlidersService>();
+builder.Services.AddScoped<IRemoveSliderService, RemoveSliderService>();
+builder.Services.AddScoped<IGetImagesAdminService, GetImagesAdminService>();
+builder.Services.AddScoped<IRemoveImageService, RemoveImageService>();
+builder.Services.AddScoped<IEditSliderService, EditSliderService>();
+builder.Services.AddScoped<IEditHomePageImageService, EditHomePageImageService>();
 
-//Facad inject 
+// Facad inject 
 builder.Services.AddScoped<IProductFacad, ProductFacad>();
 
 
@@ -103,7 +103,6 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -115,11 +114,13 @@ app.UseAuthorization();
 
 app.MapStaticAssets();
 
+// Default route
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
 
+// Area routes (Admin)
 app.MapControllerRoute(
     name: "areas",
     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");

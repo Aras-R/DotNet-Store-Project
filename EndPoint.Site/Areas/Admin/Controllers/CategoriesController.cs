@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Store.Application.Interfaces.FacadPatterns;
 using Store.Application.Services.Products.commands.EditCategory;
+using Store.Common.Roles;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -11,6 +13,7 @@ namespace EndPoint.Site.Areas.Admin.Controllers
 {
 
     [Area("Admin")]
+    [Authorize(Roles = UserRoles.Admin)]
     public class CategoriesController : Controller
     {
 

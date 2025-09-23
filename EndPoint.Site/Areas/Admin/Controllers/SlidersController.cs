@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Store.Application.Services.HomePages.commands.EditSlider;
 using Store.Application.Services.HomePages.commands.RemoveSlider;
 using Store.Application.Services.HomePages.Commands.AddNewSlider;
 using Store.Application.Services.HomePages.Queries.GetSliders;
+using Store.Common.Roles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +14,7 @@ using System.Threading.Tasks;
 namespace EndPoint.Site.Areas.Admin.Controllers
 {
    [Area("Admin")]
+    [Authorize(Roles = UserRoles.Admin)]
     public class SlidersController : Controller
     {
         private readonly IAddNewSliderService _addNewSliderService;

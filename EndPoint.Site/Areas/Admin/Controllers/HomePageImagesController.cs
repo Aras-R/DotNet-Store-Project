@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Store.Application.Services.HomePages.commands.EditHomePageImage;
 using Store.Application.Services.HomePages.commands.RemoveImage;
 using Store.Application.Services.HomePages.Commands.AddHomePageImages;
 using Store.Application.Services.HomePages.Queries.GetImagesAdmin;
+using Store.Common.Roles;
 using Store.Domain.Entities.HomePages;
 using System;
 using System.Collections.Generic;
@@ -13,6 +15,7 @@ using System.Threading.Tasks;
 namespace EndPoint.Site.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = UserRoles.Admin)]
     public class HomePageImagesController : Controller
     {
         private readonly IAddHomePageImagesService _addHomePageImagesService;

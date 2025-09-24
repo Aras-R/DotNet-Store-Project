@@ -24,13 +24,13 @@ namespace EndPoint.Site.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(string email, string password, string returnUrl = "/Admin")
+        public async Task<IActionResult> Login(string email, string password)
         {
             var result = _userLoginService.Execute(email, password);
+
             if (!result.IsSuccess || !result.Data.Roles.Contains("Admin"))
             {
-                ViewBag.Error = "دسترسی غیرمجاز یا اطلاعات ورود اشتباه است.";
-                return View();
+                return Json(new { isSuccess = false, message = "ایمیل یا رمز عبور اشتباه است یا دسترسی ندارید." });
             }
 
             var claims = new List<Claim>
@@ -51,8 +51,9 @@ namespace EndPoint.Site.Areas.Admin.Controllers
                     ExpiresUtc = DateTime.UtcNow.AddHours(2)
                 });
 
-            return Redirect(returnUrl);
+            return Json(new { isSuccess = true, message = "ورود با موفقیت انجام شد." });
         }
+
 
         [HttpGet]
         public async Task<IActionResult> Logout()

@@ -66,23 +66,18 @@ desired effect
         <!-- Main Header ////////////////////////////////////////////////////////////////////////////////////////////////-->
         <header class="main-header">
             <!-- Logo -->
-            <a href="index2.html" class="logo">
+            <div href="#" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini">پنل</span>
                 <!-- logo for regular state and mobile devices -->
                 <span class="logo-lg"><b>کنترل پنل مدیریت</b></span>
-            </a>
+            </div>
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top">
                 <!-- Sidebar toggle button-->
                 <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
                     <span class="sr-only">Toggle navigation</span>
                 </a>
-
-
-                <!-- Delete This after download -->
-                <a href="https://github.com/hosseinizadeh/AdminLTE_Persian" class="btn hidden-xs" style="margin:6px 100px;padding:9px 50px;background-color:#d61577;border-color:#ad0b5d;font-weight:bold;color:#FFF">دانلود رایگان قالب</a>
-                <!-- End Delete-->
 
 
 
@@ -337,15 +332,17 @@ desired effect
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel">
                     <div class="pull-right image">
-                        <img src="~/AdminTemplate/app-assest/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                        <img src="~/AdminTemplate/app-assest/dist/img/defult-user.png" class="img-circle" alt="User Image">
                     </div>
                     <div class="pull-right info">
-                        <p>علیرضا حسینی زاده</p>
-                        <!-- Status -->
+                        @User.Identity?.Name
+                        @* <p>مدیریت سایت</p> *@
+                        <br />
+                        <br />
                         <a href="#"><i class="fa fa-circle text-success"></i> آنلاین</a>
                     </div>
                 </div>
-
+                <br>
                 <!-- search form (Optional) -->
                 <form action="#" method="get" class="sidebar-form">
                     <div class="input-group">
@@ -455,7 +452,7 @@ desired effect
         <!-- Content Wrapper. Contains page content ////////////////////////////////////////////////////////////////////////////////////////////////-->
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
-            <section class="content-header">
+            @* <section class="content-header">
                 <h1>
                     عنوان صفحه
                     <small>توضیحات</small>
@@ -464,7 +461,7 @@ desired effect
                     <li><a href="#"><i class="fa fa-dashboard"></i> خانه</a></li>
                     <li class="active">صفحه</li>
                 </ol>
-            </section>
+            </section> *@
 
             <!-- Main content -->
             <section class="content container-fluid">
@@ -473,10 +470,6 @@ desired effect
             <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
-        <!-- Main Footer //////////////////////////////////////////////////////////////////////////////////////////////// -->
-        <footer class="main-footer text-left">
-            <strong>Copyleft &copy; 2014-2017 <a href="https://adminlte.io">Almsaeed Studio</a> & <a href="http://hosseinizadeh.ir/adminlte">Alireza Hosseinizadeh</a></strong>
-        </footer>
 
         <!-- Control Sidebar ////////////////////////////////////////////////////////////////////////////////////////////////-->
         <aside class="control-sidebar control-sidebar-dark">
@@ -551,6 +544,7 @@ desired effect
             </div>
         </aside>
         <!-- /.control-sidebar -->
+
         <!-- Add the sidebar's background. This div must be placed
         immediately after the control sidebar -->
         <div class="control-sidebar-bg"></div>

@@ -59,7 +59,8 @@ namespace EndPoint.Site.Areas.Admin.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Login", "AdminAccount", new { area = "Admin" });
+            //return RedirectToAction("Login", "AdminAccount", new { area = "Admin" });
+            return RedirectToAction("Index", "Home");
         }
     }
 }
